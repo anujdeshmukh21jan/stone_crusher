@@ -1,14 +1,17 @@
 from django.shortcuts import render
 
 # Create your views here.
-def home(request):
-    return render(request,"home.html")
+def base(request):
+    return render(request,"base.html")
+
+def sales(request):
+    return render(request, 'sales.html')
 
 def vehicles(request):
-    return render(request,"vehicles.html")
+    return render(request, 'vehicles.html')
 
 def payments(request):
-    return render(request,"payments.html")
+    return render(request, 'payments.html')
 
 def employees(request):
-    return render(request,"employees.html")
+    return render(request, 'employees.html')
