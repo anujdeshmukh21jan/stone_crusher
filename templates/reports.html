@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Filter and Search Section -->
+    <div class="flex justify-between items-center p-4 bg-gray-800 text-white">
+        <div>
+            <!-- Search Section -->
+            <input type="text" placeholder="Search by Bill No., Name, Driver Name, Vehicle No." class="rounded px-4 py-2 text-black">
+            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded ml-2">Search</button>
+        </div>
+    </div>
+
+
+            <!-- Bill No, Name, Driver Name, Vehicle No. -->
+            <div class="flex space-x-4 mb-4">
+                <div>
+                    <label for="from_date" class="block">From Date:</label>
+                    <input type="date" id="from_date" class="rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="to_date" class="block">To Date:</label>
+                    <input type="date" id="to_date" class="rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="bill_no" class="block">Bill No.:</label>
+                    <input type="text" id="bill_no" class="rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="name" class="block">Name:</label>
+                    <input type="text" id="name" class="rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="driver_name" class="block">Driver Name:</label>
+                    <input type="text" id="driver_name" class="rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="vehicle_no" class="block">Vehicle No.:</label>
+                    <input type="text" id="vehicle_no" class="rounded px-4 py-2 text-black">
+                </div>
+            </div>
+
+            <!-- Apply and Clear Filter Buttons -->
+            <div class="text-center">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Apply Filter</button>
+                <button type="reset" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded ml-2">Clear Filter</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Data Table Section -->
+    <div class="p-4">
+        <table class="min-w-full bg-white">
+            <thead>
+                <tr class="w-full bg-gray-800 text-white">
+                    <th class="py-2">Bill No.</th>
+                    <th class="py-2">Name</th>
+                    <th class="py-2">Driver Name</th>
+                    <th class="py-2">Vehicle No.</th>
+                    <th class="py-2">Date</th>
+                    <th class="py-2">Total Weight</th>
+                    <th class="py-2">Brass</th>
+                    <th class="py-2">Size</th>
+                    <th class="py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample Data -->
+                <tr class="text-center">
+                    <td class="py-2">1234</td>
+                    <td class="py-2">John Doe</td>
+                    <td class="py-2">Driver A</td>
+                    <td class="py-2">MH12AB1234</td>
+                    <td class="py-2">2024-09-21</td>
+                    <td class="py-2">1500 kg</td>
+                    <td class="py-2">20</td>
+                    <td class="py-2">Medium</td>
+                    <td class="py-2">
+                        <button class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded ml-2">Delete</button>
+                    </td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

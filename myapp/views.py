@@ -15,3 +15,6 @@ def payments(request):
 
 def employees(request):
     return render(request, 'employees.html')
+
+def reports(request):
+    return render(request, 'reports.html')
