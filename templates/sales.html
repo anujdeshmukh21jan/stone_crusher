@@ -8,13 +8,13 @@
             </div>
             <div class="flex flex-col">
                 <label for="time" class="mb-1 text-base">Time / समय:</label>
-                <input type="time" id="time" value="17:22" class="p-2 bg-gray-700 text-white rounded-md">
+                <input type="time" id="time" class="p-2 bg-gray-700 text-white rounded-md">
             </div>
             <div class="flex flex-col">
                 <label for="date" class="mb-1 text-base">Date / दिनांक:</label>
-                <input type="date" id="date" value="2024-09-16" class="p-2 bg-gray-700 text-white rounded-md">
+                <input type="date" id="date" class="p-2 bg-gray-700 text-white rounded-md">
             </div>
-        </div>
+        </div>    
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="flex flex-col">
@@ -70,56 +70,68 @@
             <label class="text-base mb-2 block">Select Size / आकार चुनें:</label> 
             <div class="space-y-2 pl-40"> 
                 <div class="flex items-center">
-                    <input id="size_6mm" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_6mm" type="checkbox" value="" class="ml-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_6mm" class="ms-2 text-lg  ">6 mm</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-6 rounded text-white px-2  mr-2">
                     <p>Rs</p>
-                </div>
-                <div class="flex items-center">
-                    <input id="size_12mm" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
+                    <input id="size_12mm" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_12mm" class="ms-2 text-lg">12 mm</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2  mr-2">
                     <p>Rs</p>
-                </div>
-                <div class="flex items-center">
-                    <input id="size_20mm" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
+                    <input id="size_20mm" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_20mm" class="ms-2 text-lg">20 mm</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2  mr-2">
                     <p>Rs</p>
-                </div>
-                <div class="flex items-center">
-                    <input id="size_40mm" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
+                    <input id="size_40mm" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_40mm" class="ms-2 text-lg">40 mm</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2  mr-2">
                     <p>Rs</p>
+
                 </div>
+
                 <div class="flex items-center">
-                    <input id="size_60mm" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_60mm" type="checkbox" value="" class="ml-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_60mm" class="ms-2 text-lg">60 mm</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2  mr-2">
                     <p>Rs</p>
-                </div>
-                <div class="flex items-center">
-                    <input id="size_GSB" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    <label for="size_GSB" class="ms-2 text-lg">GSB</label>
+
+                    <input id="size_GSB" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="size_GSB" class="ms-2 text-lg ">GSB</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-10 rounded text-white px-2  mr-2">
                     <p>Rs</p>
-                </div>
-                <div class="flex items-center">
-                    <input id="size_KK" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+
+                    <input id="size_KK" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_KK" class="ms-2 text-lg">KK</label>
                     <input type="number"  value=100  class="w-16 bg-gray-600 ml-12 rounded text-white px-2  mr-2">
                     <p>Rs</p>
-                </div>      
+                </div>
+            
             </div>
         </div>
         
-
-    </div>
-        <!-- Submit Button -->
+    <!-- Submit Button -->
     <div class="flex justify-center mt-6">
         <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
             Submit
         </button>
     </div>
+
+<script>
+    // Get current date and time
+    const now = new Date();
+    
+    // Format time to HH:MM (24-hour format)
+    const time = now.toTimeString().slice(0, 5);
+    
+    // Format date to YYYY-MM-DD
+    const date = now.toISOString().slice(0, 10);
+    
+    // Set the time and date inputs to the current time and date
+    document.getElementById('time').value = time;
+    document.getElementById('date').value = date;
+</script>
+            
 {% endblock %}

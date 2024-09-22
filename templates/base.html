@@ -9,7 +9,7 @@
 <body class="bg-gray-900 text-white" id="body"> <!-- Set dark mode as default -->
 
     <!-- Header Section -->
-    <header class="flex justify-between items-center p-4 bg-gray-800">
+    <header class="flex justify-between items-center p-4 ">
         <!-- Left side buttons (Dark/Light Toggle, Refresh) -->
         <div>
             <button id="themeToggle" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Center heading -->
-        <h1 class="text-5xl font-bold text-white">Ashirvad Stone Crusher, Junner</h1> <!-- Keep header text color white -->
+        <h1 class="text-5xl font-bold ">Ashirvad Stone Crusher, Junner</h1> <!-- Keep header text color white -->
 
         <!-- Right side buttons (Constant, View) -->
         <div>
@@ -69,12 +69,13 @@
         });
 
         function toggleLightMode() {
-            body.classList.remove('bg-gray-900', 'text-white');
-            body.classList.add('bg-gray-100', 'text-gray-900');
+            body.classList.remove('bg-gray-900', 'text-white' );
+            body.classList.add('bg-white-100', 'text-gray-900');
+            
         }
 
         function toggleDarkMode() {
-            body.classList.remove('bg-gray-100', 'text-gray-900');
+            body.classList.remove('bg-white-100', 'text-gray-900');
             body.classList.add('bg-gray-900', 'text-white');
         }
     </script>
