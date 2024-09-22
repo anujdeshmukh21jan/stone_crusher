@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firm Information Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Firm Information Form</h2>
+    <form id="firmForm">
+        <!-- Firm Name -->
+        <label for="Firm_Name">Firm Name:</label><br>
+        <input type="text" id="Firm_Name" name="Firm_Name" maxlength="100" required><br><br>
+
+        <!-- Rate of 6mm -->
+        <label for="rate_of_6mm">Rate of 6mm:</label><br>
+        <input type="number" id="rate_of_6mm" name="rate_of_6mm" step="0.01" placeholder="Optional"><br><br>
+
+        <!-- Rate of 12mm -->
+        <label for="rate_of_12mm">Rate of 12mm:</label><br>
+        <input type="number" id="rate_of_12mm" name="rate_of_12mm" step="0.01" placeholder="Optional"><br><br>
+
+        <!-- Rate of 20mm -->
+        <label for="rate_of_20mm">Rate of 20mm:</label><br>
+        <input type="number" id="rate_of_20mm" name="rate_of_20mm" step="0.01" placeholder="Optional"><br><br>
+
+        <!-- Rate of 40mm -->
+        <label for="rate_of_40mm">Rate of 40mm:</label><br>
+        <input type="number" id="rate_of_40mm" name="rate_of_40mm" step="0.01" placeholder="Optional"><br><br>
+
+        <!-- Mobile Number 1 -->
+        <label for="mobile_number">Mobile Number:</label><br>
+        <input type="tel" id="mobile_number" name="mobile_number" maxlength="15" placeholder="Optional"><br><br>
+
+        <!-- Mobile Number 2 -->
+        <label for="mobile_number_2">Mobile Number 2:</label><br>
+        <input type="tel" id="mobile_number_2" name="mobile_number_2" maxlength="15" placeholder="Optional"><br><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Success Message -->
+    <p id="successMessage" style="display:none; color: green;">Form submitted successfully!</p>
+
+    <!-- jQuery AJAX Script -->
+    <script>
+        $(document).ready(function() {
+            $('#firmForm').on('submit', function(event) {
+                event.preventDefault();  // Prevent the form from submitting the traditional way
+
+                // Send AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: '/update_constants/',  // Django URL for form submission
+                    data: $(this).serialize(),  // Serialize form data
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'  // Add CSRF token for security
+                    },
+                    success: function(response) {
+                        // Display success message
+                        $('#successMessage').show();
+                        // Optionally, reset the form
+                        $('#firmForm')[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors (optional)
+                        alert('Form submission failed. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
