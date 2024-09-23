@@ -3,55 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Page</title>
+    <title>Reports</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>           
+            .bin-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 13px;
+            background-color: rgb(210, 52, 52);
+            cursor: pointer;
+            border: 3px solid rgb(178, 59, 59);
+            transition-duration: 0.3s;
+            }
+            .bin-bottom {
+            width: 12px;
+            }
+            .bin-top {
+            width: 15px;
+            transform-origin: right;
+            transition-duration: 0.3s;
+            }
+            .bin-button:hover .bin-top {
+            transform: rotate(45deg);
+            }
+            .bin-button:hover {
+            background-color: rgb(255, 0, 0);
+            }
+            .bin-button:active {
+            transform: scale(0.9);
+            }
+
+    </style>
 </head>
-<body class="bg-gray-100">
-    <!-- Filter and Search Section -->
-    <div class="flex justify-between items-center p-4 bg-gray-800 text-white">
-        <div>
-            <!-- Search Section -->
-            <input type="text" placeholder="Search by Bill No., Name, Driver Name, Vehicle No." class="rounded px-4 py-2 text-black">
-            <button class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded ml-2">Search</button>
+<body class="bg-gray-900">
+    <div class="p-4 bg-gray-800 mb-4 ">
+        <button onclick="window.location.href='{% url "sales" %}'" class="flex items-center justify-center  bg-white text-center h-10 w-24  rounded-2xl relative text-black text-xl font-semibold group" type="button">
+            <div
+                class="bg-green-400 rounded-xl h-8 w-1/4 flex items-center justify-center absolute left-1 group-hover:w-[86px] z-10 duration-500">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1024 1024"
+                height="20px"
+                width="30px"
+                >
+                <path
+                d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                fill="#000000"
+                ></path>
+                <path
+                d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                fill="#000000"
+                ></path>
+                </svg>
+            </div>
+            <p class="translate-x-2">Back</p>
+        </button>
+        
+        <!-- Filter and Search Section -->
+        <div class="flex justify-center items-center text-black">
+            <div class="flex items-center space-x-2">
+                <div class="group relative max-w-lg"> <!-- Updated max width to lg -->
+                    <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
+                        <g>
+                            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                        </g>
+                    </svg>
+                    <input placeholder="Search " type="search" class="font-medium pl-10 h-10 w-full  rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                </div>            
+            </div>        
         </div>
     </div>
 
-
-            <!-- Bill No, Name, Driver Name, Vehicle No. -->
-            <div class="flex space-x-4 mb-4">
-                <div>
-                    <label for="from_date" class="block">From Date:</label>
-                    <input type="date" id="from_date" class="rounded px-4 py-2 text-black">
-                </div>
-                <div>
-                    <label for="to_date" class="block">To Date:</label>
-                    <input type="date" id="to_date" class="rounded px-4 py-2 text-black">
-                </div>
-                <div>
-                    <label for="bill_no" class="block">Bill No.:</label>
-                    <input type="text" id="bill_no" class="rounded px-4 py-2 text-black">
-                </div>
-                <div>
-                    <label for="name" class="block">Name:</label>
-                    <input type="text" id="name" class="rounded px-4 py-2 text-black">
-                </div>
-                <div>
-                    <label for="driver_name" class="block">Driver Name:</label>
-                    <input type="text" id="driver_name" class="rounded px-4 py-2 text-black">
-                </div>
-                <div>
-                    <label for="vehicle_no" class="block">Vehicle No.:</label>
-                    <input type="text" id="vehicle_no" class="rounded px-4 py-2 text-black">
-                </div>
-            </div>
-
-            <!-- Apply and Clear Filter Buttons -->
-            <div class="text-center">
-                <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Apply Filter</button>
-                <button type="reset" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded ml-2">Clear Filter</button>
-            </div>
-        </form>
+    <div class="p-4 bg-gray-700">
+    <!-- Bill No, Name, Driver Name, Vehicle No. -->
+    <div class="flex space-x-4 mb-4 justify-center">
+        <div>
+            <label for="from_date" class="block text-white">From Date:</label>
+            <input type="date" id="from_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+        </div>
+        <div>
+            <label for="to_date" class="block text-white">To Date:</label>
+            <input type="date" id="to_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+        </div>
+        <div>
+            <label for="bill_no" class="block text-white ">Bill No. / बिल नंबर:</label>
+            <input type="text" id="bill_no" placeholder="Enter Bill No." class="input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+        </div>
+        <div>
+            <label for="name" class="block text-white">Name / नाम:</label>
+            <input type="text" id="name" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+        </div>
+        <div>
+            <label for="driver_name" class="block text-white">Driver Name / चालक का नाम:</label>
+            <input type="text" id="driver_name" placeholder="Enter Driver Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+        </div>
+        <div>
+            <label for="vehicle_no" class="block text-white">Vehicle Number / वाहन नंबर:</label>
+            <input type="text" id="vehicle_no" placeholder="Enter Vehicle No." class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+        </div>
     </div>
+
+    <!-- Apply and Clear Filter Buttons -->
+    <div class="text-center">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-blue-500">Apply</button>
+        <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500 ml-2">Clear</button>
+    </div>
+    </div>
+
 
     <!-- Data Table Section -->
     <div class="p-4">
@@ -66,26 +128,39 @@
                     <th class="py-2">Total Weight</th>
                     <th class="py-2">Brass</th>
                     <th class="py-2">Size</th>
-                    <th class="py-2">Actions</th>
+                    <th class="py-2">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Sample Data -->
                 <tr class="text-center">
-                    <td class="py-2">1234</td>
-                    <td class="py-2">John Doe</td>
-                    <td class="py-2">Driver A</td>
+                    <td class="py-2">1</td>
+                    <td class="py-2">Anuj Deshmukh</td>
+                    <td class="py-2">Ram Charan</td>
                     <td class="py-2">MH12AB1234</td>
-                    <td class="py-2">2024-09-21</td>
-                    <td class="py-2">1500 kg</td>
-                    <td class="py-2">20</td>
-                    <td class="py-2">Medium</td>
-                    <td class="py-2">
-                        <button class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded">Edit</button>
-                        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded ml-2">Delete</button>
+                    <td class="py-2">2024-09-23</td>
+                    <td class="py-2">89663</td>
+                    <td class="py-2">489664</td>
+                    <td class="py-2">6 mm</td>
+
+                    <td class="py-2 flex justify-center">
+                        <button class="bin-button">
+                            <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
+                                <line x1="12" y1="1.5" x2="26.0357" y2="1.5" stroke="white" stroke-width="3"></line>
+                            </svg>
+                            <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <mask id="path-1-inside-1_8_19" fill="white">
+                                    <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"></path>
+                                </mask>
+                                <path d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z" fill="white" mask="url(#path-1-inside-1_8_19)"></path>
+                                <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
+                                <path d="M21 6V29" stroke="white" stroke-width="4"></path>
+                                </svg>
+                        </button>
                     </td>
+
                 </tr>
-                <!-- Add more rows as needed -->
             </tbody>
         </table>
     </div>

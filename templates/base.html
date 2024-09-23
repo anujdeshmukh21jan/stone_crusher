@@ -5,19 +5,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stone Crusher</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .toggle {
+          /* background-color: rgb(46, 45, 45); */
+          width: 42px;
+          height: 42px;
+          border-radius: 10%;
+          display: grid;
+          place-items: center;
+          cursor: pointer;
+          box-shadow: 0 0 50px 20px rgba(0, 0, 0, .1);
+          line-height: 1;
+        }
+
+        .input {
+          display: none;
+        }
+
+        .icon {
+          grid-column: 1 / 1;
+          grid-row: 1 / 1;
+          transition: transform 500ms;
+        }
+
+        .icon--moon {
+          color: #060606; /* White color for moon */
+          transition-delay: 200ms;
+        }
+
+
+        .icon--sun {
+          color: #FFA500; /* Orange color for sun */
+          transform: scale(0);
+        }
+
+        /* When checkbox is checked, show sun and hide moon */
+        #switch:checked + .icon--moon {
+          transform: rotate(360deg) scale(0);
+        }
+
+        #switch:checked ~ .icon--sun {
+          transition-delay: 200ms;
+          transform: scale(1) rotate(360deg);
+        }
+
+        /* Icon color changes when theme is toggled */
+        .sun-visible {
+          color: #FFA500;
+        }
+
+        .moon-visible {
+          color: #ffffff; 
+        }
+
+        /* Reports */
+        .action_has {
+        --color: 0 0% 60%;
+        --color-has: 211deg 100% 48%;
+        --sz: 1rem;
+        cursor: pointer;
+        display: flex;    
+        align-items: center;
+        justify-content: center; 
+        height: calc(var(--sz) * 2.5);
+        width: calc(var(--sz) * 2.5);
+        padding: 0.4rem 0.5rem;
+        border-radius: 0.375rem;
+        border: 0.0625rem solid hsl(var(--color));
+        }
+
+        .has_saved:hover {
+        border-color: hsl(var(--color-has));
+        }
+        .has_liked:hover svg,
+        .has_saved:hover svg {
+        color: hsl(var(--color-has));
+        }
+
+        .has_liked svg,
+        .has_saved svg {
+        overflow: visible;
+        height: calc(var(--sz) * 1.75);
+        width: calc(var(--sz) * 1.75);
+        --ease: cubic-bezier(0.5, 0, 0.25, 1);
+        --zoom-from: 1.75;
+        --zoom-via: 0.75;
+        --zoom-to: 1;
+        --duration: 1s;
+        }
+
+        .has_saved:hover path[data-path="box"] {
+        transition: all 0.3s var(--ease);
+        animation: has-saved var(--duration) var(--ease) forwards;
+        fill: hsl(var(--color-has) / 0.35);
+        }
+        .has_saved:hover path[data-path="line-top"] {
+        animation: has-saved-line-top var(--duration) var(--ease) forwards;
+        }
+        .has_saved:hover path[data-path="line-bottom"] {
+        animation: has-saved-line-bottom var(--duration) var(--ease) forwards,
+            has-saved-line-bottom-2 calc(var(--duration) * 1) var(--ease)
+            calc(var(--duration) * 0.75);
+        }
+
+        @keyframes has-saved-line-top {
+        33.333% {
+            transform: rotate(0deg) translate(1px, 2px) scale(var(--zoom-from));
+            d: path("M 3 5 L 3 8 L 3 8");
+        }
+        66.666% {
+            transform: rotate(20deg) translate(2px, -2px) scale(var(--zoom-via));
+        }
+        99.999% {
+            transform: rotate(0deg) translate(0px, 0px) scale(var(--zoom-to));
+        }
+        }
+        @keyframes has-saved-line-bottom {
+        33.333% {
+            transform: rotate(0deg) translate(1px, 2px) scale(var(--zoom-from));
+            d: path("M 17 20 L 17 13 L 7 13 L 7 20");
+        }
+        66.666% {
+            transform: rotate(20deg) translate(2px, -2px) scale(var(--zoom-via));
+        }
+        99.999% {
+            transform: rotate(0deg) translate(0px, 0px) scale(var(--zoom-to));
+            d: path("M 17 21 L 17 21 L 7 21 L 7 21");
+        }
+        }
+        @keyframes has-saved-line-bottom-2 {
+        from {
+            d: path("M 17 21 L 17 21 L 7 21 L 7 21");
+        }
+        to {
+            transform: rotate(0deg) translate(0px, 0px) scale(var(--zoom-to));
+            d: path("M 17 20 L 17 13 L 7 13 L 7 20");
+            fill: white;
+        }
+        }
+        @keyframes has-saved {
+        33.333% {
+            transform: rotate(0deg) translate(1px, 2px) scale(var(--zoom-from));
+        }
+        66.666% {
+            transform: rotate(20deg) translate(2px, -2px) scale(var(--zoom-via));
+        }
+        99.999% {
+            transform: rotate(0deg) translate(0px, 0px) scale(var(--zoom-to));
+        }
+        }
+
+    </style>
 </head>
-<body class="bg-gray-900 text-white" id="body"> <!-- Set dark mode as default -->
+<body class="bg-gray-900 text-white" id="body"> 
 
     <!-- Header Section -->
     <header class="flex justify-between items-center p-4 ">
         <!-- Left side buttons (Dark/Light Toggle, Refresh) -->
-        <div>
-            <button id="themeToggle" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                </svg>
-            </button>
-              
+        <div class="container flex items-center justify-center space-x-2 w-fit ">
+            <!-- Theme toggle -->
+            <label class="toggle bg-gray-600 hover:bg-gray-700 items-center justify-center py-2 px-4 rounded mt-2" for="switch">
+                <input id="switch" class="input" type="checkbox">
+                <div class="icon icon--moon moon-visible" id="moonIcon">
+                    <svg height="20" width="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+
+                <div class="icon icon--sun sun-visible " id="sunIcon">
+                    <svg height="20" width="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"></path>
+                    </svg>
+                </div>
+            </label>
+
+            <!-- Refresh button -->
             <button onclick="location.reload();" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded mt-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
@@ -26,12 +188,45 @@
         </div>
 
         <!-- Center heading -->
-        <h1 class="text-5xl font-bold ">Ashirvad Stone Crusher, Junner</h1> <!-- Keep header text color white -->
+        <h1 class="text-5xl font-bold  ">Ashirvad Stone Crusher, Junner</h1>
 
         <!-- Right side buttons (Constant, View) -->
-        <div>
-            <button class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded" onclick="window.location.href='http://127.0.0.1:8000/update_constants/'">Constant</button>
-            <button class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded mt-2">View Data</button>
+        <div class=" flex">
+            <button class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded" onclick="window.location.href='http://127.0.0.1:8000/update_constants/'">Constant</button> 
+            <button class="action_has has_saved bg-gray-700 ml-2" onclick="window.location.href='{% url "reports" %}'" aria-label="save" type="button">
+            <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                fill="none"
+            >
+                <path
+                d="m19,21H5c-1.1,0-2-.9-2-2V5c0-1.1.9-2,2-2h11l5,5v11c0,1.1-.9,2-2,2Z"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                data-path="box"
+                ></path>
+                <path
+                d="M7 3L7 8L15 8"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                data-path="line-top"
+                ></path>
+                <path
+                d="M17 20L17 13L7 13L7 20"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                data-path="line-bottom"
+                ></path>
+            </svg>
+            </button>
+
         </div>
     </header>
 
@@ -48,36 +243,37 @@
         {% endblock %}
     </main>
 
+    <!-- JavaScript for theme toggling -->
     <script>
-        const toggleButton = document.getElementById('themeToggle');
+        const toggleButton = document.getElementById('switch');
         const body = document.getElementById('body');
-        
+
         // Check if dark mode is saved in localStorage
-        if (localStorage.getItem('theme') === 'light') {
-            toggleLightMode();
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'light') {
+            body.classList.remove('bg-gray-900');
+            body.classList.add('bg-gray-100');
+            body.classList.remove('text-white');
+            body.classList.add('text-black');
+            toggleButton.checked = true;
         }
 
-        // Toggle between light and dark themes
-        toggleButton.addEventListener('click', () => {
-            if (localStorage.getItem('theme') === 'dark') {
-                toggleLightMode();
+        // Theme switcher function
+        toggleButton.addEventListener('change', function() {
+            if (toggleButton.checked) {
+                body.classList.remove('bg-gray-900');
+                body.classList.add('bg-gray-100');
+                body.classList.remove('text-white');
+                body.classList.add('text-black');
                 localStorage.setItem('theme', 'light');
             } else {
-                toggleDarkMode();
+                body.classList.remove('bg-gray-100');
+                body.classList.add('bg-gray-900');
+                body.classList.remove('text-black');
+                body.classList.add('text-white');
                 localStorage.setItem('theme', 'dark');
             }
         });
-
-        function toggleLightMode() {
-            body.classList.remove('bg-gray-900', 'text-white' );
-            body.classList.add('bg-white-100', 'text-gray-900');
-            
-        }
-
-        function toggleDarkMode() {
-            body.classList.remove('bg-white-100', 'text-gray-900');
-            body.classList.add('bg-gray-900', 'text-white');
-        }
     </script>
 </body>
 </html>
