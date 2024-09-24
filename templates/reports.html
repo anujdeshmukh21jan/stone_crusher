@@ -78,41 +78,43 @@
         </div>
     </div>
 
-    <div class="p-4 bg-gray-700">
-    <!-- Bill No, Name, Driver Name, Vehicle No. -->
-    <div class="flex space-x-4 mb-4 justify-center">
-        <div>
-            <label for="from_date" class="block text-white">From Date:</label>
-            <input type="date" id="from_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
-        </div>
-        <div>
-            <label for="to_date" class="block text-white">To Date:</label>
-            <input type="date" id="to_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
-        </div>
-        <div>
-            <label for="bill_no" class="block text-white ">Bill No. / बिल नंबर:</label>
-            <input type="text" id="bill_no" placeholder="Enter Bill No." class="input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
-        </div>
-        <div>
-            <label for="name" class="block text-white">Name / नाम:</label>
-            <input type="text" id="name" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
-        </div>
-        <div>
-            <label for="driver_name" class="block text-white">Driver Name / चालक का नाम:</label>
-            <input type="text" id="driver_name" placeholder="Enter Driver Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
-        </div>
-        <div>
-            <label for="vehicle_no" class="block text-white">Vehicle Number / वाहन नंबर:</label>
-            <input type="text" id="vehicle_no" placeholder="Enter Vehicle No." class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
-        </div>
-    </div>
+    <form>
+        <div class="p-4 bg-gray-700">
+            <!-- Bill No, Name, Driver Name, Vehicle No. -->
+            <div class="flex space-x-4 mb-4 justify-center">
+                <div>
+                    <label for="from_date" class="block text-white">From Date:</label>
+                    <input type="date" id="from_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="to_date" class="block text-white">To Date:</label>
+                    <input type="date" id="to_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="bill_no" class="block text-white ">Bill No. / बिल नंबर:</label>
+                    <input type="text" id="bill_no" placeholder="Enter Bill No." class="input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="name" class="block text-white">Name / नाम:</label>
+                    <input type="text" id="name" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="driver_name" class="block text-white">Driver Name / चालक का नाम:</label>
+                    <input type="text" id="driver_name" placeholder="Enter Driver Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+                </div>
+                <div>
+                    <label for="vehicle_no" class="block text-white">Vehicle Number / वाहन नंबर:</label>
+                    <input type="text" id="vehicle_no" placeholder="Enter Vehicle No." class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm rounded px-4 py-2 text-black">
+                </div>
+            </div>
 
-    <!-- Apply and Clear Filter Buttons -->
-    <div class="text-center">
-        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-blue-500">Apply</button>
-        <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500 ml-2">Clear</button>
-    </div>
-    </div>
+            <!-- Apply and Clear Filter Buttons -->
+            <div class="text-center">
+                <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">Clear</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-blue-500  ml-2">Apply</button>
+            </div>
+        </div>
+    </form>
 
 
     <!-- Data Table Section -->
@@ -142,6 +144,35 @@
                     <td class="py-2">89663</td>
                     <td class="py-2">489664</td>
                     <td class="py-2">6 mm</td>
+
+                    <td class=" flex justify-center">
+                        <button class="bin-button">
+                            <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
+                                <line x1="12" y1="1.5" x2="26.0357" y2="1.5" stroke="white" stroke-width="3"></line>
+                            </svg>
+                            <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <mask id="path-1-inside-1_8_19" fill="white">
+                                    <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"></path>
+                                </mask>
+                                <path d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z" fill="white" mask="url(#path-1-inside-1_8_19)"></path>
+                                <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
+                                <path d="M21 6V29" stroke="white" stroke-width="4"></path>
+                                </svg>
+                        </button>
+                    </td>
+
+                </tr>
+
+                <tr class="text-center">
+                    <td class="py-2">2</td>
+                    <td class="py-2">Arjun</td>
+                    <td class="py-2">Krishna</td>
+                    <td class="py-2">HR14AB7895</td>
+                    <td class="py-2">2024-05-07</td>
+                    <td class="py-2">98963</td>
+                    <td class="py-2">789444</td>
+                    <td class="py-2">6 mm, 12 mm</td>
 
                     <td class="py-2 flex justify-center">
                         <button class="bin-button">

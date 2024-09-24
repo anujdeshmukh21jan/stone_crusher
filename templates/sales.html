@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <form>
          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="flex flex-col">
                 <label for="bill_no" class="mb-1 text-base">Bill No. / बिल नंबर:</label>
@@ -114,11 +115,14 @@
         
     <!-- Submit Button -->
     <div class="flex justify-center mt-6">
-        <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+        <button type="reset" value="reset" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+            Clear
+        </button>
+        <button type="submit" class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
             Submit
         </button>
     </div>
-
+</form>
 <script>
     // Get current date and time
     const now = new Date();

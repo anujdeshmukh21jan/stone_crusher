@@ -23,6 +23,7 @@ def employees(request):
 def reports(request):
     return render(request, 'reports.html')
 
+
 def constants(request):
     if request.method=="GET":
         return render(request, "constants.html")
