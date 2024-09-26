@@ -3,47 +3,25 @@
 {% block content %}
 
 {% load static %}
-<!-- Tooltip CSS -->
-<style>
-    [data-tooltip]:hover::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #2d3748; /* Dark background */
-        color: white;
-        padding: 5px 10px;
-        border-radius: 4px;
-        white-space: nowrap;
-        z-index: 10;
-        transition: opacity 0.2s ease-in-out;
-        opacity: 0;
-        visibility: hidden;
-        font-size: small;
-    }
 
-    [data-tooltip]:hover::after {
-        opacity: 1;
-        visibility: visible;
-    }
-</style>
 
-<div class="flex justify-end p-4">
+<div class="fixed bottom-30 right-5">
     <button 
         id="openModalBtn" 
-        class="relative hover:bg-dark text-white font-sm py-2 px-6 rounded-xl focus:outline-none focus:ring focus:ring-dark-500 flex items-center space-x-2"
+        class="relative hover:bg-dark  text-white font-sm py-2 px-6 rounded-xl focus:outline-none focus:ring focus:ring-dark-500 flex items-center space-x-2"
         data-tooltip="Add Employee"  
     >
-        <span class="flex items-center justify-center bg-gray-200 rounded-full p-2">
-            <img src="{% static 'icons/adduser.png' %}" alt="Add Icon" class="w-8 h-8">
+        <span class="flex border-2 items-center justify-center bg-black rounded-full p-2 hover:bg-zinc-600">
+            <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"/>
+            </svg>
         </span>
     </button>
 </div>
 
 
 <!-- Existing Form -->
-<div class="flex items-center justify-center">
+<div class="flex items-center justify-center p-16">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         <form class="space-y-4">
             <div class="flex flex-col">
@@ -69,10 +47,10 @@
             </div>
 
             <div class="flex justify-center">
-                <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                <button type="reset" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-8 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                     Clear
                 </button>
-                <button type="submit" class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                <button type="submit" class="ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
                     Submit
                 </button>
             </div>
@@ -81,7 +59,7 @@
 </div>
 
 <!-- Modal for Adding New Employee -->
-<div id="employeeModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<div id="employeeModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 hidden">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 relative">
         <!-- Close Button -->
         <button id="closeModalBtn" class="absolute top-2 right-2 text-white text-4xl font-bold">&times;</button>
@@ -118,7 +96,7 @@
                     Clear
                 </button>
                 <button type="submit" class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
-                    Add 
+                    ADD
                 </button>
             </div>
         </form>
