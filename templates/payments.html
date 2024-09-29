@@ -95,10 +95,11 @@
         <h3 class="text-white light:bg-gray-200 light:text-black text-lg font-bold mb-4">Add New Client</h3>
         
         <form id="clientForm" class="space-y-4">
+            {% csrf_token %}
             <!-- Name Field -->
             <div class="flex flex-col">
                 <label for="client-name" class="block mb-2 text-base text-white">Client Name / कर्मचारी नाम:</label>
-                <input required type="text" id="client-name" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
+                <input required type="text" id="client-name" name="client-name" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
                 <span id="nameError" class="text-red-500 text-sm hidden">Name must contain only letters./ नाम में केवल अक्षर होने चाहिए.</span>
             </div>
 
@@ -107,7 +108,7 @@
                 <label for="contact-number" class="block mb-2 text-base text-white">Contact Number / संपर्क नंबर:</label>
                 <div class="flex">
                     <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400">+91</span>
-                    <input required type="text" id="contact-number" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
+                    <input required type="text" id="contact-number" name="contact-number" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                 </div>
                 <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
             </div>
@@ -115,7 +116,7 @@
             <!-- Address Field -->
             <div class="flex flex-col">
                 <label for="address" class="block mb-2 text-base text-white">Address / पता:</label>
-                <input required type="text" id="address" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter address">
+                <input required type="text" id="address" name="address" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter address">
             </div>
 
             <!-- Buttons -->
@@ -201,6 +202,37 @@
         creditBtn.classList.remove('bg-gray-700');
     });
 </script>
+<script>
+    // Submit form with AJAX
+    document.getElementById('clientForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this); // Collect form data
+
+        // AJAX request
+        fetch("{% url 'add_client' %}", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF token for Django
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Client added successfully');
+                document.getElementById('clientModal').classList.add('hidden'); // Close modal
+                this.reset(); // Reset form fields
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
 
 
 {% endblock %}

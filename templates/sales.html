@@ -2,61 +2,65 @@
 
 {% block content %}
 
-    <form class=" light:bg-gray-200 light:text-black">
+<form class=" light:bg-gray-200 light:text-black" method="post" action="{% url 'sales' %}" autocomplete="off">
+    {% csrf_token %}
          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="flex flex-col">
                 <label for="bill_no" class="mb-1 text-base">Bill No. / बिल नंबर:</label>
-                <input type="number" id="bill_no" value="1" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="number" id="bill_no" name="bill_no" value="{{bill_no}}" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
             <div class="flex flex-col">
                 <label for="time" class="mb-1 text-base">Time / समय:</label>
-                <input type="time" id="time" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="time" id="time" name="time" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
             <div class="flex flex-col">
                 <label for="date" class="mb-1 text-base">Date / दिनांक:</label>
-                <input type="date" id="date" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="date" id="date" name="date" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
         </div>    
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="flex flex-col">
                 <label for="name" class="mb-1 text-base">Name / नाम:</label>
-                <input type="text" id="name" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black" placeholder="Enter Name" onkeyup="fetchNameSuggestions(this.value)">
-                <div id="name_list" class="bg-white text-black rounded-md mt-20 rounded-lg w-60 shadow-lg z-50 absolute"></div>
+                <select id="name" name="name" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                    <option value="">Select Name</option>
+                </select>
             </div>
-            
+    
             <div class="flex flex-col">
                 <label for="vehicle_number" class="mb-1 text-base">Vehicle Number / वाहन नंबर:</label>
-                <input type="text" id="vehicle_number" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black" placeholder="Enter Vehicle Number" onkeyup="fetchVehicleNumbers(this.value)">
-                <div id="vehicle_list" class="bg-white text-black rounded-md mt-20 w-60 shadow-lg z-50 absolute"></div>
+                <select type="text" id="vehicle_number" name="vehicle_number" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                    <option value="">Select Vehicle Number</option>
+                </select>
             </div>
+    
         
         
             <div class="flex flex-col">
                 <label for="driver_name" class="mb-1 text-base">Driver Name / चालक का नाम:</label>
-                <input type="text" id="driver_name" placeholder="Enter Driver Name" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="text" id="driver_name" name="driver_name" placeholder="Enter Driver Name" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div class="flex flex-col">
                 <label for="weight_before_load" class="mb-1 text-base">Weight Before Load (kg) / लोड से पहले का वजन (किलो):</label>
-                <input type="number" id="weight_before_load" placeholder="Enter Weight Before Load" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="number" step="0.01" id="weight_before_load" name="weight_before_load" placeholder="Enter Weight Before Load" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
             <div class="flex flex-col">
                 <label for="weight_after_load" class="mb-1 text-base">Weight After Load (kg) / लोड के बाद का वजन (किलो):</label>
-                <input type="number" id="weight_after_load" placeholder="Enter Weight After Load" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="number" step="0.01" id="weight_after_load" name="weight_after_load" oninput="calculateLoad()" placeholder="Enter Weight After Load" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div class="flex flex-col">
                 <label for="total_weight_tonnes" class="mb-1 text-base">Total Weight in tonnes / कुल वजन (टन):</label>
-                <input type="number" id="total_weight_tonnes" placeholder="Enter Total Weight" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="number" step="0.01" id="total_weight_tonnes" name="total_weight_tonnes" placeholder="Enter Total Weight" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
             <div class="flex flex-col">
                 <label for="total_weight_brass" class="mb-1 text-base">Total Weight in Brass / कुल वजन (ब्रास):</label>
-                <input type="number" id="total_weight_brass" placeholder="Enter Weight in Brass" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
+                <input type="number" step="0.01" id="total_weight_brass" name="total_weight_brass" placeholder="Enter Weight in Brass" class="p-2 bg-gray-700 text-white rounded-md light:bg-gray-200 light:text-black">
             </div>
         </div>
 
@@ -64,42 +68,42 @@
             <label class="text-base mb-2 block">Select Size / आकार चुनें:</label> 
             <div class="space-y-2 pl-40"> 
                 <div class="flex items-center">
-                    <input id="size_6mm" type="checkbox" value="" class="ml-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_6mm" name="size_6mm" type="checkbox" value="6 mm" class="ml-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_6mm" class="ms-2 text-lg  ">6 mm</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-6 rounded text-white light:bg-gray-200 light:text-black px-2  mr-2">
+                    <input type="number"  name="value_size_6mm" value=100  class="w-16 bg-gray-600 ml-6 rounded text-white light:bg-gray-200 light:text-black px-2  mr-2">
                     <p>Rs</p>
 
-                    <input id="size_12mm" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_12mm" name="size_12mm" type="checkbox" value="12 mm" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_12mm" class="ms-2 text-lg">12 mm</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
+                    <input type="number"  name="value_size_12mm" value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
                     <p>Rs</p>
 
-                    <input id="size_20mm" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_20mm" name="size_20mm" type="checkbox" value="20 mm" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_20mm" class="ms-2 text-lg">20 mm</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
+                    <input type="number"  name="value_size_20mm" value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
                     <p>Rs</p>
 
-                    <input id="size_40mm" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_40mm" name="size_40mm" type="checkbox" value="40 mm" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_40mm" class="ms-2 text-lg">40 mm</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
+                    <input type="number" name="value_size_40mm"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
                     <p>Rs</p>
 
                 </div>
 
                 <div class="flex items-center">
-                    <input id="size_60mm" type="checkbox" value="" class="ml-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_60mm" name="size_60mm" type="checkbox" value="60 mm" class="ml-4 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_60mm" class="ms-2 text-lg">60 mm</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
+                    <input type="number"  name="value_size_60mm" value=100  class="w-16 bg-gray-600 ml-4 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
                     <p>Rs</p>
 
-                    <input id="size_GSB" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_GSB" name="size_GSB" type="checkbox" value="GSB" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_GSB" class="ms-2 text-lg ">GSB</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-10 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
+                    <input type="number"  name="value_size_GSB" value=100  class="w-16 bg-gray-600 ml-10 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
                     <p>Rs</p>
 
-                    <input id="size_KK" type="checkbox" value="" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="size_KK" name="size_KK" type="checkbox" value="KK" class="ml-24 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                     <label for="size_KK" class="ms-2 text-lg">KK</label>
-                    <input type="number"  value=100  class="w-16 bg-gray-600 ml-12 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
+                    <input type="number"  name="value_size_KK" value=100  class="w-16 bg-gray-600 ml-12 rounded text-white px-2 light:bg-gray-200 light:text-black mr-2">
                     <p>Rs</p>
                 </div>
             
@@ -116,59 +120,72 @@
         </button>
     </div>
 </form>
+
+
 <script>
-        // Set the current time and date
-        const now = new Date();
-        const time = now.toTimeString().slice(0, 5);
-        const date = now.toISOString().slice(0, 10);
-        document.getElementById('time').value = time;
-        document.getElementById('date').value = date;
+    const clientNames = JSON.parse('{{ client_names|escapejs|safe }}');
+    const vehicleNumbersWithWeight = JSON.parse('{{ vehicle_numbers|escapejs|safe }}');
 
-        // Name data (sample names)
-        const names = ['John Doe', 'Jane Smith', 'Michael Johnson', 'Anuj Deshmukh', 'Arjun', 'Raja', 'Raj', 'Manoj', 'Ram'];
-        // Fetch name suggestions based on user input
-        function fetchNameSuggestions(query) {
-            const suggestions = names.filter(name => name.toLowerCase().includes(query.toLowerCase()));
-            const suggestionsBox = document.getElementById('name_list');
+    // Populate the client names dropdown
+    const nameSelect = document.getElementById('name');
+    clientNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        nameSelect.appendChild(option);
+    });
 
-            suggestionsBox.innerHTML = '';  // Clear previous suggestions
+    // Populate the vehicle numbers dropdown
+    const vehicleSelect = document.getElementById('vehicle_number');
+    Object.keys(vehicleNumbersWithWeight).forEach(vehicleNumber => {
+        const option = document.createElement('option');
+        option.value = vehicleNumber;
+        option.textContent = vehicleNumber;
+        vehicleSelect.appendChild(option);
+    });
 
-            suggestions.forEach(name => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'cursor-pointer px-4 py-2 hover:bg-gray-200';
-                suggestionItem.textContent = name;
-                suggestionItem.onclick = () => {
-                    document.getElementById('name').value = name;
-                    suggestionsBox.innerHTML = '';  // Clear suggestions after selection
-                };
-                suggestionsBox.appendChild(suggestionItem);
-            });
+    const now = new Date();
+    const time = now.toTimeString().slice(0, 5);
+    const date = now.toISOString().slice(0, 10);
+
+    document.getElementById('time').value = time;
+    document.getElementById('date').value = date;
+
+    // Add an event listener to the vehicle number dropdown
+    document.getElementById('vehicle_number').addEventListener('change', function() {
+        const selectedVehicleNumber = this.value;
+        const weightBeforeLoadInput = document.getElementById('weight_before_load');
+        if (selectedVehicleNumber in vehicleNumbersWithWeight) {
+            // Autofill the weight based on the selected vehicle number
+            weightBeforeLoadInput.value = vehicleNumbersWithWeight[selectedVehicleNumber];
+        } else {
+            // Clear the input if no matching vehicle number is found
+            weightBeforeLoadInput.value = '';
         }
+    });
 
-
-        // Vehicle number data (sample data)
-        const vehicleNumbers = ['MH12AB1234', 'GJ20ZZ9999', 'HR14XY5678', 'MH15AB1234', 'MH16HY5878', 'UP27AZ0099'];
-        // Fetch vehicle number suggestions based on user input
-        function fetchVehicleNumbers(query) {
-            const suggestions = vehicleNumbers.filter(vehicle => vehicle.toLowerCase().includes(query.toLowerCase()));
-            const suggestionsBox = document.getElementById('vehicle_list');
-
-            suggestionsBox.innerHTML = '';  // Clear previous suggestions
-
-            suggestions.forEach(vehicle => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'cursor-pointer px-4 py-2 hover:bg-gray-200';
-                suggestionItem.textContent = vehicle;
-                suggestionItem.onclick = () => {
-                    document.getElementById('vehicle_number').value = vehicle;
-                    suggestionsBox.innerHTML = '';  // Clear suggestions after selection
-                };
-                suggestionsBox.appendChild(suggestionItem);
-            });
+    function calculateLoad() {
+        const weight_before_load = document.getElementById('weight_before_load').value;
+        const weight_after_load = document.getElementById('weight_after_load').value;
+    
+        // Check if both weights are valid numbers and not null
+        if (weight_before_load && weight_after_load) {
+            const beforeLoad = parseFloat(weight_before_load);
+            const afterLoad = parseFloat(weight_after_load);
+            
+            // Perform the calculations
+            const weightDifference = afterLoad - beforeLoad; // kg
+            const loadInTonnes = weightDifference / 1000; // Convert kg to tonnes
+            const loadInBrass = weightDifference / 4; // Convert tonnes to brass (1 brass = 4000 kg)
+    
+            // Update the respective fields
+            document.getElementById('total_weight_tonnes').value = loadInTonnes.toFixed(2); // Two decimal places
+            document.getElementById('total_weight_brass').value = loadInBrass.toFixed(2); // Two decimal places
+        } else {
+            alert("Please enter valid weights before and after load.");
         }
-       
+    }
+    
 </script>
-
-
 
 {% endblock %}

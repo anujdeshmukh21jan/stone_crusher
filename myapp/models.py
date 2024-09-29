@@ -54,6 +54,7 @@ class Vehicle(BaseModel):
 class Sales(BaseModel):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    driver = models.CharField(max_length=100, null=True, blank=True)
     weight_after_load = models.DecimalField(max_digits=10, decimal_places=2)
     size = models.CharField(max_length=50)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2)
