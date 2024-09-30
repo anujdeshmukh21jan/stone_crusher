@@ -3,33 +3,34 @@
 {% block content %}
 <div class="flex items-center justify-center">
     <div class="bg-gray-800 light:bg-gray-200 light:text-black p-6 rounded-lg shadow-lg w-96">
-        <form class="space-y-4" method="post">
+        <form class="space-y-4" method="post" autocomplete="off">
             {% csrf_token %}
             <div class="flex flex-col">
-                <label for="manufacturer" class="mb-1 text-base text-white">Manufacturer / निर्माता:</label>
-                <input type="text" id="manufacturer" name="manufacturer" placeholder="Enter Manufacturer / निर्माता दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="manufacturer" class="mb-1 text-base text-white">Manufacturer / निर्माता:<span class="text-red-500">*</label>
+                <input type="text" id="manufacturer" name="manufacturer" required placeholder="Enter Manufacturer / निर्माता दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
             <div class="flex flex-col">
-                <label for="model" class="mb-1 text-base text-white">Model / मॉडल:</label>
-                <input type="text" id="model" name="model" placeholder="Enter Model / मॉडल दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="model" class="mb-1 text-base text-white">Model / मॉडल:<span class="text-red-500">*</label>
+                <input type="text" id="model" name="model" required placeholder="Enter Model / मॉडल दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
             <div class="flex flex-col">
-                <label for="registration_number" class="mb-1 text-base text-white">Registration Number / पंजीकरण संख्या:</label>
-                <input type="text" id="registration_number" name="registration_number" placeholder="Enter Registration Number / पंजीकरण संख्या दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="registration_number" class="mb-1 text-base text-white">Registration Number / पंजीकरण संख्या:<span class="text-red-500">*</label>
+                <input type="text" id="registration_number" name="registration_number" required placeholder="Enter Registration Number / पंजीकरण संख्या दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
             <div class="flex flex-col">
-                <label for="weight" class="mb-1 text-base text-white">Weight (Kg) / वजन (किलो):</label>
-                <input type="number" id="weight" name="weight" placeholder="Enter Weight / वजन दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="weight" class="mb-1 text-base text-white">Weight (Kg) / वजन (किलो):<span class="text-red-500">*</label>
+                <input type="number" id="weight" name="weight" required placeholder="Enter Weight / वजन दर्ज करें" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
             <div class="flex flex-col">
                 <label for="date_of_purchase" class="mb-1 text-base text-white">Date of Purchase / खरीद की तारीख:</label>
                 <input type="date" id="date_of_purchase" name="date_of_purchase" class="p-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
-            <div class="flex justify-center">
-                <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+            <!-- Buttons -->
+            <div class="mb-4 flex justify-items-stretch">
+                <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                     Clear
                 </button>
-                <button type="submit" class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                <button type="submit" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
                     ADD
                 </button>
             </div>

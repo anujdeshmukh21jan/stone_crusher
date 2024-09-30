@@ -190,7 +190,7 @@
 
     </style>
 </head>
-<body class="bg-gray-900 text-white" id="body"> 
+<body class="transition-colors duration-300 bg-gray-900 text-white light:bg-white light:text-black " id="body"> 
 
     <!-- Header Section -->
     <header class="flex justify-between items-center p-4 ">
@@ -226,7 +226,7 @@
         <!-- Right side buttons (Constant, View) -->
         <div class="flex">
             <div class="flex">
-                <button id="openConstantModal" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded" onclick="openModal()">Constant</button> 
+                <button id="openConstantModalBtn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">Constant</button> 
                 <button class="action_has has_saved bg-gray-700 ml-2" onclick="window.location.href='http://127.0.0.1:8000/reports/'" 
                 aria-label="save" type="button" data-tooltip="Reports" >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -239,11 +239,14 @@
         </div>
     </header>
 
-    <nav class="flex justify-center space-x-4 bg-gray-700 text-white p-4 nav-dark">
-        <button onclick="window.location.href='http://127.0.0.1:8000/'" class="text-lg font-medium py-2 px-24 rounded bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500">Sales</button>
-        <button onclick="window.location.href='http://127.0.0.1:8000/vehicles/'" class="text-lg font-medium py-2 px-24 rounded bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500">Vehicles</button>
-        <button onclick="window.location.href='http://127.0.0.1:8000/payments/'" class="text-lg font-medium py-2 px-24 rounded bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500">Payments</button>
-        <button onclick="window.location.href='http://127.0.0.1:8000/employees/'" class="text-lg font-medium py-2 px-24 rounded bg-blue-600 hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500">Employee</button>
+    <nav class="flex justify-center space-x-4 bg-gray-800 text-white p-4 nav-dark">
+        <button class="{% if request.path == '/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500" onclick="window.location.href='http://127.0.0.1:8000/'">Sales</button>
+
+        <button class="{% if request.path == '/vehicles/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500" onclick="window.location.href='http://127.0.0.1:8000/vehicles/'">Vehicles</button>
+
+        <button class="{% if request.path == '/payments/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500" onclick="window.location.href='http://127.0.0.1:8000/payments/'">Payments</button>
+
+        <button class="{% if request.path == '/employees/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500" onclick="window.location.href='http://127.0.0.1:8000/employees/'">Employee</button>
     </nav>
 
     <!-- Optional Content -->
@@ -254,40 +257,86 @@
 
 
     <!-- Modal Structure -->
-    <div id="constantModal" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden" style="display: none;">
-        <div class="bg-gray-800 p-4 space-y-4 border rounded-lg shadow-lg w-96 relative">
+    <div id="constantModal" class="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50 hidden">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 relative">
             <!-- Close Button -->
-            <button id="closeModalBtn" class="absolute top-2 right-2 text-white text-4xl font-bold">&times;</button>
+            <button id="closeConstantModalBtn" class="absolute top-1 right-3 text-black text-4xl font-bold">&times;</button>
             
-            <!-- Placeholder for modal content -->
-            <div id="modalContent"></div>
+            <form id="firmForm" class="space-y-2">
+
+                <h2 class="font-bold text-xl flex justify-center items-center">Firm Information Form</h2>
+
+                <div class="flex flex-col">
+                    <label for="Firm_Name" class="block mb-2 text-sm text-white">Firm Name:</label>
+                    <input  type="text" id="Firm_Name"  name="Firm_Name" maxlength="100" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
+                </div>
+
+                <div class="flex flex-col">
+                    <label for="rate_of_6mm" class="block mb-2 text-sm text-white">Rate of 6mm::</label>
+                    <input  type="number" id="rate_of_6mm" name="rate_of_6mm" step="0.01" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                </div>
+
+                <div class="flex flex-col">
+                    <label for="rate_of_12mm" class="block mb-2 text-sm text-white">Rate of 12mm::</label>
+                    <input  type="number" id="rate_of_12mm" name="rate_of_12mm" step="0.01" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                </div>
+                <div class="flex flex-col">
+                    <label for="rate_of_20mm" class="block mb-2 text-sm text-white">Rate of 20mm::</label>
+                    <input  type="number" id="rate_of_20mm" name="rate_of_20mm" rate_of_20mm="0.01" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                </div>
+
+                <div class="flex flex-col">
+                    <label for="rate_of_40mm" class="block mb-2 text-sm text-white">Rate of 40mm::</label>
+                    <input  type="number" id="rate_of_40mm" name="rate_of_40mm" step="0.01" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                </div>
+
+                <!-- Contact Number Field -->
+                <div class="flex flex-col">
+                    <label for="mobile_number_1" class="block mb-2 text-sm text-white">Contact Number 1 / संपर्क नंबर 1:</label>
+                    <div class="flex">
+                        <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 ">+91</span>
+                        <input type="text" id="mobile_number_1" name="mobile_number_1" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
+                    </div>
+                    <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
+                </div>
+
+                <!-- Contact Number Field -->
+                <div class="flex flex-col">
+                    <label for="mobile_number_2" class="block mb-2 text-sm text-white">Contact Number 2 / संपर्क नंबर 2:</label>
+                        <div class="flex">
+                            <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400">+91</span>
+                            <input type="text" id="mobile_number_2" name="mobile_number_2" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
+                        </div>
+                    <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
+                </div>
+    
+                <!-- Buttons -->
+                <div class="flex justify-center py-2 px-6">
+                    <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                        Clear
+                    </button>
+                    <button type="submit" class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- JavaScript for theme toggling and modal -->
-    <script>
-        // Your existing theme toggling script
+    
+<script>
+    // Show modal
+    document.getElementById('openConstantModalBtn').addEventListener('click', function() {
+        document.getElementById('constantModal').classList.remove('hidden');
+    });
 
-        function openModal() {
-            // Show the modal
-            document.getElementById('constantModal').style.display = 'flex';
+    // Close modal
+    document.getElementById('closeConstantModalBtn').addEventListener('click', function() {
+        document.getElementById('constantModal').classList.add('hidden');
+    });
 
-            // Fetch the content of constants.html and insert it into the modal
-            fetch('/constants.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('modalContent').innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Error fetching constants.html:', error);
-                });
-        }
+</script>
 
-        // Close the modal
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
-            document.getElementById('constantModal').style.display = 'none';
-        });
-    </script>
 
 <script>
     const toggleButton = document.getElementById('switch');
@@ -296,133 +345,112 @@
     const inputs = document.querySelectorAll('.light');
     const divs = document.querySelectorAll('div.bg-gray-800');
     const forms = document.querySelectorAll('form');
-    // const buttons = document.querySelectorAll('button');
     const selects = document.querySelectorAll('select');
     const labels = document.querySelectorAll('label');
 
     // Check if dark mode is saved in localStorage
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'light') {
-        body.classList.remove('bg-gray-900');
-        body.classList.add('bg-gray-100');
-        body.classList.remove('text-white');
-        body.classList.add('text-black');
+        applyLightTheme();
+        toggleButton.checked = true;
+    } else {
+        applyDarkTheme();
+    }
+
+    // Theme switcher function
+    toggleButton.addEventListener('change', function () {
+        if (toggleButton.checked) {
+            applyLightTheme();
+            localStorage.setItem('theme', 'light');
+        } else {
+            applyDarkTheme();
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    function applyLightTheme() {
+        // Body
+        body.classList.remove('bg-gray-900', 'text-white');
+        body.classList.add('bg-white', 'text-black');
+        
+        // Navbar
         navbar.classList.remove('bg-gray-700');
         navbar.classList.add('bg-gray-200');
+
         inputs.forEach(input => {
-            input.classList.remove('bg-gray-700');
-            input.classList.remove('text-white');
-            input.classList.add('bg-gray-200');
-            input.classList.add('text-black');
+            input.classList.toggle('bg-gray-300', toggleButton.checked);
+            input.classList.toggle('bg-gray-700', !toggleButton.checked);
+            input.classList.toggle('text-black', toggleButton.checked);
+            input.classList.toggle('text-white', !toggleButton.checked);
         });
+
+        // Divs
         divs.forEach(div => {
             div.classList.remove('bg-gray-800');
             div.classList.add('bg-gray-200');
         });
+
+        // Forms
         forms.forEach(form => {
             form.classList.remove('bg-gray-800');
             form.classList.add('bg-gray-200');
         });
-        // buttons.forEach(button => {
-        //     button.classList.remove('bg-gray-700');
-        //     button.classList.add('bg-gray-200');
-        //     button.classList.remove('text-white');
-        //     button.classList.add('text-black');
-        // });
+
+        // Selects
         selects.forEach(select => {
-            select.classList.remove('bg-gray-700');
-            select.classList.add('bg-gray-200');
-            select.classList.remove('text-white');
-            select.classList.add('text-black');
+            select.classList.remove('bg-gray-700', 'text-white');
+            select.classList.add('bg-gray-300', 'text-black');
         });
+
+        // Labels
         labels.forEach(label => {
             label.classList.remove('text-white');
             label.classList.add('text-black');
         });
-        toggleButton.checked = true;
     }
 
-    // Theme switcher function
-    toggleButton.addEventListener('change', function() {
-        if (toggleButton.checked) {
-            body.classList.remove('bg-gray-900');
-            body.classList.add('bg-gray-100');
-            body.classList.remove('text-white');
-            body.classList.add('text-black');
-            navbar.classList.remove('bg-gray-700');
-            navbar.classList.add('bg-gray-200');
-            inputs.forEach(input => {
-                input.classList.remove('bg-gray-700');
-                input.classList.remove('text-white');
-                input.classList.add('bg-gray-200');
-                input.classList.add('text-black');
-            });
-            divs.forEach(div => {
-                div.classList.remove('bg-gray-800');
-                div.classList.add('bg-gray-200');
-            });
-            forms.forEach(form => {
-                form.classList.remove('bg-gray-800');
-                form.classList.add('bg-gray-200');
-            });
-            // buttons.forEach(button => {
-            //     button.classList.remove('bg-gray-700');
-            //     button.classList.add('bg-gray-200');
-            //     button.classList.remove('text-white');
-            //     button.classList.add('text-black');
-            // });
-            selects.forEach(select => {
-                select.classList.remove('bg-gray-700');
-                select.classList.add('bg-gray-200');
-                select.classList.remove('text-white');
-                select.classList.add('text-black');
-            });
-            labels.forEach(label => {
-                label.classList.remove('text-white');
-                label.classList.add('text-black');
-            });
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.classList.remove('bg-gray-100');
-            body.classList.add('bg-gray-900');
-            body.classList.remove('text-black');
-            body.classList.add('text-white');
-            navbar.classList.remove('bg-gray-200');
-            navbar.classList.add('bg-gray-700');
-            inputs.forEach(input => {
-                input.classList.remove('bg-gray-200');
-                input.classList.remove('text-black');
-                input.classList.add('bg-gray-700');
-                input.classList.add('text-white');
-            });
-            divs.forEach(div => {
-                div.classList.remove('bg-gray-200');
-                div.classList.add('bg-gray-800');
-            });
-            forms.forEach(form => {
-                form.classList.remove('bg-gray-200');
-                form.classList.add('bg-gray-800');
-            });
-            // buttons.forEach(button => {
-            //     button.classList.remove('bg-gray-200');
-            //     button.classList.add('bg-gray-700');
-            //     button.classList.remove('text-black');
-            //     button.classList.add('text-white');
-            // });
-            selects.forEach(select => {
-                select.classList.remove('bg-gray-200');
-                select.classList.add('bg-gray-700');
-                select.classList.remove('text-black');
-                select.classList.add('text-white');
-            });
-            labels.forEach(label => {
-                label.classList.remove('text-black');
-                label.classList.add('text-white');
-            });
-            localStorage.setItem('theme', 'dark');
-        }
-    });
+    function applyDarkTheme() {
+        // Body
+        body.classList.remove('bg-white', 'text-black');
+        body.classList.add('bg-gray-900', 'text-white');
+        
+        // Navbar
+        navbar.classList.remove('bg-gray-200');
+        navbar.classList.add('bg-gray-700');
+
+        // Inputs
+        inputs.forEach(input => {
+            input.classList.remove('bg-gray-300', 'text-black');
+            input.classList.add('bg-gray-700', 'text-white');
+        });
+
+        // Divs
+        divs.forEach(div => {
+            div.classList.remove('bg-gray-200');
+            div.classList.add('bg-gray-800');
+        });
+
+        // Forms
+        forms.forEach(form => {
+            form.classList.remove('bg-gray-200');
+            form.classList.add('bg-gray-800');
+        });
+
+        // Selects
+        selects.forEach(select => {
+            select.classList.remove('bg-gray-300', 'text-black');
+            select.classList.add('bg-gray-700', 'text-white');
+        });
+
+        // Labels
+        labels.forEach(label => {
+            label.classList.remove('text-black');
+            label.classList.add('text-white');
+        });
+    }
 </script>
+
+
     
 </body>
 </html>

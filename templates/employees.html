@@ -8,7 +8,7 @@
 <div class="fixed bottom-30 right-5">
     <button 
         id="openModalBtn" 
-        class="relative hover:bg-dark  text-white font-sm py-2 px-6 rounded-xl focus:outline-none focus:ring focus:ring-dark-500 flex items-center space-x-2"
+        class="relative hover:bg-dark  text-white font-sm py-2 px-2 rounded-xl focus:outline-none focus:ring focus:ring-dark-500 flex items-center space-x-2"
         data-tooltip="Add Employee"  
     >
         <span class="flex border-2 items-center justify-center bg-black rounded-full p-2 hover:bg-zinc-600">
@@ -25,8 +25,9 @@
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         <form class="space-y-4">
             <div class="flex flex-col">
-                <label for="name" class="block mb-2 text-base text-white">Name / नाम:</label>
-                <select id="name" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="name" class="block mb-2 text-base text-white">Name / नाम:<span class="text-red-500">*</span></label>
+                <select id="name" name="name" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="select">Select Name</option>
                     <option value="John Doe">John Doe</option>
                     <option value="Jane Smith">Jane Smith</option>
                     <option value="Alice Brown">Alice Brown</option>
@@ -36,22 +37,22 @@
 
             <!-- In Time -->
             <div class="mb-4 flex flex-col">
-                <label for="in-time" class="block mb-2 text-base text-white">In Time / आने का समय:</label>
-                <input type="time" step="60" id="in-time" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="in-time" class="block mb-2 text-base text-white">In Time / आने का समय:<span class="text-red-500">*</span></label>
+                <input type="time" name="in-time" step="60" id="in-time" required class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
 
             <!-- Out Time -->
             <div class="mb-4 flex flex-col">
-                <label for="out-time" class="block mb-2 text-base text-white">Out Time / जाने का समय:</label>
-                <input type="time" step="60" id="out-time" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <label for="out-time" class="block mb-2 text-base text-white">Out Time / जाने का समय:<span class="text-red-500">*</span></label>
+                <input type="time" name="out-time" step="60" id="out-time" required class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
             </div>
 
-            <div class="flex justify-center">
-                <button type="reset" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-8 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+            <div class="flex justify-items-stretch">
+                <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                     Clear
                 </button>
-                <button type="submit" class="ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
-                    Submit
+                <button type="submit" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    ADD
                 </button>
             </div>
         </form>
@@ -62,40 +63,39 @@
 <div id="employeeModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 hidden">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 relative">
         <!-- Close Button -->
-        <button id="closeModalBtn" class="absolute top-2 right-2 text-white text-4xl font-bold">&times;</button>
-        
-        <h3 class="text-white text-lg font-bold mb-4">Add New Employee</h3>
-        
+        <button id="closeModalBtn" class="absolute top-1 right-3 text-black text-4xl font-bold">&times;</button>
+
         <form id="employeeForm" class="space-y-4">
+            <h2 class="font-bold text-xl flex justify-center items-center">Add New Employee</h2>
             <!-- Name Field -->
             <div class="flex flex-col">
-                <label for="employee-name" class="block mb-2 text-base text-white">Employee Name / कर्मचारी नाम:</label>
-                <input required type="text" id="employee-name" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
+                <label for="employee-name" class="block mb-2 text-base text-white">Employee Name / कर्मचारी नाम:<span class="text-red-500">*</span></label>
+                <input required type="text" id="employee-name" name="employee-name" autocomplete=off class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
                 <span id="nameError" class="text-red-500 text-sm hidden">Name must contain only letters./ नाम में केवल अक्षर होने चाहिए.</span>
             </div>
 
             <!-- Contact Number Field -->
             <div class="flex flex-col">
-                <label for="contact-number" class="block mb-2 text-base text-white">Contact Number / संपर्क नंबर:</label>
+                <label for="contact-number" class="block mb-2 text-base text-white">Contact Number / संपर्क नंबर:<span class="text-red-500">*</span></label>
                 <div class="flex">
                     <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400">+91</span>
-                    <input required type="text" id="contact-number" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
+                    <input required type="text" id="contact-number" name="contact-number" autocomplete=off maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                 </div>
                 <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
             </div>
 
             <!-- Address Field -->
             <div class="flex flex-col">
-                <label for="address" class="block mb-2 text-base text-white">Address / पता:</label>
-                <input required type="text" id="address" class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter address">
+                <label for="address" class="block mb-2 text-base text-white">Address / पता:<span class="text-red-500">*</span></label>
+                <input required type="text" id="address" name="address" autocomplete=off class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter address">
             </div>
 
             <!-- Buttons -->
-            <div class="flex justify-center">
-                <button type="reset" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+            <div class="flex justify-items-stretch">
+                <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                     Clear
                 </button>
-                <button type="submit" class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                <button type="submit" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
                     ADD
                 </button>
             </div>
@@ -114,41 +114,6 @@
         document.getElementById('employeeModal').classList.add('hidden');
     });
 
-    // Form validation
-    document.getElementById('employeeForm').addEventListener('submit', function(event) {
-        let valid = true;
-
-        // Validate name (only letters)
-        const name = document.getElementById('employee-name').value;
-        const nameError = document.getElementById('nameError');
-        if (!/^[A-Za-z\s]+$/.test(name)) {
-            nameError.classList.remove('hidden');
-            valid = false;
-        } else {
-            nameError.classList.add('hidden');
-        }
-
-        // Validate contact number (must be 10 digits)
-        const contactNumber = document.getElementById('contact-number').value;
-        const contactError = document.getElementById('contactError');
-        if (!/^\d{10}$/.test(contactNumber)) {
-            contactError.classList.remove('hidden');
-            valid = false;
-        } else {
-            contactError.classList.add('hidden');
-        }
-
-        if (!valid) {
-            event.preventDefault();
-        }
-
-        // Function to validate and ensure only 10 digits after +91
-        function validateContactNumber(input) {
-        // Remove any non-numeric characters and limit to 10 digits
-        input.value = input.value.replace(/\D/g, '').slice(0, 10);
-    }
-
-    });
 </script>
 
 {% endblock %}
