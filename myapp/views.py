@@ -143,3 +143,22 @@ def add_client(request):
             return JsonResponse({"success": False, "error": "All fields are required"})
 
     return JsonResponse({"success": False, "error": "Invalid request"})
+
+
+def sales_report(request):
+    return render(request, "sales_report.html")
+
+def vehicles_report(request):
+    return render(request, "vehicles_report.html")
+
+def payments_report(request):
+    return render(request, "payments_report.html")
+
+def employees_report(request):
+    return render(request, "employees_report.html")
+
+def clients_report(request):
+    return render(request, "clients_report.html")
+
+def attendence_report(request):
+    return render(request, "attendence.html")

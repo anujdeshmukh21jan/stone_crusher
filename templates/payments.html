@@ -16,6 +16,21 @@
     color: white;
     border-color: rgb(0, 174, 255);
 }
+.radio-button {
+  @apply appearance-none absolute opacity-0 cursor-pointer;
+  height: 16px;
+  width: 16px;
+}
+
+.radio-button + .radio-button-label {
+  @apply cursor-pointer  relative w-6 h-6 rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 ease-in-out;
+  padding: 3px; /* Adjust the padding as needed */
+}
+
+.radio-button:checked + .radio-button-label {
+  @apply bg-blue-500 border-blue-500 cursor-pointer;
+}
+
 </style>
 
 <div class="fixed bottom-30 right-5">
@@ -68,11 +83,23 @@
             <div class="flex flex-col">
                 <label for="debit_type" class="mb-1 text-base text-white">Debit Type / डेबिट प्रकार:<span class="text-red-500">*</span></label>
                 <div class="flex flex-col space-y-2 text-lg">
-                    <label class="text-white ml-44"><input type="radio" name="debit_type" value="diesel" class="mr-2"> Diesel</label>
-                    <label class="text-white ml-44"><input type="radio" name="debit_type" value="salary" class="mr-2"> Salary</label>
-                    <label class="text-white ml-44"><input type="radio" name="debit_type" value="maintenance" class="mr-2"> Maintenance</label>
-                    <label class="text-white ml-44"><input type="radio" name="debit_type" value="other" class="mr-2"> Other</label>
-                </div>
+                    <label class="text-white">
+                      <input type="radio" name="debit_type" value="diesel" class="mr-2 radio-button">
+                      Diesel
+                    </label>
+                    <label class="text-white">
+                      <input type="radio" name="debit_type" value="salary" class="mr-2 radio-button">
+                      Salary
+                    </label>
+                    <label class="text-white">
+                      <input type="radio" name="debit_type" value="maintenance" class="mr-2 radio-button">
+                      Maintenance
+                    </label>
+                    <label class="text-white">
+                      <input type="radio" name="debit_type" value="other" class="mr-2 radio-button">
+                      Other
+                    </label>
+                  </div>
             </div>
             <div class="flex flex-col">
                 <label for="debit_amount" class="mb-1 text-base text-white">Amount / राशि (Rs):<span class="text-red-500">*</span></label>
