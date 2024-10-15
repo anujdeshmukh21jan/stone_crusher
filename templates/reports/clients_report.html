@@ -60,10 +60,10 @@
 
     </script>
     
-    <div class="p-4 bg-gray-800">
+    <div class="p-4 bg-gray-800 mb-4">
         <!-- Filter and Search Section -->
-        <div class="flex justify-center text-black w-full">
-            <!-- <div class="">
+        <div class="flex justify-between items-center w-full text-black">
+                                <!-- <div class="">
                 <button onclick="window.location.href='http://127.0.0.1:8000/'" class="flex items-center justify-center bg-white text-center h-10 w-24 rounded-2xl relative text-black text-xl font-semibold group" type="button">
                     <div class="bg-green-400 rounded-xl h-8 w-1/4 flex items-center justify-center absolute left-1 group-hover:w-[86px] z-10 duration-500">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" height="20px" width="30px">
@@ -74,14 +74,15 @@
                     <p class="translate-x-2">Back</p>
                 </button>
             </div> -->
-            <div class="flex items-center space-x-2 w-2/5">
+            <!-- Left: Search Bar and Filter -->
+            <div class="flex items-center space-x-2 w-2/5 justify-center">
                 <div class="group relative w-full">
                     <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500" aria-hidden="true" viewBox="0 0 24 24" width="22" height="22">
                         <g>
                             <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
                         </g>
                     </svg>
-                    <input placeholder="Search " type="search" class="w-full font-lg pl-10 h-10 rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    <input placeholder="Search" type="search" class="w-full font-lg pl-10 h-10 rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
                 <!-- Advanced Search Button -->
                 <div class="ml-3 px-4 py-2 border-2 border-zinc-600 hover:bg-zinc-600 rounded-lg text-white cursor-pointer flex items-center space-x-1" onclick="toggleAccordion()">
@@ -91,7 +92,9 @@
                     </svg>
                 </div>
             </div>
-            <div class="flex py-2 space-x-5">
+        
+            <!-- Right: PDF and Excel Buttons -->
+            <div class="flex space-x-5 ml-auto">
                 <button class="border bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                     PDF
                 </button>
@@ -100,33 +103,17 @@
                 </button>
             </div>
         </div>
+        
     </div>
 
-    <!-- Filter Form (Accordion) -->
     <form id="filterForm" class="hidden">
         <div class="p-4 bg-gray-700">
             <!-- Bill No, Name, Driver Name, Vehicle No. -->
             <div class="flex space-x-4 mb-4 justify-center">
+
                 <div>
-                    <label for="from_date" class="block text-white">From Date:</label>
-                    <input type="date" id="from_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                </div>
-                <div>
-                    <label for="to_date" class="block text-white">To Date:</label>
-                    <input type="date" id="to_date" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                </div>
-                <div>
-                    <label for="bill_no" class="block text-white">Bill No. / बिल नंबर:</label>
-                    <input list="sample_bill_no" id="bill_no" name="bill_no" placeholder="Enter Bill No." class="input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                    <datalist id="sample_bill_no" class="bg-white text-black">
-                        <option value="1">
-                        <option value="2">
-                        <option value="24">
-                    </datalist>
-                </div>
-                <div>
-                    <label for="name" class="block text-white">Name / नाम:</label>
-                    <input list="sample_name" id="name" name="name" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    <label for="client_name" class="block text-white">Client Name / नाम:</label>
+                    <input list="sample_client_name" id="client_name" name="client_name" placeholder="Enter client Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                     <datalist id="sample_name" class="bg-white text-black">
                         <option value="Anuj Deshmukh">
                         <option value="Arjun">
@@ -137,13 +124,8 @@
                     </datalist>
                 </div>
                 <div>
-                    <label for="driver_name" class="block text-white">Driver Name / चालक का नाम:</label>
-                    <input list="sample_driver_name" id="driver_name" name="driver_name" placeholder="Enter Driver Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                    <datalist id="sample_driver_name" class="bg-white text-black"></datalist>
-                </div>
-                <div>
-                    <label for="vehicle_no" class="block text-white">Vehicle Number / वाहन नंबर:</label>
-                    <input type="text" id="vehicle_no" name="vehicle_no" placeholder="Enter Vehicle No." class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    <label for="mobile_no." class="block text-white">Client Number / चालक का नाम:</label>
+                    <input list="sample_mobile_no." id="mobile_no." name="mobile_no." placeholder="Enter client Number" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
             </div>
 
@@ -152,6 +134,7 @@
                 <button type="submit" class="rounded-xl bg-green-600 hover:bg-green-800 px-10 py-2 text-white text-lg font-semibold">Apply Filter</button>
                 <button type="button" class="rounded-xl bg-red-600 hover:bg-red-800 px-10 py-2 text-white text-lg font-semibold ml-4">Clear Filter</button>
             </div>
+            
         </div>
     </form>
 
@@ -161,29 +144,19 @@
         <table class="min-w-full bg-white cursor-pointer">
             <thead>
                 <tr class="w-full bg-gray-800 text-white">
-                    <th class="py-2">Bill No.</th>
-                    <th class="py-2">Name</th>
-                    <th class="py-2">Driver Name</th>
-                    <th class="py-2">Vehicle No.</th>
-                    <th class="py-2">Date</th>
-                    <th class="py-2">Total Weight</th>
-                    <th class="py-2">Brass</th>
-                    <th class="py-2">Size</th>
+                    <th class="py-2">CLient Name</th>
+                    <th class="py-2">Mobile No.</th>
+                    <th class="py-2">Address</th>
                     <th class="py-2">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Sample Data -->
                 <tr class="text-center hover:bg-yellow-500">
-                    <td class="py-2">1</td>
                     <td class="py-2">Anuj Deshmukh</td>
-                    <td class="py-2">Ram Charan</td>
-                    <td class="py-2">MH12AB1234</td>
-                    <td class="py-2">2024-09-23</td>
-                    <td class="py-2">89663</td>
-                    <td class="py-2">489664</td>
-                    <td class="py-2">6 mm</td>
-
+                    <td class="py-2">7895641278</td>
+                    <td class="py-2">Dhule</td>
+   
                     <td class="py-2 flex justify-center">
                         <button class="bin-button">
                             <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -204,14 +177,9 @@
                 </tr>
 
                 <tr class="text-center">
-                    <td class="py-2">2</td>
                     <td class="py-2">Arjun</td>
-                    <td class="py-2">Krishna</td>
-                    <td class="py-2">HR14AB7895</td>
-                    <td class="py-2">2024-05-07</td>
-                    <td class="py-2">98963</td>
-                    <td class="py-2">789444</td>
-                    <td class="py-2">6 mm, 12 mm</td>
+                    <td class="py-2">9632587412</td>
+                    <td class="py-2">Mumbai</td>
 
                     <td class="py-2 flex justify-center">
                         <button class="bin-button">

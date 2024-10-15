@@ -146,19 +146,19 @@ def add_client(request):
 
 
 def sales_report(request):
-    return render(request, "sales_report.html")
+    return render(request, "reports/sales_report.html")
 
 def vehicles_report(request):
-    return render(request, "vehicles_report.html")
+    return render(request, "reports/vehicles_report.html")
 
 def payments_report(request):
-    return render(request, "payments_report.html")
+    return render(request, "reports/payments_report.html")
 
 def employees_report(request):
-    return render(request, "employees_report.html")
+    return render(request, "reports/employees_report.html")
 
 def clients_report(request):
-    return render(request, "clients_report.html")
+    return render(request, "reports/clients_report.html")
 
 def attendence_report(request):
-    return render(request, "attendence.html")
+    return render(request, "reports/attendence.html")
