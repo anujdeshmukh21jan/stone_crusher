@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stone Crusher</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
     <style>
         .toggle {
           /* background-color: rgb(46, 45, 45); */
@@ -187,9 +187,7 @@
             color: #334155 !important;
         }
     </style>
-    </style>
 
-    </style>
 </head>
 <body class="transition-colors duration-300 bg-gray-900 text-white light:bg-white light:text-black " id="body"> 
 
@@ -295,7 +293,7 @@
                 <div class="flex flex-col">
                     <label for="mobile_number_1" class="block mb-2 text-sm text-white">Contact Number 1 / संपर्क नंबर 1:</label>
                     <div class="flex">
-                        <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 ">+91</span>
+                        <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle ">+91</span>
                         <input type="text" id="mobile_number_1" name="mobile_number_1" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                     </div>
                     <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
@@ -305,7 +303,7 @@
                 <div class="flex flex-col">
                     <label for="mobile_number_2" class="block mb-2 text-sm text-white">Contact Number 2 / संपर्क नंबर 2:</label>
                         <div class="flex">
-                            <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400">+91</span>
+                            <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle">+91</span>
                             <input type="text" id="mobile_number_2" name="mobile_number_2" maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                         </div>
                     <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
@@ -340,115 +338,113 @@
 
 
 <script>
-    const toggleButton = document.getElementById('switch');
-    const body = document.getElementById('body');
-    const navbar = document.querySelector('nav');
-    const inputs = document.querySelectorAll('.light');
-    const divs = document.querySelectorAll('div.bg-gray-800');
-    const forms = document.querySelectorAll('form');
-    const selects = document.querySelectorAll('select');
-    const labels = document.querySelectorAll('label');
+  const toggleButton = document.getElementById('switch');
+const body = document.getElementById('body');
+const navbar = document.querySelector('nav');
+const inputs = document.querySelectorAll('input'); // Update here to target all inputs
+const divs = document.querySelectorAll('div.bg-gray-800');
+const forms = document.querySelectorAll('form');
+const selects = document.querySelectorAll('select');
+const labels = document.querySelectorAll('label');
+const themeToggles = document.querySelectorAll('.theme-toggle');
 
-    // Check if dark mode is saved in localStorage
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'light') {
+// Check if dark mode is saved in localStorage
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'light') {
+    applyLightTheme();
+    toggleButton.checked = true;
+} else {
+    applyDarkTheme();
+}
+
+// Theme switcher function
+toggleButton.addEventListener('change', function () {
+    if (toggleButton.checked) {
         applyLightTheme();
-        toggleButton.checked = true;
+        localStorage.setItem('theme', 'light');
     } else {
         applyDarkTheme();
+        localStorage.setItem('theme', 'dark');
     }
+});
 
-    // Theme switcher function
-    toggleButton.addEventListener('change', function () {
-        if (toggleButton.checked) {
-            applyLightTheme();
-            localStorage.setItem('theme', 'light');
-        } else {
-            applyDarkTheme();
-            localStorage.setItem('theme', 'dark');
-        }
+function applyLightTheme() {
+    body.classList.remove('bg-gray-900', 'text-white');
+    body.classList.add('bg-white', 'text-black');
+    
+    navbar.classList.remove('bg-gray-800');
+    navbar.classList.add('bg-gray-200');
+
+    themeToggles.forEach(element => {
+        element.classList.remove('bg-gray-700', 'text-white');
+        element.classList.add('bg-gray-200', 'text-black');
+    });
+    
+
+    inputs.forEach(input => {
+        input.classList.remove('bg-gray-700', 'text-white');
+        input.classList.add('bg-gray-300', 'text-black');
     });
 
-    function applyLightTheme() {
-        // Body
-        body.classList.remove('bg-gray-900', 'text-white');
-        body.classList.add('bg-white', 'text-black');
-        
-        // Navbar
-        navbar.classList.remove('bg-gray-700');
-        navbar.classList.add('bg-gray-200');
+    divs.forEach(div => {
+        div.classList.remove('bg-gray-800');
+        div.classList.add('bg-gray-200');
+    });
 
-        inputs.forEach(input => {
-            input.classList.toggle('bg-gray-300', toggleButton.checked);
-            input.classList.toggle('bg-gray-700', !toggleButton.checked);
-            input.classList.toggle('text-black', toggleButton.checked);
-            input.classList.toggle('text-white', !toggleButton.checked);
-        });
+    forms.forEach(form => {
+        form.classList.remove('bg-gray-800');
+        form.classList.add('bg-gray-200');
+    });
 
-        // Divs
-        divs.forEach(div => {
-            div.classList.remove('bg-gray-800');
-            div.classList.add('bg-gray-200');
-        });
+    selects.forEach(select => {
+        select.classList.remove('bg-gray-700', 'text-white');
+        select.classList.add('bg-gray-300', 'text-black');
+    });
 
-        // Forms
-        forms.forEach(form => {
-            form.classList.remove('bg-gray-800');
-            form.classList.add('bg-gray-200');
-        });
+    labels.forEach(label => {
+        label.classList.remove('text-white');
+        label.classList.add('text-black');
+    });
+}
 
-        // Selects
-        selects.forEach(select => {
-            select.classList.remove('bg-gray-700', 'text-white');
-            select.classList.add('bg-gray-300', 'text-black');
-        });
+function applyDarkTheme() {
+    body.classList.remove('bg-white', 'text-black');
+    body.classList.add('bg-gray-900', 'text-white');
+    
+    navbar.classList.remove('bg-gray-200');
+    navbar.classList.add('bg-gray-800');
 
-        // Labels
-        labels.forEach(label => {
-            label.classList.remove('text-white');
-            label.classList.add('text-black');
-        });
-    }
+    themeToggles.forEach(element => {
+        element.classList.remove('bg-gray-200', 'text-black');
+        element.classList.add('bg-gray-700', 'text-white');
+    });
 
-    function applyDarkTheme() {
-        // Body
-        body.classList.remove('bg-white', 'text-black');
-        body.classList.add('bg-gray-900', 'text-white');
-        
-        // Navbar
-        navbar.classList.remove('bg-gray-200');
-        navbar.classList.add('bg-gray-700');
+    inputs.forEach(input => {
+        input.classList.remove('bg-gray-300', 'text-black');
+        input.classList.add('bg-gray-700', 'text-white');
+    });
 
-        // Inputs
-        inputs.forEach(input => {
-            input.classList.remove('bg-gray-300', 'text-black');
-            input.classList.add('bg-gray-700', 'text-white');
-        });
+    divs.forEach(div => {
+        div.classList.remove('bg-gray-200');
+        div.classList.add('bg-gray-800');
+    });
 
-        // Divs
-        divs.forEach(div => {
-            div.classList.remove('bg-gray-200');
-            div.classList.add('bg-gray-800');
-        });
+    forms.forEach(form => {
+        form.classList.remove('bg-gray-200');
+        form.classList.add('bg-gray-800');
+    });
 
-        // Forms
-        forms.forEach(form => {
-            form.classList.remove('bg-gray-200');
-            form.classList.add('bg-gray-800');
-        });
+    selects.forEach(select => {
+        select.classList.remove('bg-gray-300', 'text-black');
+        select.classList.add('bg-gray-700', 'text-white');
+    });
 
-        // Selects
-        selects.forEach(select => {
-            select.classList.remove('bg-gray-300', 'text-black');
-            select.classList.add('bg-gray-700', 'text-white');
-        });
+    labels.forEach(label => {
+        label.classList.remove('text-black');
+        label.classList.add('text-white');
+    });
+}
 
-        // Labels
-        labels.forEach(label => {
-            label.classList.remove('text-black');
-            label.classList.add('text-white');
-        });
-    }
 </script>
 
 

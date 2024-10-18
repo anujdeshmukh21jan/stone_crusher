@@ -65,7 +65,7 @@
             </div>
             <div class="flex flex-col">
                 <label for="description" class="mb-1 text-base text-white">Description / विवरण:</label>
-                <textarea type="text" id="description" name="description" placeholder="Enter Description" class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"></textarea>
+                <textarea type="text" id="description" name="description" placeholder="Enter Description" class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md theme-toggle"></textarea>
             </div>
             <div class="flex justify-items-stretch">
                 <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
@@ -107,7 +107,7 @@
             </div>
             <div class="flex flex-col">
                 <label for="debit_description" class="mb-1 text-base text-white">Description / विवरण:</label>
-                <textarea type="text" id="description" name="description" placeholder="Enter Description" class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"></textarea>
+                <textarea type="text" id="description" name="description" placeholder="Enter Description" class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md theme-toggle"></textarea>
             </div>
             <div class="flex justify-items-stretch">
                 <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="flex flex-col">
                 <label for="contact-number" class="block mb-2 text-base text-white">Contact Number / संपर्क नंबर:<span class="text-red-500">*</span></label>
                 <div class="flex">
-                    <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400">+91</span>
+                    <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle">+91</span>
                     <input type="text" id="contact-number" name="contact-number" autocomplete=off maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                 </div>
                 <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
