@@ -5,30 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports</title>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
     <style>
         .active {
             background-color: #1d4ed8; /* Change this color to match your design */
             color: white;
         }
+        .sidebar {
+            border-right: 2px solid #e8eaed; /* Adjust color and width as needed */
+        }
     </style>
 </head>
 
 <body>
 
-<nav class="sidebar fixed h-full w-48 bg-gray-900 text-white">
+<nav class="sidebar fixed h-full w-54 bg-gray-900 text-white border-l border-zinc-300">
     <div class="flex justify-center items-center p-4 text-3xl font-semibold mb-4">
-        Reports
+        <p class="flex justify-center">
+            <a href="{% url 'sales' %}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#e8eaed">
+                    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                </svg>
+            </a>
+        </p>
+        <p class="ml-6">Reports</p> <!-- Increased the margin here -->
     </div>
+    
     <ul>
-        <li><a href="{% url 'sales_report' %}" class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl">Sales</a></li>
-        <li><a href="{% url 'vehicles_report' %}" class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl">Vehicle</a></li>
-        <li><a href="{% url 'payments_report' %}" class="{% if request.path == '/reports/payments_report/' %}active{% endif %} block px-4 py-2 text-xl">Credit/Debit</a></li>
-        <li><a href="{% url 'clients_report' %}" class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl">Clients</a></li>
-        <li><a href="{% url 'employees_report' %}" class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl">Employee</a></li>
-        <li><a href="{% url 'attendence_report' %}" class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl">Attendance</a></li>
-        <li><a href="{% url 'sales' %}" class="block px-4 py-2 text-xl">--Back</a></li>
+        <li><a href="{% url 'sales_report' %}" class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Sales</a></li>
+        <li><a href="{% url 'vehicles_report' %}" class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Vehicle</a></li>
+        <li><a href="{% url 'payments_report' %}" class="{% if request.path == '/reports/payments_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit/Debit</a></li>
+        <li><a href="{% url 'clients_report' %}" class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Clients</a></li>
+        <li><a href="{% url 'employees_report' %}" class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Employee</a></li>
+        <li><a href="{% url 'attendence_report' %}" class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Attendance</a></li>
     </ul>
 </nav>
 
