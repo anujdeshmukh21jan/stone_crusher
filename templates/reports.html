@@ -17,34 +17,106 @@
     </style>
 </head>
 
-<body>
+<body class="transition-colors duration-300" id="body">
 
-<nav class="sidebar fixed h-full w-54 bg-gray-900 text-white border-l border-zinc-300">
-    <div class="flex justify-center items-center p-4 text-3xl font-semibold mb-4">
-        <p class="flex justify-center">
-            <a href="{% url 'sales' %}" class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#e8eaed">
+    <nav class="sidebar fixed h-full w-54 bg-gray-900 text-white border-l border-zinc-300">
+        <div class="flex items-center p-4 text-3xl font-semibold mb-4">
+            <a href="{% url 'sales' %}" class="flex mr-2">
+                <svg id="sidebar-icon" xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#e8eaed">
                     <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
                 </svg>
             </a>
-        </p>
-        <p class="ml-6">Reports</p> <!-- Increased the margin here -->
-    </div>
-    
-    <ul>
-        <li><a href="{% url 'sales_report' %}" class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Sales</a></li>
-        <li><a href="{% url 'vehicles_report' %}" class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Vehicle</a></li>
-        <li><a href="{% url 'payments_report' %}" class="{% if request.path == '/reports/payments_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit/Debit</a></li>
-        <li><a href="{% url 'clients_report' %}" class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Clients</a></li>
-        <li><a href="{% url 'employees_report' %}" class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Employee</a></li>
-        <li><a href="{% url 'attendence_report' %}" class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Attendance</a></li>
-    </ul>
-</nav>
+            <p class="ml-6">Reports</p> <!-- Increased margin here for spacing -->
+        </div>
 
-<main class="p-4 ml-48"> <!-- Adjust main content to account for sidebar width -->
-    {% block content %}
-    {% endblock %}
-</main>
+        <ul>
+            <li><a href="{% url 'sales_report' %}" class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Sales</a></li>
+            <li><a href="{% url 'vehicles_report' %}" class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Vehicle</a></li>
+            <li><a href="{% url 'payments_report' %}" class="{% if request.path == '/reports/payments_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit/Debit</a></li>
+            <li><a href="{% url 'clients_report' %}" class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Clients</a></li>
+            <li><a href="{% url 'employees_report' %}" class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Employee</a></li>
+            <li><a href="{% url 'attendence_report' %}" class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Attendance</a></li>
+        </ul>
+    </nav>
+
+    <main class="p-4 ml-48"> <!-- Adjust main content to account for sidebar width -->
+        {% block content %}
+        <div class="search-bar bg-gray-200 text-black p-4 rounded-md">
+            <!-- Your search bar content goes here -->
+        </div>
+        {% endblock %}
+    </main>
+
+    <script>
+        const toggleButton = document.getElementById('switch');
+        const body = document.getElementById('body');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarIcon = document.getElementById('sidebar-icon');
+        const divs = document.querySelectorAll('div.bg-gray-800');
+        const labels = document.querySelectorAll('label');
+        const themeToggles = document.querySelectorAll('.theme-toggle');
+
+        // Check if dark mode is saved in localStorage
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'light') {
+            applyLightTheme();
+            toggleButton.checked = true;
+        } else {
+            applyDarkTheme();
+        }
+
+        // Theme switcher function
+        toggleButton.addEventListener('change', function () {
+            if (toggleButton.checked) {
+                applyLightTheme();
+                localStorage.setItem('theme', 'light');
+            } else {
+                applyDarkTheme();
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        function applyLightTheme() {
+            body.classList.remove('bg-gray-900', 'text-white');
+            body.classList.add('bg-white', 'text-black');
+            sidebar.classList.remove('bg-gray-900', 'text-white');
+            sidebar.classList.add('bg-gray-300', 'text-black');
+            sidebarIcon.setAttribute('fill', '#1d4ed8'); // Change icon color in light mode
+            divs.forEach(div => {
+                div.classList.remove('bg-gray-800', 'text-white');
+                div.classList.add('bg-gray-300', 'text-black');
+            });
+            labels.forEach(label => {
+                label.classList.remove('text-white');
+                label.classList.add('text-black');
+            });
+            themeToggles.forEach(element => {
+                element.classList.remove('text-black');
+                element.classList.add('text-black');
+            });
+        }
+
+        function applyDarkTheme() {
+            body.classList.remove('bg-white', 'text-black');
+            body.classList.add('bg-gray-900', 'text-white');
+            sidebar.classList.remove('bg-gray-300', 'text-black');
+            sidebar.classList.add('bg-gray-900', 'text-white');
+            sidebarIcon.setAttribute('fill', '#e8eaed'); // Reset icon color in dark mode
+            
+            divs.forEach(div => {
+                div.classList.remove('bg-gray-300','text-black');
+                div.classList.add('bg-gray-800', 'text-white');
+            });
+            labels.forEach(label => {
+                label.classList.remove('text-black');
+                label.classList.add('text-white');
+            });
+            themeToggles.forEach(element => {
+                element.classList.remove('text-black');
+                element.classList.add('text-black');
+            });
+        }
+    </script>
 
 </body>
 </html>
