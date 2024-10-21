@@ -154,6 +154,9 @@ def vehicles_report(request):
 def payments_report(request):
     return render(request, "reports/payments_report.html")
 
+def debit_report(request):
+    return render(request, "reports/debit_report.html")
+
 def employees_report(request):
     return render(request, "reports/employees_report.html")
 

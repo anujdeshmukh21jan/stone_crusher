@@ -73,7 +73,15 @@
                     </svg>
                     <input placeholder="Search" type="search" class="w-full font-lg pl-10 h-10 rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
-
+                <!-- Advanced Search Button -->
+                <div class="ml-3 px-4 py-2 border-2 border-zinc-600 bg-gray-800 hover:bg-zinc-600 rounded-lg text-white cursor-pointer flex items-center space-x-1"
+                    onclick="toggleAccordion()">
+                    <span>Filter</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
             </div>
         
             <!-- Right: PDF and Excel Buttons -->
@@ -88,7 +96,41 @@
         </div>
         
     </div>
+   <!-- Filter Form (Accordion) -->
+   <form id="filterForm" autocomplete="off" class="hidden">
+    <div class="p-2 bg-gray-800">
+        <!-- Date Filter -->
+        <div class="mt-4 w-full text-white flex space-x-4  mb-4 justify-center p-4">
+            <div>
+                <label for="from_date" class="block text-white">From Date:</label>
+                <input type="date" id="from_date"
+                    class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+            </div>
+            <div>
+                <label for="to_date" class="block text-white">To Date:</label>
+                <input type="date" id="to_date"
+                    class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+            </div>
+            <div>
+                <label for="name" class="block text-white">Client Name / नाम:</label>
+                <input list="sample_name" id="name" name="name" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                <datalist id="sample_name" class="bg-white text-black">
+                    <option value="Anuj Deshmukh">
+                    <option value="Arjun">
+                    <option value="Raja">
+                    <option value="Raj">
+                    <option value="Manoj">
+                    <option value="Ram">
+                </datalist>
+            </div>
+            <button type="submit"
+                class="mr-8 mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                Apply Filter
+            </button>
+        </div>
 
+    </div>
+</form>
 
     <!-- Data Table Section -->
     <div class="p-4">
@@ -97,8 +139,6 @@
                 <tr class="w-full bg-gray-800 text-white">
                     <th class="py-2">Client Name</th>
                     <th class="py-2">Amount</th>
-                    <th class="py-2">Type</th>
-                    <th class="py-2">Transaction</th>
                     <th class="py-2">Delete</th>
                 </tr>
             </thead>
@@ -107,8 +147,6 @@
                 <tr class="text-center hover:bg-yellow-500">
                     <td class="py-2">Anuj Deshmukh</td>
                     <td class="py-2">4896</td>
-                    <td class="py-2">Diesel</td>
-                    <td class="py-2">8986656</td>
 
                     <td class="py-2 flex justify-center">
                         <button class="bin-button">
@@ -128,6 +166,7 @@
                     </td>
 
                 </tr>
+                
 
             </tbody>
         </table>

@@ -36,7 +36,7 @@
         .bin-button:active {
         transform: scale(0.9);
         }
-        /* Hide accordion content initially */
+
         .hidden {
             display: none;
         }
@@ -47,18 +47,18 @@
         }
 
         #filterForm.open {
-            max-height: 500px; /* Adjust the max-height to fit your content */
+            max-height: 500px; 
         }
 
     </style>
-    <script>
+    <!-- <script>
         function toggleAccordion() {
             var filterForm = document.getElementById("filterForm");
             filterForm.classList.toggle("hidden");
             filterForm.classList.toggle("open");
         }
 
-    </script>
+    </script> -->
     
     <div class="p-4 bg-gray-800 mb-4">
         <!-- Filter and Search Section -->
@@ -85,12 +85,12 @@
                     <input placeholder="Search" type="search" class="w-full font-lg pl-10 h-10 rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
                 <!-- Advanced Search Button -->
-                <div class="ml-3 px-4 py-2 border-2 border-zinc-600 bg-gray-800 hover:bg-zinc-600 rounded-lg text-white cursor-pointer flex items-center space-x-1" onclick="toggleAccordion()">
+                <!-- <div class="ml-3 px-4 py-2 border-2 border-zinc-600 bg-gray-800 hover:bg-zinc-600 rounded-lg text-white cursor-pointer flex items-center space-x-1" onclick="toggleAccordion()">
                     <span>Filter</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
-                </div>
+                </div> -->
             </div>
         
             <!-- Right: PDF and Excel Buttons -->
@@ -107,9 +107,9 @@
     </div>
 
     <!-- Filter Form (Accordion) -->
-    <form id="filterForm" autocomplete="off" class="hidden">
+    <!-- <form id="filterForm" autocomplete="off" class="hidden">
         <div class="p-4 bg-gray-800">
-            <!-- Bill No, Name, Driver Name, Vehicle No. -->
+  
             <div class="flex space-x-4 mb-4 justify-center">
                 <div>
                     <label for="manufacturer" class="block text-white">Manufacturer:</label>
@@ -130,14 +130,13 @@
 
             </div>
 
-            <!-- Filter Buttons -->
             <div class="text-center">
                 <button type="submit" class="rounded-xl bg-green-600 hover:bg-green-800 px-10 py-2 text-white text-lg font-semibold">Apply Filter</button>
                 <button type="reset" class="rounded-xl bg-red-600 hover:bg-red-800 px-10 py-2 text-white text-lg font-semibold ml-4">Clear Filter</button>
             </div>
         </div>
     </form>
-
+ -->
 
     <!-- Data Table Section -->
     <div class="p-4">

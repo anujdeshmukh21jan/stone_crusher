@@ -1,0 +1,182 @@
+{% extends "reports.html" %}
+
+{% block content %}
+{% load static %}
+
+<body class="bg-gray-900">
+
+    <style>
+        .bin-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 13px;
+            background-color: rgb(210, 52, 52);
+            cursor: pointer;
+            border: 3px solid rgb(178, 59, 59);
+            transition-duration: 0.3s;
+        }
+
+        .bin-bottom {
+            width: 12px;
+        }
+
+        .bin-top {
+            width: 15px;
+            transform-origin: right;
+            transition-duration: 0.3s;
+        }
+
+        .bin-button:hover .bin-top {
+            transform: rotate(45deg);
+        }
+
+        .bin-button:hover {
+            background-color: rgb(255, 0, 0);
+        }
+
+        .bin-button:active {
+            transform: scale(0.9);
+        }
+
+        /* Hide accordion content initially */
+        .hidden {
+            display: none;
+        }
+
+        #filterForm {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        #filterForm.open {
+            max-height: 500px;
+            /* Adjust the max-height to fit your content */
+        }
+    </style>
+    <script>
+        function toggleAccordion() {
+            var filterForm = document.getElementById("filterForm");
+            filterForm.classList.toggle("hidden");
+            filterForm.classList.toggle("open");
+        }
+
+    </script>
+
+    <div class="p-4 bg-gray-800 mb-4">
+        <!-- Filter and Search Section -->
+        <div class="flex justify-between items-center w-full text-black">
+            <!-- Left: Search Bar and Filter -->
+            <div class="flex items-center space-x-2 w-2/5 justify-center">
+                <div class="group relative w-full">
+                    <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500"
+                        aria-hidden="true" viewBox="0 0 24 24" width="22" height="22">
+                        <g>
+                            <path
+                                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+                            </path>
+                        </g>
+                    </svg>
+                    <input placeholder="Search" type="search"
+                        class="w-full font-lg pl-10 h-10 rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                </div>
+                <!-- Advanced Search Button -->
+                <div class="ml-3 px-4 py-2 border-2 border-zinc-600 bg-gray-800 hover:bg-zinc-600 rounded-lg text-white cursor-pointer flex items-center space-x-1"
+                    onclick="toggleAccordion()">
+                    <span>Filter</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+
+            </div>
+
+            <!-- Right: PDF and Excel Buttons -->
+            <div class="flex space-x-5 ml-auto">
+                <button
+                    class="border bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                    PDF
+                </button>
+                <button
+                    class="border bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    Excel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Form (Accordion) -->
+    <form id="filterForm" autocomplete="off" class="hidden">
+        <div class="p-2 bg-gray-800">
+            <!-- Date Filter -->
+            <div class="mt-4 w-full text-white flex space-x-4  mb-4 justify-center p-4">
+                <div>
+                    <label for="from_date" class="block text-white">From Date:</label>
+                    <input type="date" id="from_date"
+                        class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                </div>
+                <div>
+                    <label for="to_date" class="block text-white">To Date:</label>
+                    <input type="date" id="to_date"
+                        class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                </div>
+                <button type="submit"
+                    class="mr-8 mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    Apply Filter
+                </button>
+            </div>
+
+        </div>
+    </form>
+
+    <!-- Data Table Section -->
+    <div class="p-4">
+        <table class="min-w-full bg-white cursor-pointer">
+            <thead>
+                <tr class="w-full bg-gray-800 text-white">
+                    <th class="py-2">Type</th>
+                    <th class="py-2">Quantity</th>
+                    <th class="py-2">Amount</th>
+                    <th class="py-2">Delete</th>
+                </tr>
+            </thead>
+            <tbody class="theme-toggle">
+                <!-- Sample Data -->
+                <tr class="text-center hover:bg-yellow-500">
+                    <td class="py-2">Diesel</td>
+                    <td class="py-2">4896</td>
+                    <td class="py-2">8986656</td>
+
+                    <td class="py-2 flex justify-center">
+                        <button class="bin-button">
+                            <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
+                                <line x1="12" y1="1.5" x2="26.0357" y2="1.5" stroke="white" stroke-width="3"></line>
+                            </svg>
+                            <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <mask id="path-1-inside-1_8_19" fill="white">
+                                    <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z">
+                                    </path>
+                                </mask>
+                                <path
+                                    d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
+                                    fill="white" mask="url(#path-1-inside-1_8_19)"></path>
+                                <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
+                                <path d="M21 6V29" stroke="white" stroke-width="4"></path>
+                            </svg>
+                        </button>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+{% endblock %}

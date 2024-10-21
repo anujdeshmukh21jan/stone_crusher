@@ -32,7 +32,8 @@
         <ul>
             <li><a href="{% url 'sales_report' %}" class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Sales</a></li>
             <li><a href="{% url 'vehicles_report' %}" class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Vehicle</a></li>
-            <li><a href="{% url 'payments_report' %}" class="{% if request.path == '/reports/payments_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit/Debit</a></li>
+            <li><a href="{% url 'payments_report' %}" class="{% if request.path == '/reports/payments_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit</a></li>
+            <li><a href="{% url 'debit_report' %}" class="{% if request.path == '/reports/debit_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Debit</a></li>
             <li><a href="{% url 'clients_report' %}" class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Clients</a></li>
             <li><a href="{% url 'employees_report' %}" class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Employee</a></li>
             <li><a href="{% url 'attendence_report' %}" class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Attendance</a></li>
