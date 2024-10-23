@@ -112,6 +112,7 @@ class Employee(BaseModel):
 
 class EmployeeAttendance(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    date = models.DateField(null=True, blank=True)
     in_time = models.TimeField(null=True, blank=True)
     out_time = models.TimeField(null=True, blank=True)
 

@@ -5,7 +5,7 @@
 
 <body class="bg-gray-900">
 
-    <style>           
+    <style>
         /* Custom Styles */
         .bin-button {
             display: flex;
@@ -20,20 +20,25 @@
             border: 3px solid rgb(178, 59, 59);
             transition-duration: 0.3s;
         }
+
         .bin-bottom {
             width: 12px;
         }
+
         .bin-top {
             width: 15px;
             transform-origin: right;
             transition-duration: 0.3s;
         }
+
         .bin-button:hover .bin-top {
             transform: rotate(45deg);
         }
+
         .bin-button:hover {
             background-color: rgb(255, 0, 0);
         }
+
         .bin-button:active {
             transform: scale(0.9);
         }
@@ -42,108 +47,105 @@
         .hidden {
             display: none;
         }
-        
+
         /* Tailwind hidden and open classes */
         #attendanceTable {
             display: none;
         }
+
         #attendanceTable.show {
             display: block;
         }
-        
     </style>
-    
+
     <script>
         // Function to show the attendance table when filters are applied
         function showAttendanceTable() {
             document.getElementById("attendanceTable").classList.add("show");
         }
     </script>
-    
+
     <div class="p-4 bg-gray-800">
         <!-- Filter and Search Section -->
         <div class="flex justify-center items-center text-black w-full">
-            <div class="flex items-center space-x-2 w-3/5 justify-center">
-                <label for="name" class="text-white">Select Name:</label>
-                <!-- Searchable Dropdown for Employee Names -->
-                <select id="name" name="name" class="px-10 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" required>
-                    <option value="">Select Name</option>
-                    <!-- Add employee names dynamically here -->
-                    <option value="1">John Doe</option>
-                    <option value="2">Jane Doe</option>
-                </select>
-            </div>
-        
+
             <!-- Right: PDF and Excel Buttons -->
             <div class="flex space-x-5 ml-auto">
-                <button class="border bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                <button
+                    class="border bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                     PDF
                 </button>
-                <button class="border bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                <button
+                    class="border bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
                     Excel
                 </button>
             </div>
         </div>
     </div>
-    
+
     <div class="px-4 bg-gray-800">
         <!-- Date Filter -->
         <div class="mt-4 w-full text-white flex space-x-4  mb-4 justify-center p-4">
+            <form id="filterForm" method="GET">
+                <div class="flex items-center space-x-2 w-3/5 justify-center">
+                    <label for="name" class="text-white">Select Name:</label>
+                    <!-- Searchable Dropdown for Employee Names -->
+                    <select id="name" name="name"
+                        class="px-10 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                        required>
+                                                <!-- Add employee names dynamically here -->
+                        {% for employee in employees %}
+                        <option value="{{employee.id}}">{{employee.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div>
                     <label for="from_date" class="block text-white">From Date:</label>
-                    <input type="date" id="from_date" class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    <input type="date" id="from_date" name="from_date" value="{{request.GET.from_date}}"
+                        class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
                 <div>
                     <label for="to_date" class="block text-white">To Date:</label>
-                    <input type="date" id="to_date" class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    <input type="date" id="to_date" name="to_date" value="{{request.GET.to_date}}"
+                        class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
-                <button type="button" onclick="showAttendanceTable()" class="mr-8 mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                <button type="button" onclick="formsubmit()"
+                    class="mr-8 mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
                     Apply Filter
                 </button>
+            </form>
         </div>
     </div>
-    
+
     <!-- Data Table Section -->
-    <div id="attendanceTable" class="p-4 hidden">
+    <div id="attennceble" class="p-4">
         <table class="min-w-full bg-white cursor-pointer">
             <thead>
                 <tr class="w-full bg-gray-800 text-white">
                     <th class="py-2">Date</th>
                     <th class="py-2">In</th>
                     <th class="py-2">Out</th>
-                    <th class="py-2">Delete</th>
                 </tr>
             </thead>
             <tbody class="theme-toggle">
                 <!-- Sample Data -->
+                 {% for att in attendence %}
                 <tr class="text-center hover:bg-yellow-500">
-                    <td class="py-2">2024-09-23</td>
-                    <td class="py-2">9:00 AM</td>
-                    <td class="py-2">5:00 PM</td> 
-
-                    <td class="py-2 flex justify-center">
-                        <button class="bin-button">
-                            <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
-                                <line x1="12" y1="1.5" x2="26.0357" y2="1.5" stroke="white" stroke-width="3"></line>
-                            </svg>
-                            <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <mask id="path-1-inside-1_8_19" fill="white">
-                                    <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"></path>
-                                </mask>
-                                <path d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z" fill="white" mask="url(#path-1-inside-1_8_19)"></path>
-                                <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
-                                <path d="M21 6V29" stroke="white" stroke-width="4"></path>
-                            </svg>
-                        </button>
-                    </td>
+                    <td class="py-2">{{att.date}}</td>
+                    <td class="py-2">{{att.in_time}}</td>
+                    <td class="py-2">{{att.out_time}}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 
 </body>
 
+<script>
+    // Function to show the attendance table when filters are applied
+    function formsubmit() {
+        document.getElementById("filterForm").submit();
+    }
+</script>
 {% endblock %}
-
-

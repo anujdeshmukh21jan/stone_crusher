@@ -154,10 +154,16 @@ def employees(request):
         print(request.POST)
         payload = request.POST
         name = payload.get("name")
+        date = payload.get("date")
         in_time = payload.get("in-time")
         out_time = payload.get("out-time")
         if name and in_time and out_time:
-            employee = EmployeeAttendance(employee=Employee.objects.get(name=name), in_time=in_time, out_time=out_time)
+            employee = EmployeeAttendance(
+                employee=Employee.objects.get(name=name),
+                date=date,
+                in_time=in_time,
+                out_time=out_time
+            )
             employee.save()
             print(employee)
         return render(request, "employees.html")
@@ -255,17 +261,137 @@ def vehicles_report(request):
         return render(request, "reports/vehicles_report.html", context=context)
     return render(request, "reports/vehicles_report.html")
 
-def payments_report(request):
-    return render(request, "reports/payments_report.html")
+def credit_report(request):
+    if request.method == "GET":
+        credits = CreditTracking.objects.all()
+        search  = request.GET.get("search")
+        print(request.GET)
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        if from_date:
+            credits = credits.filter(created_at__gte=from_date)
+        if to_date:
+            credits = credits.filter(created_at__lte=to_date)
+        if search:
+            credits = credits.filter(
+                Q(description__icontains=search) |
+                Q(payment_mode__icontains=search) |
+                Q(client__name__icontains=search) |
+                Q(amount__icontains=search)
+            )
+        context = {"credits": credits}
+        return render(request, "reports/credit_report.html", context=context)
+    return render(request, "reports/credit_report.html")
 
 def debit_report(request):
+    if request.method == "GET":
+        debits = DebitTracking.objects.all()
+        search  = request.GET.get("search")
+        print(request.GET)
+        from_date = request.GET.get("from_date")
+        to_date = request.GET.get("to_date")
+        if from_date:
+            debits = debits.filter(created_at__gte=from_date)
+        if to_date:
+            debits = debits.filter(created_at__lte=to_date)
+        if search:
+            debits = debits.filter(
+                Q(description__icontains=search) |
+                Q(payment_mode__icontains=search) |
+                Q(type=search) |
+                Q(amount__icontains=search)
+            )
+        print(debits)
+        context = {"debits": debits}
+        return render(request, "reports/debit_report.html", context=context)
     return render(request, "reports/debit_report.html")
 
 def employees_report(request):
+    if request.method == "GET":
+        employees = Employee.objects.all()
+        search  = request.GET.get("search")
+        if search:
+            employees = employees.filter(
+                Q(name__icontains=search) |
+                Q(designation__icontains=search) |
+                Q(mobile_number__icontains=search)
+            )
+        context = {"employees": employees}
+        return render(request, "reports/employees_report.html", context=context)
+    
     return render(request, "reports/employees_report.html")
 
 def clients_report(request):
-    return render(request, "reports/clients_report.html")
+    if request.method == "GET":
+        clients = Client.objects.all()
+        search  = request.GET.get("search")
+        if search:
+            clients = clients.filter(
+                Q(name__icontains=search) |
+                Q(contact_number__icontains=search) |
+                Q(address__icontains=search)
+            )
+        context = {"clients": clients}
+        return render(request, "reports/clients_report.html", context=context)
+
+from datetime import datetime, timedelta
+
+def get_date_range(from_date, to_date):
+    start_date = datetime.strptime(from_date, "%Y-%m-%d").date()
+    end_date = datetime.strptime(to_date, "%Y-%m-%d").date()
+    delta = timedelta(days=1)
+    
+    date_list = []
+    current_date = start_date
+    while current_date <= end_date:
+        date_list.append(current_date)
+        current_date += delta
+    return date_list
+
 
 def attendence_report(request):
+    if request.method == "GET":
+        employees = Employee.objects.all()
+        employee_id = request.GET.get("name")
+        response_data = []
+
+        if employee_id:
+            from_date = request.GET.get("from_date")
+            to_date = request.GET.get("to_date")
+            
+            attendence = EmployeeAttendance.objects.filter(employee__id=employee_id)
+            response_data = attendence
+            if from_date and to_date:
+                # Generate date range
+                response_data =[]
+                date_range = get_date_range(from_date, to_date)
+
+                # Fetch attendance data within the range
+                attendence = attendence.filter(date__range=[from_date, to_date])
+
+                # Create a dictionary for attendance on each date
+                attendance_by_date = {attendance.date: attendance for attendance in attendence}
+
+                # Prepare JSON response
+                for date in date_range:
+                    attendance_record = attendance_by_date.get(date)
+                    if attendance_record:
+                        response_data.append({
+                            "date": date.strftime("%Y-%m-%d"),
+                            "in_time": attendance_record.in_time.strftime("%H:%M:%S") if attendance_record.in_time else None,
+                            "out_time": attendance_record.out_time.strftime("%H:%M:%S") if attendance_record.out_time else None,
+                        })
+                    else:
+                        response_data.append({
+                            "date": date.strftime("%Y-%m-%d"),
+                            "in_time": None,
+                            "out_time": None,
+                        })
+
+        context = {
+            "attendence": response_data,
+            "employees": employees,
+        }
+        return render(request, "reports/attendence.html", context=context)
+    
     return render(request, "reports/attendence.html")
