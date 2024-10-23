@@ -248,7 +248,7 @@
         </div>
 
         <!-- Center heading -->
-        <h1 class="text-5xl font-bold  ">Ashirvad Stone Crusher, Junner</h1>
+        <h1 class="text-5xl font-bold" id="dynamicHeading">iuyhgtfrderftgyhujikolkijuhygt</h1>
 
         <!-- Right side buttons (Constant, View) -->
         <div class="flex">
@@ -256,8 +256,8 @@
                 <button id="openConstantModalBtn"
                     class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">Constant</button>
                 <button class="action_has has_saved bg-gray-700 ml-2"
-                    onclick="window.location.href='http://127.0.0.1:8000/reports/sales_report/'" aria-label="save"
-                    type="button" data-tooltip="Reports">
+                    onclick="window.location.href='{% url 'sales_report' %}'" aria-label="save" type="button"
+                    data-tooltip="Reports">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                         <path
                             d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
@@ -275,19 +275,19 @@
     <nav class="flex justify-center space-x-4 bg-gray-800 text-white p-4 nav-dark">
         <button
             class="{% if request.path == '/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-            onclick="window.location.href='http://127.0.0.1:8000/'">Sales</button>
+            onclick="window.location.href='{% url "sales" %}'">Sales</button>
 
         <button
             class="{% if request.path == '/vehicles/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-            onclick="window.location.href='http://127.0.0.1:8000/vehicles/'">Vehicles</button>
+            onclick="window.location.href='{% url "vehicles" %}'">Vehicles</button>
 
         <button
             class="{% if request.path == '/payments/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-            onclick="window.location.href='http://127.0.0.1:8000/payments/'">Payments</button>
+            onclick="window.location.href='{% url "payments" %}'">Payments</button>
 
         <button
             class="{% if request.path == '/employees/' %}bg-blue-600{% else %}bg-blue-900{% endif %} text-lg font-medium py-2 px-24 rounded hover:bg-blue-700 text-white rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-            onclick="window.location.href='http://127.0.0.1:8000/employees/'">Employee</button>
+            onclick="window.location.href='{% url "employees" %}'">Employee</button>
     </nav>
 
     <!-- Optional Content -->
@@ -304,8 +304,8 @@
             <button id="closeConstantModalBtn"
                 class="absolute top-1 right-3 text-black text-4xl font-bold">&times;</button>
 
-            <form id="firmForm" class="space-y-2">
-
+            <form id="firmForm" class="space-y-2" method="post" autocomplete="off">
+                {% csrf_token %}
                 <h2 class="font-bold text-xl flex justify-center items-center">Firm Information Form</h2>
 
                 <div class="flex flex-col">
@@ -344,8 +344,8 @@
                         1:</label>
                     <div class="flex">
                         <span
-                            class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle ">+91</span>
-                        <input type="tel" id="mobile_number_1" name="mobile_number_1" maxlength="10"
+                            class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 ">+91</span>
+                        <input type="text" id="mobile_number_1" name="mobile_number_1" maxlength="10"
                             class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                             placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                     </div>
@@ -359,8 +359,8 @@
                         2:</label>
                     <div class="flex">
                         <span
-                            class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle">+91</span>
-                        <input type="tel" id="mobile_number_2" name="mobile_number_2" maxlength="10"
+                            class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400">+91</span>
+                        <input type="text" id="mobile_number_2" name="mobile_number_2" maxlength="10"
                             class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                             placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
                     </div>
@@ -374,7 +374,7 @@
                         class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
                         Clear
                     </button>
-                    <button type="submit"
+                    <button type="submit" onclick="submitFirmForm()"
                         class="ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
                         Submit
                     </button>
@@ -382,6 +382,43 @@
             </form>
         </div>
     </div>
+
+
+    <script>
+        function submitFirmForm() {
+            const form = document.getElementById('firmForm');
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const formData = new FormData(this); // Collect form data
+
+                // AJAX request
+                fetch("{% url 'update_constants' %}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF token for Django
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Constant is updated successfully');
+                            document.getElementById('constantModal').classList.add('hidden'); // Close modal
+                            form.reset();
+                            location.reload();
+                            // Reset form fields
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        }
+    </script>
 
 
     <script>
@@ -402,13 +439,20 @@
         const toggleButton = document.getElementById('switch');
         const body = document.getElementById('body');
         const navbar = document.querySelector('nav');
-        const inputs = document.querySelectorAll('input'); // Update here to target all inputs
+        const inputs = document.querySelectorAll('.light');
         const divs = document.querySelectorAll('div.bg-gray-800');
         const forms = document.querySelectorAll('form');
         const selects = document.querySelectorAll('select');
         const labels = document.querySelectorAll('label');
-        const themeToggles = document.querySelectorAll('.theme-toggle');
 
+        // Check if dark mode is saved in localStorage
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'light') {
+            applyLightTheme();
+            toggleButton.checked = true;
+        } else {
+            applyDarkTheme();
+        }
         // Check if dark mode is saved in localStorage
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme === 'light') {
@@ -428,40 +472,85 @@
                 localStorage.setItem('theme', 'dark');
             }
         });
+        // Theme switcher function
+        toggleButton.addEventListener('change', function () {
+            if (toggleButton.checked) {
+                applyLightTheme();
+                localStorage.setItem('theme', 'light');
+            } else {
+                applyDarkTheme();
+                localStorage.setItem('theme', 'dark');
+            }
+        });
 
         function applyLightTheme() {
+            // Body
             body.classList.remove('bg-gray-900', 'text-white');
             body.classList.add('bg-white', 'text-black');
 
-            navbar.classList.remove('bg-gray-800');
+            // Navbar
+            navbar.classList.remove('bg-gray-700');
             navbar.classList.add('bg-gray-200');
+            function applyLightTheme() {
+                body.classList.remove('bg-gray-900', 'text-white');
+                body.classList.add('bg-white', 'text-black');
 
-            themeToggles.forEach(element => {
-                element.classList.remove('bg-gray-700', 'text-white');
-                element.classList.add('bg-gray-200', 'text-black');
-            });
+                navbar.classList.remove('bg-gray-800');
+                navbar.classList.add('bg-gray-200');
+
+                themeToggles.forEach(element => {
+                    element.classList.remove('bg-gray-700', 'text-white');
+                    element.classList.add('bg-gray-200', 'text-black');
+                });
 
 
-            inputs.forEach(input => {
-                input.classList.remove('bg-gray-700', 'text-white');
-                input.classList.add('bg-gray-300', 'text-black');
-            });
+                inputs.forEach(input => {
+                    input.classList.toggle('bg-gray-300', toggleButton.checked);
+                    input.classList.toggle('bg-gray-700', !toggleButton.checked);
+                    input.classList.toggle('text-black', toggleButton.checked);
+                    input.classList.toggle('text-white', !toggleButton.checked);
+                });
+                inputs.forEach(input => {
+                    input.classList.remove('bg-gray-700', 'text-white');
+                    input.classList.add('bg-gray-300', 'text-black');
+                });
 
-            divs.forEach(div => {
-                div.classList.remove('bg-gray-800');
-                div.classList.add('bg-gray-200');
-            });
+                // Divs
+                divs.forEach(div => {
+                    div.classList.remove('bg-gray-800');
+                    div.classList.add('bg-gray-200');
+                });
+                divs.forEach(div => {
+                    div.classList.remove('bg-gray-800');
+                    div.classList.add('bg-gray-200');
+                });
 
-            forms.forEach(form => {
-                form.classList.remove('bg-gray-800');
-                form.classList.add('bg-gray-200');
-            });
+                // Forms
+                forms.forEach(form => {
+                    form.classList.remove('bg-gray-800');
+                    form.classList.add('bg-gray-200');
+                });
+                forms.forEach(form => {
+                    form.classList.remove('bg-gray-800');
+                    form.classList.add('bg-gray-200');
+                });
 
-            selects.forEach(select => {
-                select.classList.remove('bg-gray-700', 'text-white');
-                select.classList.add('bg-gray-300', 'text-black');
-            });
+                // Selects
+                selects.forEach(select => {
+                    select.classList.remove('bg-gray-700', 'text-white');
+                    select.classList.add('bg-gray-300', 'text-black');
+                });
+                selects.forEach(select => {
+                    select.classList.remove('bg-gray-700', 'text-white');
+                    select.classList.add('bg-gray-300', 'text-black');
+                });
 
+                // Labels
+                labels.forEach(label => {
+                    label.classList.remove('text-white');
+                    label.classList.add('text-black');
+                });
+            }
             labels.forEach(label => {
                 label.classList.remove('text-white');
                 label.classList.add('text-black');
@@ -469,42 +558,99 @@
         }
 
         function applyDarkTheme() {
+            // Body
             body.classList.remove('bg-white', 'text-black');
             body.classList.add('bg-gray-900', 'text-white');
 
+            // Navbar
             navbar.classList.remove('bg-gray-200');
-            navbar.classList.add('bg-gray-800');
+            navbar.classList.add('bg-gray-700');
+            function applyDarkTheme() {
+                body.classList.remove('bg-white', 'text-black');
+                body.classList.add('bg-gray-900', 'text-white');
 
-            themeToggles.forEach(element => {
-                element.classList.remove('bg-gray-200', 'text-black');
-                element.classList.add('bg-gray-700', 'text-white');
-            });
+                navbar.classList.remove('bg-gray-200');
+                navbar.classList.add('bg-gray-800');
 
-            inputs.forEach(input => {
-                input.classList.remove('bg-gray-300', 'text-black');
-                input.classList.add('bg-gray-700', 'text-white');
-            });
+                // Inputs
+                inputs.forEach(input => {
+                    input.classList.remove('bg-gray-300', 'text-black');
+                    input.classList.add('bg-gray-700', 'text-white');
+                });
+                themeToggles.forEach(element => {
+                    element.classList.remove('bg-gray-200', 'text-black');
+                    element.classList.add('bg-gray-700', 'text-white');
+                });
 
-            divs.forEach(div => {
-                div.classList.remove('bg-gray-200');
-                div.classList.add('bg-gray-800');
-            });
+                inputs.forEach(input => {
+                    input.classList.remove('bg-gray-300', 'text-black');
+                    input.classList.add('bg-gray-700', 'text-white');
+                });
 
-            forms.forEach(form => {
-                form.classList.remove('bg-gray-200');
-                form.classList.add('bg-gray-800');
-            });
+                // Divs
+                divs.forEach(div => {
+                    div.classList.remove('bg-gray-200');
+                    div.classList.add('bg-gray-800');
+                });
+                divs.forEach(div => {
+                    div.classList.remove('bg-gray-200');
+                    div.classList.add('bg-gray-800');
+                });
 
-            selects.forEach(select => {
-                select.classList.remove('bg-gray-300', 'text-black');
-                select.classList.add('bg-gray-700', 'text-white');
-            });
+                // Forms
+                forms.forEach(form => {
+                    form.classList.remove('bg-gray-200');
+                    form.classList.add('bg-gray-800');
+                });
+                forms.forEach(form => {
+                    form.classList.remove('bg-gray-200');
+                    form.classList.add('bg-gray-800');
+                });
 
-            labels.forEach(label => {
-                label.classList.remove('text-black');
-                label.classList.add('text-white');
+                // Selects
+                selects.forEach(select => {
+                    select.classList.remove('bg-gray-300', 'text-black');
+                    select.classList.add('bg-gray-700', 'text-white');
+                });
+                selects.forEach(select => {
+                    select.classList.remove('bg-gray-300', 'text-black');
+                    select.classList.add('bg-gray-700', 'text-white');
+                });
+
+                // Labels
+                labels.forEach(label => {
+                    label.classList.remove('text-black');
+                    label.classList.add('text-white');
+                });
+            }
+    </script>
+
+
+    <script>
+            // Function to fetch data from an API and update the <h1> element
+            function updateHeadingFromAPI() {
+                // Fetch data from the API
+                fetch("{% url 'get_constants_data' %}")  // Replace with your actual API endpoint
+                    .then(response => response.json())  // Convert response to JSON
+                    .then(data => {
+                        // Assuming the API returns a property called 'newHeadingText' in the response
+                        const newHeadingText = data.Firm_Name;
+
+                        // Select the <h1> element by its ID
+                        const headingElement = document.getElementById('dynamicHeading');
+
+                        // Update the text of the <h1> element
+                        headingElement.textContent = newHeadingText;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching the data:', error);
+                    });
+            }
+
+            // Call the function when the DOM is fully loaded
+            document.addEventListener('DOMContentLoaded', function () {
+                updateHeadingFromAPI();
             });
-        }
 
     </script>
 

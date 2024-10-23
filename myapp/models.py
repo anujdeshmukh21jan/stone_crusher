@@ -1,4 +1,6 @@
 from django.db import models
+import json
+import ast
 
 
 class BaseModel(models.Model):
@@ -18,10 +20,11 @@ class Client(BaseModel):
 
 
 class DebitTracking(BaseModel):
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_mode = models.CharField(max_length=50)  # e.g., Cash, Bank Transfer
-    Reason = models.CharField(max_length=100)  # e.g., Client, Employee
+    type = models.CharField(max_length=100)  # e.g., Client, Employee
+    quantity = models.IntegerField(null=True, blank=True)
     description = models.CharField(max_length=255)  # e.g., Salary, Purchase
 
     def __str__(self):
@@ -29,7 +32,7 @@ class DebitTracking(BaseModel):
 
 
 class CreditTracking(BaseModel):
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_mode = models.CharField(max_length=50)  # e.g., Cash, Bank Transfer
     source = models.CharField(max_length=100)  # e.g., Project, Loan (if not client)
@@ -61,7 +64,10 @@ class Sales(BaseModel):
 
     @property
     def get_sizes_list(self):
-        return self.size.split(",")
+        data_dict = ast.literal_eval(self.size)  # Convert string to dictionary
+
+        result = ', '.join([key for key, value in data_dict.items() if value is None])
+        return result
 
     @property
     def weight_before_load(self):
@@ -80,7 +86,7 @@ class Sales(BaseModel):
         return self.total_load_weight/4
     
     def __str__(self):
-        return f"Sale - {self.customer_name} ({self.receipt_no})"
+        return f"Sale - {self.client.name} ({self.id})"
 
 
 class DieselTracking(BaseModel):
@@ -97,6 +103,8 @@ class DieselTracking(BaseModel):
 class Employee(BaseModel):
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
+    mobile_number = models.CharField(null=True, blank=True, max_length=15)
+    address = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -106,8 +114,6 @@ class EmployeeAttendance(BaseModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     in_time = models.TimeField(null=True, blank=True)
     out_time = models.TimeField(null=True, blank=True)
-    status = models.CharField(max_length=50, choices=[('Present', 'Present'), ('Absent', 'Absent'), ('Leave', 'Leave')])
-    total_hours = models.DecimalField(max_digits=5, decimal_places=2, default=0)  # Calculated field for total hours
 
     def __str__(self):
         return f"{self.employee.name}"

@@ -3,13 +3,13 @@ from django.http import JsonResponse
 import json
 from .utils import modify_env_file
 from django.db.models import Max
+import os
 from .models import *
 #import reverce, redirect
 from django.urls import reverse
+# import Q
+from django.db.models import Q
 
-# Create your views here.
-def base(request):
-    return render(request, "base.html")
 
 
 from django.http import JsonResponse
@@ -106,25 +106,84 @@ def vehicles(request):
 
 
 def payments(request):
-    return render(request, "payments.html")
+    if request.method == "GET":
+        clients = Client.objects.all()
+        context = {"clients": clients}
+        return render(request, "payments.html", context=context)
+    elif request.method == "POST":
+        payload = request.POST
+        type_of_trans = payload.get("type")
+        client_name = payload.get("client_name")
+        amount = payload.get("amount")
+        payment_type = payload.get("payment_type")
+        description = payload.get("description")
+        debit_type = payload.get("debit_type")
+        diesel_quantity = payload.get("diesel_quantity")
+        print(type_of_trans, client_name, amount, payment_type, description, debit_type, diesel_quantity)
+        if type_of_trans == "debit":
+            if debit_type == "diesel":
+                DebitTracking.objects.create(
+                    amount=amount,
+                    payment_mode=payment_type,
+                    type=debit_type,
+                    description=description,
+                    quantity=diesel_quantity,
+                )
+            else:
+                DebitTracking.objects.create(
+                    amount=amount,
+                    payment_mode=payment_type,
+                    type=debit_type,
+                    description=description,
+                )
+        elif type_of_trans == "credit":
+            CreditTracking.objects.create(
+                amount=amount, payment_mode=payment_type, description=description,
+                source=client_name
+            )
+        return render(request, "payments.html")
 
 
 def employees(request):
-    return render(request, "employees.html")
-
-
-def reports(request):
-    return render(request, "reports.html")
-
+    if request.method == "GET":
+        employees = Employee.objects.all()
+        employees_names = [employee.name for employee in employees]
+        context = {"employees": json.dumps(employees_names)}
+        return render(request, "employees.html", context=context)
+    elif request.method == "POST":
+        print(request.POST)
+        payload = request.POST
+        name = payload.get("name")
+        in_time = payload.get("in-time")
+        out_time = payload.get("out-time")
+        if name and in_time and out_time:
+            employee = EmployeeAttendance(employee=Employee.objects.get(name=name), in_time=in_time, out_time=out_time)
+            employee.save()
+            print(employee)
+        return render(request, "employees.html")
 
 def constants(request):
-    if request.method == "GET":
-        return render(request, "constants.html")
-    elif request.method == "POST":
+    if request.method == "POST":
         print(request.POST)
         modify_env_file(request.POST, ".env")
         return JsonResponse({"success": "true"})
 
+def add_employee(request):
+    if request.method == "POST":
+        print(request.POST)
+        employee_name = request.POST.get("employee-name")
+        employee_designation = request.POST.get("employee-designation")
+        contact_number = request.POST.get("contact-number")
+        address = request.POST.get("address")
+        if employee_name and employee_designation and contact_number and address:
+            employee = Employee(name=employee_name, designation=employee_designation, mobile_number=contact_number, address=address)
+            employee.save()
+            print(employee)
+            return JsonResponse(
+                {"success": True, "message": "Employee added successfully"}
+            )
+        else:
+            return JsonResponse({"success": False, "error": "All fields are required"})
 
 def add_client(request):
     if request.method == "POST":
@@ -144,11 +203,56 @@ def add_client(request):
 
     return JsonResponse({"success": False, "error": "Invalid request"})
 
+def get_constants_data(request):
+    env_file = ".env"
+    if os.path.exists(env_file):
+        with open(env_file, "r") as file:
+            lines = file.readlines()
+    else:
+        lines = []
+    constants_data = {}
+    for i in lines:
+        key = i.split('=')[0].strip()
+        value = i.split('=')[1].strip()
+        constants_data[key] = value
+    print(constants_data)
+    return JsonResponse(constants_data)
 
 def sales_report(request):
-    return render(request, "reports/sales_report.html")
+    sales = Sales.objects.all()
+    filters = {}
+    if request.GET.get("search"):
+        filters["client__name__icontains"] = request.GET.get("search")
+    if request.GET.get("from_date"):
+        filters["created_at__gte"] = request.GET.get("from_date")
+    if request.GET.get("to_date"):
+        filters["created_at__lte"] = request.GET.get("to_date")
+    if request.GET.get("bill_no"):
+        filters["id"] = request.GET.get("bill_no")
+    if request.GET.get("name"):
+        filters["client__name__icontains"] = request.GET.get("name")
+    if request.GET.get("driver_name"):
+        filters["driver__icontains"] = request.GET.get("driver_name")
+    if request.GET.get("vehicle_no"):
+        filters["vehicle__registration_number__icontains"] = request.GET.get(
+            "vehicle_no"
+        )
+    sales = sales.filter(**filters)
+    print(sales)
+    return render(request, "reports/sales_report.html", context={"sales": sales})
 
 def vehicles_report(request):
+    if request.method == "GET":
+        vehicles = Vehicle.objects.all()
+        search  = request.GET.get("search")
+        if search:
+            vehicles = vehicles.filter(
+                Q(registration_number__icontains=search) |
+                Q(manufacturer__icontains=search) |
+                Q(model__icontains=search)
+            )
+        context = {"vehicles": vehicles}
+        return render(request, "reports/vehicles_report.html", context=context)
     return render(request, "reports/vehicles_report.html")
 
 def payments_report(request):

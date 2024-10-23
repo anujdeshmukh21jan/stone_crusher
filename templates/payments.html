@@ -53,7 +53,9 @@
             </div>
         
         <!-- Credit Form -->
-        <form id="credit-form" class="space-y-4">
+        <form id="credit-form" class="space-y-4" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="credit">
             <h2 class="font-bold text-xl flex justify-center items-center">Credit Form</h2>
             <div class="flex flex-col">
                 <label for="client_name" class="mb-1 text-base text-white">Client Name / ग्राहक का नाम:<span class="text-red-500">*</span></label>
@@ -62,6 +64,10 @@
             <div class="flex flex-col">
                 <label for="amount" class="mb-1 text-base text-white">Amount / राशि (Rs):<span class="text-red-500">*</span></label>
                 <input type="number" id="amount" name="amount" required autocomplete="off" placeholder="Enter Amount" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"/>
+            </div>
+            <div class="flex flex-col">
+                <label for="payment_type" class="mb-1 text-base text-white">Payment type / भुगतान का प्रकार:<span class="text-red-500">*</span></label>
+                <input type="text" id="payment_type" name="payment_type" required autocomplete="off" placeholder="Online / Cash / UPI / etc" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
             </div>
             <div class="flex flex-col">
                 <label for="description" class="mb-1 text-base text-white">Description / विवरण:</label>
@@ -78,8 +84,10 @@
         </form>
 
  <!-- Debit Form -->
-<form id="debit-form" class="space-y-4 hidden">
+<form id="debit-form" class="space-y-4 hidden" method="POST">
     <h2 class="font-bold text-xl flex justify-center items-center">Debit Form</h2>
+    {% csrf_token %}
+    <input type="hidden" name="type" value="debit">
     <div class="flex flex-col">
         <label for="debit_type" class="mb-1 text-base text-white">Debit Type / डेबिट प्रकार:<span class="text-red-500">*</span></label>
         <div class="flex flex-col space-y-2 text-lg">
@@ -104,15 +112,18 @@
     
     <!-- This container will be toggled -->
     <div id="transaction-container" class="flex flex-col" style="display: none;">
-        <label for="debit_transaction" class="mb-1 text-base text-white">Quantity / मात्रा:<span class="text-red-500">*</span></label>
-        <input type="number" id="debit_transaction" name="debit_transaction" required autocomplete="off" placeholder="Enter Quantity" class="ml-4 p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+        <label for="diesel_quantity" class="mb-1 text-base text-white">Quantity / मात्रा:<span class="text-red-500">*</span></label>
+        <input type="number" id="diesel_quantity" name="diesel_quantity" required autocomplete="off" placeholder="Enter Quantity" class="ml-4 p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
     </div>
     
     <div class="flex flex-col">
         <label for="debit_amount" class="mb-1 text-base text-white">Amount / राशि (Rs):<span class="text-red-500">*</span></label>
-        <input type="number" id="debit_amount" name="debit_amount" required autocomplete="off" placeholder="Enter Amount" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+        <input type="number" id="debit_amount" name="amount" required autocomplete="off" placeholder="Enter Amount" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
     </div>
-    
+    <div class="flex flex-col">
+        <label for="payment_type" class="mb-1 text-base text-white">Payment type / भुगतान का प्रकार:<span class="text-red-500">*</span></label>
+        <input type="text" id="payment_type" name="payment_type" required autocomplete="off" placeholder="Online / Cash / UPI / etc" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+    </div>
     <div class="flex flex-col">
         <label for="debit_description" class="mb-1 text-base text-white">Description / विवरण:</label>
         <textarea type="text" id="description" name="description" placeholder="Enter Description" class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md theme-toggle"></textarea>
@@ -122,7 +133,7 @@
         <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
             Clear
         </button>
-        <button type="submit" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+        <button type="submit" onclick="submitFormDebit()" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
             ADD
         </button>
     </div>
@@ -132,6 +143,12 @@
 </div>
 
 <script>
+    submitFormCredit = () => {
+        document.getElementById('credit-form').submit();
+    }
+    submitFormDebit = () => {
+        document.getElementById('debit-form').submit();
+    }
 document.addEventListener('DOMContentLoaded', function() {
     const creditBtn = document.getElementById('credit-btn');
     const debitBtn = document.getElementById('debit-btn');
@@ -245,8 +262,12 @@ debitTypeRadios.forEach(radio => {
  
 </script>
 <script>
+
+
     // Submit form with AJAX
-    document.getElementById('clientForm').addEventListener('submit', function(event) {
+   
+    // Submit form with AJAX
+    document.getElementById('employeeForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         const formData = new FormData(this); // Collect form data
