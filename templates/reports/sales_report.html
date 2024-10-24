@@ -6,36 +6,6 @@
 <body class="bg-gray-900">
 
     <style>           
-        .bin-button {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 13px;
-        background-color: rgb(210, 52, 52);
-        cursor: pointer;
-        border: 3px solid rgb(178, 59, 59);
-        transition-duration: 0.3s;
-        }
-        .bin-bottom {
-        width: 12px;
-        }
-        .bin-top {
-        width: 15px;
-        transform-origin: right;
-        transition-duration: 0.3s;
-        }
-        .bin-button:hover .bin-top {
-        transform: rotate(45deg);
-        }
-        .bin-button:hover {
-        background-color: rgb(255, 0, 0);
-        }
-        .bin-button:active {
-        transform: scale(0.9);
-        }
         /* Hide accordion content initially */
         .hidden {
             display: none;
@@ -63,20 +33,9 @@
     <div class="p-4 bg-gray-800 mb-4">
         <!-- Filter and Search Section -->
         <div class="flex justify-center items-center text-black w-full">
-            <!-- <div class="">
-                <button onclick="window.location.href='http://127.0.0.1:8000/'" class="flex items-center justify-center bg-white text-center h-10 w-24 rounded-2xl relative text-black text-xl font-semibold group" type="button">
-                    <div class="bg-green-400 rounded-xl h-8 w-1/4 flex items-center justify-center absolute left-1 group-hover:w-[86px] z-10 duration-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" height="20px" width="30px">
-                            <path d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z" fill="#000000"></path>
-                            <path d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z" fill="#000000"></path>
-                        </svg>
-                    </div>
-                    <p class="translate-x-2">Back</p>
-                </button>
-            </div> -->
             <div class="flex items-center space-x-2 w-2/5 justify-center">
-                <form method="GET" action="{% url 'sales_report' %}">
-                    <div class="group relative w-full">
+                <form class="group relative w-full" method="GET" action="{% url 'sales_report' %}" autocomplete="off">
+                    <div>
                         <svg class="icon absolute left-3 top-1/2 transform -translate-y-1/2 fill-current text-gray-500" aria-hidden="true" viewBox="0 0 24 24" width="22" height="22">
                             <g>
                                 <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
@@ -109,7 +68,7 @@
     </div>
 
     <!-- Filter Form (Accordion) -->
-    <form id="filterForm" class="hidden" method="get">
+    <form id="filterForm" autocomplete="off" class="hidden" method="get">
         <div class="p-4 bg-gray-700">
             <!-- Bill No, Name, Driver Name, Vehicle No. -->
             <div class="flex space-x-4 mb-4 justify-center">
@@ -123,24 +82,16 @@
                 </div>
                 <div>
                     <label for="bill_no" class="block text-white">Bill No. / बिल नंबर:</label>
-                    <input list="sample_bill_no" id="bill_no" name="bill_no" value="{{request.GET.bill_no}}" placeholder="Enter Bill No." class="input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    <input list="sample_bill_no" id="bill_no" name="bill_no" value="{{request.GET.bill_no}}" placeholder="Enter Bill No." class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
                 <div>
                     <label for="name" class="block text-white">Name / नाम:</label>
-                    <input list="sample_name" id="name" name="name" value="{{request.GET.name}}" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                    <datalist id="sample_name" class="bg-white text-black">
-                        <option value="Anuj Deshmukh">
-                        <option value="Arjun">
-                        <option value="Raja">
-                        <option value="Raj">
-                        <option value="Manoj">
-                        <option value="Ram">
+                    <input id="name" name="name" value="{{request.GET.name}}" placeholder="Enter Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                     </datalist>
                 </div>
                 <div>
                     <label for="driver_name" class="block text-white">Driver Name / चालक का नाम:</label>
-                    <input list="sample_driver_name" id="driver_name" value="{{request.GET.driver_name}}" name="driver_name" placeholder="Enter Driver Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                    <datalist id="sample_driver_name" class="bg-white text-black"></datalist>
+                    <input id="driver_name" value="{{request.GET.driver_name}}" name="driver_name" placeholder="Enter Driver Name" class="rounded px-4 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
                 </div>
                 <div>
                     <label for="vehicle_no" class="block text-white">Vehicle Number / वाहन नंबर:</label>
@@ -172,10 +123,10 @@
                     <th class="py-2">Size</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class=" theme-toggle">
                 
                 {% for sale in sales %}
-                <tr class="text-center hover:bg-yellow-500">
+                <tr class="text-center hover:bg-yellow-500 border-2">
                     <td class="py-2">{{sale.id}}</td>
                     <td class="py-2">{{sale.client.name}}</td>
                     <td class="py-2">{{sale.driver}}</td>

@@ -4,71 +4,9 @@
 {% load static %}
 
 <body class="bg-gray-900">
-
-    <style>
-        /* Custom Styles */
-        .bin-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 13px;
-            background-color: rgb(210, 52, 52);
-            cursor: pointer;
-            border: 3px solid rgb(178, 59, 59);
-            transition-duration: 0.3s;
-        }
-
-        .bin-bottom {
-            width: 12px;
-        }
-
-        .bin-top {
-            width: 15px;
-            transform-origin: right;
-            transition-duration: 0.3s;
-        }
-
-        .bin-button:hover .bin-top {
-            transform: rotate(45deg);
-        }
-
-        .bin-button:hover {
-            background-color: rgb(255, 0, 0);
-        }
-
-        .bin-button:active {
-            transform: scale(0.9);
-        }
-
-        /* Hide accordion content initially */
-        .hidden {
-            display: none;
-        }
-
-        /* Tailwind hidden and open classes */
-        #attendanceTable {
-            display: none;
-        }
-
-        #attendanceTable.show {
-            display: block;
-        }
-    </style>
-
-    <script>
-        // Function to show the attendance table when filters are applied
-        function showAttendanceTable() {
-            document.getElementById("attendanceTable").classList.add("show");
-        }
-    </script>
-
-    <div class="p-4 bg-gray-800">
+    <div class="">
         <!-- Filter and Search Section -->
         <div class="flex justify-center items-center text-black w-full">
-
             <!-- Right: PDF and Excel Buttons -->
             <div class="flex space-x-5 ml-auto">
                 <button
@@ -85,38 +23,44 @@
 
     <div class="px-4 bg-gray-800">
         <!-- Date Filter -->
-        <div class="mt-4 w-full text-white flex space-x-4  mb-4 justify-center p-4">
-            <form id="filterForm" method="GET">
-                <div class="flex items-center space-x-2 w-3/5 justify-center">
-                    <label for="name" class="text-white">Select Name:</label>
-                    <!-- Searchable Dropdown for Employee Names -->
-                    <select id="name" name="name"
-                        class="px-10 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                        required>
-                                                <!-- Add employee names dynamically here -->
-                        {% for employee in employees %}
-                        <option value="{{employee.id}}">{{employee.name}}</option>
-                        {% endfor %}
-                    </select>
+        <div class="mt-4 w-full text-white flex space-x-4 mb-4 justify-between p-4">
+            <form id="filterForm" autocomplete="off" method="GET">
+                <div class="flex items-center space-x-4 justify-center">
+                    <!-- Name -->
+                    <div class="mr-8 mt-6 flex items-center space-x-2">
+                        <label for="name" class="text-lg text-white">Select Name:</label>
+                        <select id="name" name="name"
+                            class="px-10 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            required>
+                            {% for employee in employees %}
+                            <option value="{{employee.id}}">{{employee.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+    
+                    <!-- From Date -->
+                    <div>
+                        <label for="from_date" class="block text-white">From Date:</label>
+                        <input type="date" id="from_date" name="from_date" value="{{request.GET.from_date}}"
+                            class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    </div>
+                    <div>
+                        <label for="to_date" class="block text-white">To Date:</label>
+                        <input type="date" id="to_date" name="to_date" value="{{request.GET.to_date}}"
+                            class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
+                    </div>
+    
+                    <!-- Apply and Clear Buttons -->
+                    <div class="flex items-center space-x-2">
+                        <button type="button" onclick="formsubmit()"
+                            class="mr-8 mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">Apply</button>
+                        
+                    </div>
                 </div>
-                <div>
-                    <label for="from_date" class="block text-white">From Date:</label>
-                    <input type="date" id="from_date" name="from_date" value="{{request.GET.from_date}}"
-                        class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                </div>
-                <div>
-                    <label for="to_date" class="block text-white">To Date:</label>
-                    <input type="date" id="to_date" name="to_date" value="{{request.GET.to_date}}"
-                        class="rounded px-6 py-2 text-black input h-10 w-full rounded-md border-2 border-transparent text-gray-900 placeholder-gray-600 focus:ring-2 focus:ring-green-400 focus:border-transparent transition duration-300 ease-in-out shadow-sm">
-                </div>
-                <button type="button" onclick="formsubmit()"
-                    class="mr-8 mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
-                    Apply Filter
-                </button>
             </form>
         </div>
     </div>
-
+    
     <!-- Data Table Section -->
     <div id="attennceble" class="p-4">
         <table class="min-w-full bg-white cursor-pointer">
@@ -130,7 +74,7 @@
             <tbody class="theme-toggle">
                 <!-- Sample Data -->
                  {% for att in attendence %}
-                <tr class="text-center hover:bg-yellow-500">
+                <tr class="text-center hover:bg-yellow-500 border-2">
                     <td class="py-2">{{att.date}}</td>
                     <td class="py-2">{{att.in_time}}</td>
                     <td class="py-2">{{att.out_time}}</td>
@@ -141,7 +85,6 @@
     </div>
 
 </body>
-
 <script>
     // Function to show the attendance table when filters are applied
     function formsubmit() {

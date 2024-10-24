@@ -167,6 +167,9 @@ def employees(request):
             employee.save()
             print(employee)
         return render(request, "employees.html")
+    
+def diesel(request):
+    return render(request, "diesel.html")
 
 def constants(request):
     if request.method == "POST":

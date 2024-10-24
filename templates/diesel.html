@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<style>
+    .toggle-btn {
+        width: 100%;
+        /* Make the button take full width of the container */
+        padding: 8px 0;
+        /* Adjust padding for top and bottom to keep height consistent */
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 4px;
+        /* Space between buttons */
+    }
+
+    .toggle-btn.active {
+        background-color: rgb(0, 174, 255);
+        ;
+        color: white;
+        border-color: rgb(0, 174, 255);
+    }
+
+    .radio-button {
+        @apply appearance-none absolute opacity-0 cursor-pointer;
+        height: 16px;
+        width: 16px;
+    }
+
+    .radio-button+.radio-button-label {
+        @apply cursor-pointer relative w-6 h-6 rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 ease-in-out;
+        padding: 3px;
+        /* Adjust the padding as needed */
+    }
+
+    .radio-button:checked+.radio-button-label {
+        @apply bg-blue-500 border-blue-500 cursor-pointer;
+    }
+</style>
+
+
+<div class="flex items-center mt-4 justify-center">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+        <div class="flex justify-center mb-6">
+            <button id="totaldiesel-btn"
+                class="toggle-btn rounded-lg  font-semibold text-neutal-600 border-2 mr-2 border-zinc-500 hover:bg-zinc-600  text-lg active">Total
+                Diesel</button>
+            <button id="transfer-btn"
+                class="toggle-btn rounded-lg font-semibold text-neutal-600 border-2 border-zinc-500 hover:bg-zinc-600  text-lg">Transfer</button>
+        </div>
+
+<!-- Total Diesel Form -->
+<form id="totaldiesel-form" autocomplete="off" class="space-y-4" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="totaldiesel">
+    
+    <!-- Diesel Dropdown -->
+    <div class="flex items-center space-x-4 mb-4">
+        <label for="diesel" class="text-lg text-white">Select Diesel Type:</label>
+        <select id="diesel" name="diesel"
+            class="px-6 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+            <option value="type1">Diesel Type 1</option>
+            <option value="type2">Diesel Type 2</option>
+            <option value="type3">Diesel Type 3</option>
+        </select>
+    </div>
+
+    <!-- Vehicle 1 Section -->
+    <div class="justify-center items-center rounded border border-blue-500 p-2 mb-4">
+        <p class="text-xl">Vehicle 1</p>
+        <div class="flex items-center space-x-4 mb-4">
+            <label for="vehicle1" class="text-base text-white">Select Vehicle:</label>
+            <select id="vehicle1" name="vehicle1"
+                class="px-10 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                <option value="vehicle1">vehicle 1</option>
+                <option value="vehicle2">vehicle 2</option>
+                <option value="vehicle3">vehicle 3</option>
+            </select>
+        </div>
+        <div>
+            <label for="quantity1" class="mb-1 text-base text-white">Quantity / मात्रा:<span
+                    class="text-red-500">*</span></label>
+            <input type="number" id="quantity1" name="quantity1" required autocomplete="off" placeholder="Enter Quantity"
+                class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+        </div>
+    </div>
+
+    <!-- Hidden Vehicle Sections -->
+    <div id="additionalVehicles"></div>
+
+        <!-- Add Vehicle Button -->
+        <div class="mb-4 flex justify-center">
+            <button type="button" id="addVehicleBtn" 
+                class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+                +
+            </button>
+        </div>
+
+    <!-- Clear and Submit Buttons -->
+    <div class="flex justify-items-stretch">
+        <button type="reset"
+            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+            Clear
+        </button>
+        <button type="submit"
+            class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+            Submit
+        </button>
+    </div>
+</form>
+
+<!-- Script to Dynamically Add Vehicle Sections -->
+<script>
+    let vehicleCount = 1;
+    document.getElementById('addVehicleBtn').addEventListener('click', function () {
+        vehicleCount++;
+        const newVehicleDiv = `
+        <div class="justify-center items-center rounded border border-blue-500 p-2 mb-4">
+            <p class="text-xl">Vehicle ${vehicleCount}</p>
+            <div class="flex items-center space-x-4 mb-4">
+                <label for="vehicle${vehicleCount}" class="text-base text-white">Select Vehicle:</label>
+                <select id="vehicle${vehicleCount}" name="vehicle${vehicleCount}"
+                    class="px-10 py-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="vehicle1">vehicle 1</option>
+                    <option value="vehicle2">vehicle 2</option>
+                    <option value="vehicle3">vehicle 3</option>
+                </select>
+            </div>
+            <div>
+                <label for="quantity${vehicleCount}" class="mb-1 text-base text-white">Quantity / मात्रा:<span
+                        class="text-red-500">*</span></label>
+                <input type="number" id="quantity${vehicleCount}" name="quantity${vehicleCount}" required autocomplete="off" placeholder="Enter Quantity"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+            </div>
+        </div>`;
+        document.getElementById('additionalVehicles').insertAdjacentHTML('beforeend', newVehicleDiv);
+    });
+        // Clear Button functionality to remove additional vehicle sections
+        document.getElementById('totaldiesel-form').addEventListener('reset', function () {
+        document.getElementById('additionalVehicles').innerHTML = '';  // Clear all additional vehicles
+        vehicleCount = 1;  // Reset vehicle count
+    });
+</script>
+
+
+        <!-- transfer Form -->
+        <form id="transfer-form" autocomplete="off" class="space-y-4 hidden" method="POST">
+            <h2 class="font-bold text-xl flex justify-center items-center">Transfer Form</h2>
+            {% csrf_token %}
+            <input type="hidden" name="type" value="transfer">
+            <div class="flex flex-col">
+                <label for="from_vehicle" class="block mb-2 text-base text-white">From Vehicle:<span
+                        class="text-red-500">*</span></label>
+                <select id="from_vehicle" name="from_vehicle"
+                    class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="select">Select Vehicle</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label for="to_vehicle" class="block mb-2 text-base text-white">To Vehicle:<span
+                        class="text-red-500">*</span></label>
+                <select id="to_vehicle" name="to_vehicle"
+                    class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="select">Select Vehicle</option>
+                </select>
+            </div>
+            <div class="flex flex-col">
+                <label for="quantity" class="mb-1 text-base text-white">Quantity / मात्रा:<span
+                        class="text-red-500">*</span></label>
+                <input type="number" id="quantity" name="quantity" required autocomplete="off"
+                    placeholder="Enter Quantity"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+            </div>
+            <div class="flex justify-items-stretch">
+                <button type="reset"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                    Clear
+                </button>
+                <button type="submit" onclick="submitFormtransfer()"
+                    class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+<script>
+    submitFormtotaldiesel = () => {
+        document.getElementById('totaldiesel-form').submit();
+    }
+    submitFormtransfer = () => {
+        document.getElementById('transfer-form').submit();
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const totaldieselBtn = document.getElementById('totaldiesel-btn');
+        const transferBtn = document.getElementById('transfer-btn');
+        const totaldieselForm = document.getElementById('totaldiesel-form');
+        const transferForm = document.getElementById('transfer-form');
+
+        // Set initial active button and form visibility
+        totaldieselForm.classList.remove('hidden'); // Show totaldiesel form by default
+        transferForm.classList.add('hidden'); // Hide transfer form
+
+        // Add event listeners to buttons
+        totaldieselBtn.addEventListener('click', function () {
+            // Show totaldiesel form, hide transfer form
+            totaldieselForm.classList.remove('hidden');
+            transferForm.classList.add('hidden');
+
+            // Add active class to totaldiesel button and remove from transfer
+            totaldieselBtn.classList.add('active');
+            transferBtn.classList.remove('active');
+        });
+
+        transferBtn.addEventListener('click', function () {
+            // Show transfer form, hide totaldiesel form
+            transferForm.classList.remove('hidden');
+            totaldieselForm.classList.add('hidden');
+
+            // Add active class to transfer button and remove from totaldiesel
+            transferBtn.classList.add('active');
+            totaldieselBtn.classList.remove('active');
+        });
+    });
+
+    // Get all radio buttons with the name 'transfer_type'
+    const transferTypeRadios = document.querySelectorAll('input[name="transfer_type"]');
+    const transactionContainer = document.getElementById('transaction-container');
+
+    // Add event listeners to each radio button
+    transferTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            if (this.value === 'diesel') {
+                transactionContainer.style.display = 'block'; // Show the transaction input field
+            } else {
+                transactionContainer.style.display = 'none';  // Hide the transaction input field
+            }
+        });
+    });
+
+
+</script>
+
+
+
+
+{% endblock %}

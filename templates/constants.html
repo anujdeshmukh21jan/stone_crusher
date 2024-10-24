@@ -1,124 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports</title>
-    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
-    <style>
-        .active {
-            background-color: #1d4ed8; /* Change this color to match your design */
-            color: white;
-        }
-        .sidebar {
-            border-right: 2px solid #e8eaed; /* Adjust color and width as needed */
-        }
-    </style>
-</head>
 
-<body class="transition-colors duration-300" id="body">
+<style>
+    .toggle-btn {
+        width: 100%;
+        /* Make the button take full width of the container */
+        padding: 8px 0;
+        /* Adjust padding for top and bottom to keep height consistent */
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-bottom: 4px;
+        /* Space between buttons */
+    }
 
-    <nav class="sidebar fixed h-full w-60 bg-gray-900 text-white border-l border-zinc-300">
-        <div class="mt-2 px-2 py-1 text-3xl font-semibold mb-4 ">
-            <div class="flex justify-between">
-                <a href="{% url 'sales' %}" class=" mr-6">
-                    <svg id="sidebar-icon" xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#e8eaed">
-                        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-                    </svg>
-                </a>
-                <p class="">Reports</p> <!-- Increased margin here for spacing -->
+    .toggle-btn.active {
+        background-color: rgb(0, 174, 255);
+        ;
+        color: white;
+        border-color: rgb(0, 174, 255);
+    }
+
+    .radio-button {
+        @apply appearance-none absolute opacity-0 cursor-pointer;
+        height: 16px;
+        width: 16px;
+    }
+
+    .radio-button+.radio-button-label {
+        @apply cursor-pointer relative w-6 h-6 rounded-full border-2 border-gray-300 bg-white transition-colors duration-200 ease-in-out;
+        padding: 3px;
+        /* Adjust the padding as needed */
+    }
+
+    .radio-button:checked+.radio-button-label {
+        @apply bg-blue-500 border-blue-500 cursor-pointer;
+    }
+</style>
+
+
+<div class="flex items-center mt-4 justify-center">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+        <div class="flex justify-center mb-6">
+            <button id="totaldiesel-btn"
+                class="toggle-btn rounded-lg  font-semibold text-neutal-600 border-2 mr-2 border-zinc-500 hover:bg-zinc-600  text-lg active">Total
+                Diesel</button>
+            <button id="transfer-btn"
+                class="toggle-btn rounded-lg font-semibold text-neutal-600 border-2 border-zinc-500 hover:bg-zinc-600  text-lg">Transfer</button>
+        </div>
+
+        <!-- totaldiesel Form -->
+        <form id="totaldiesel-form" class="space-y-4" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="totaldiesel">
+            <h2 class="font-bold text-xl flex justify-center items-center">Total Diesel Form</h2>
+            <div class="flex flex-col">
+                <label for="client_name" class="mb-1 text-base text-white">Client Name / ग्राहक का नाम:<span
+                        class="text-red-500">*</span></label>
+                <input type="text" id="client_name" name="client_name" required autocomplete="off"
+                    placeholder="Enter Client Name"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
             </div>
-        </div>
+            <div class="flex flex-col">
+                <label for="amount" class="mb-1 text-base text-white">Amount / राशि (Rs):<span
+                        class="text-red-500">*</span></label>
+                <input type="number" id="amount" name="amount" required autocomplete="off" placeholder="Enter Amount"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md" />
+            </div>
+            <div class="flex flex-col">
+                <label for="payment_type" class="mb-1 text-base text-white">Payment type / भुगतान का प्रकार:<span
+                        class="text-red-500">*</span></label>
+                <input type="text" id="payment_type" name="payment_type" required autocomplete="off"
+                    placeholder="Online / Cash / UPI / etc"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+            </div>
+            <div class="flex flex-col">
+                <label for="description" class="mb-1 text-base text-white">Description / विवरण:</label>
+                <textarea type="text" id="description" name="description" placeholder="Enter Description"
+                    class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md theme-toggle"></textarea>
+            </div>
+            <div class="flex justify-items-stretch">
+                <button type="reset"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                    Clear
+                </button>
+                <button type="submit"
+                    class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    ADD
+                </button>
+            </div>
+        </form>
 
-        <ul>
-            <li><a href="{% url 'sales_report' %}" class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Sales</a></li>
-            <li><a href="{% url 'vehicles_report' %}" class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Vehicle</a></li>
-            <li><a href="{% url 'credit_report' %}" class="{% if request.path == '/reports/credit_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit/Debit</a></li>
-            <li><a href="{% url 'clients_report' %}" class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Clients</a></li>
-            <li><a href="{% url 'employees_report' %}" class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Employee</a></li>
-            <li><a href="{% url 'attendence_report' %}" class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Attendance</a></li>
-        </ul>
-    </nav>
+        <!-- transfer Form -->
+        <form id="transfer-form" class="space-y-4 hidden" method="POST">
+            <h2 class="font-bold text-xl flex justify-center items-center">Transfer Form</h2>
+            {% csrf_token %}
+            <input type="hidden" name="type" value="transfer">
+            <div class="flex flex-col">
+                <label for="transfer_type" class="mb-1 text-base text-white">transfer Type / डेबिट प्रकार:<span
+                        class="text-red-500">*</span></label>
+                <div class="flex flex-col space-y-2 text-lg">
+                    <label class="text-white cursor-pointer">
+                        <input type="radio" name="transfer_type" value="diesel" class="mr-2 radio-button cursor-pointer">
+                        Diesel
+                    </label>
+                    <label class="text-white cursor-pointer">
+                        <input type="radio" name="transfer_type" value="salary" class="mr-2 radio-button cursor-pointer">
+                        Salary
+                    </label>
+                    <label class="text-white cursor-pointer">
+                        <input type="radio" name="transfer_type" value="maintenance"
+                            class="mr-2 radio-button cursor-pointer">
+                        Maintenance
+                    </label>
+                    <label class="text-white cursor-pointer">
+                        <input type="radio" name="transfer_type" value="other" class="mr-2 radio-button cursor-pointer">
+                        Other
+                    </label>
+                </div>
+            </div>
 
-    <main class="p-4 border"> <!-- Adjust main content to account for sidebar width -->
-        {% block content %}
-        <div class="search-bar bg-gray-200 text-black p-4 rounded-md">
-            <!-- Your search bar content goes here -->
-        </div>
-        {% endblock %}
-    </main>
+            <!-- This container will be toggled -->
+            <div id="transaction-container" class="flex flex-col" style="display: none;">
+                <label for="diesel_quantity" class="mb-1 text-base text-white">Quantity / मात्रा:<span
+                        class="text-red-500">*</span></label>
+                <input type="number" id="diesel_quantity" name="diesel_quantity" required autocomplete="off"
+                    placeholder="Enter Quantity"
+                    class="ml-4 p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+            </div>
 
-    <script>
-        const toggleButton = document.getElementById('switch');
-        const body = document.getElementById('body');
-        const sidebar = document.querySelector('.sidebar');
-        const sidebarIcon = document.getElementById('sidebar-icon');
-        const divs = document.querySelectorAll('div.bg-gray-800');
-        const labels = document.querySelectorAll('label');
-        const themeToggles = document.querySelectorAll('.theme-toggle');
+            <div class="flex flex-col">
+                <label for="transfer_amount" class="mb-1 text-base text-white">Amount / राशि (Rs):<span
+                        class="text-red-500">*</span></label>
+                <input type="number" id="transfer_amount" name="amount" required autocomplete="off"
+                    placeholder="Enter Amount"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+            </div>
+            <div class="flex flex-col">
+                <label for="payment_type" class="mb-1 text-base text-white">Payment type / भुगतान का प्रकार:<span
+                        class="text-red-500">*</span></label>
+                <input type="text" id="payment_type" name="payment_type" required autocomplete="off"
+                    placeholder="Online / Cash / UPI / etc"
+                    class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+            </div>
+            <div class="flex flex-col">
+                <label for="transfer_description" class="mb-1 text-base text-white">Description / विवरण:</label>
+                <textarea type="text" id="description" name="description" placeholder="Enter Description"
+                    class="px-2 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md theme-toggle"></textarea>
+            </div>
 
-        // Check if dark mode is saved in localStorage
-        const currentTheme = localStorage.getItem('theme');
-        if (currentTheme === 'light') {
-            applyLightTheme();
-            toggleButton.checked = true;
-        } else {
-            applyDarkTheme();
-        }
+            <div class="flex justify-items-stretch">
+                <button type="reset"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                    Clear
+                </button>
+                <button type="submit" onclick="submitFormtransfer()"
+                    class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    ADD
+                </button>
+            </div>
+        </form>
 
-        // Theme switcher function
-        toggleButton.addEventListener('change', function () {
-            if (toggleButton.checked) {
-                applyLightTheme();
-                localStorage.setItem('theme', 'light');
-            } else {
-                applyDarkTheme();
-                localStorage.setItem('theme', 'dark');
-            }
+    </div>
+</div>
+
+<script>
+    submitFormtotaldiesel = () => {
+        document.getElementById('totaldiesel-form').submit();
+    }
+    submitFormtransfer = () => {
+        document.getElementById('transfer-form').submit();
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const totaldieselBtn = document.getElementById('totaldiesel-btn');
+        const transferBtn = document.getElementById('transfer-btn');
+        const totaldieselForm = document.getElementById('totaldiesel-form');
+        const transferForm = document.getElementById('transfer-form');
+
+        // Set initial active button and form visibility
+        totaldieselForm.classList.remove('hidden'); // Show totaldiesel form by default
+        transferForm.classList.add('hidden'); // Hide transfer form
+
+        // Add event listeners to buttons
+        totaldieselBtn.addEventListener('click', function () {
+            // Show totaldiesel form, hide transfer form
+            totaldieselForm.classList.remove('hidden');
+            transferForm.classList.add('hidden');
+
+            // Add active class to totaldiesel button and remove from transfer
+            totaldieselBtn.classList.add('active');
+            transferBtn.classList.remove('active');
         });
 
-        function applyLightTheme() {
-            body.classList.remove('bg-gray-900', 'text-white');
-            body.classList.add('bg-white', 'text-black');
-            sidebar.classList.remove('bg-gray-900', 'text-white');
-            sidebar.classList.add('bg-gray-300', 'text-black');
-            sidebarIcon.setAttribute('fill', '#1d4ed8'); // Change icon color in light mode
-            divs.forEach(div => {
-                div.classList.remove('bg-gray-800', 'text-white');
-                div.classList.add('bg-gray-300', 'text-black');
-            });
-            labels.forEach(label => {
-                label.classList.remove('text-white');
-                label.classList.add('text-black');
-            });
-            themeToggles.forEach(element => {
-                element.classList.remove('text-black');
-                element.classList.add('text-black');
-            });
-        }
+        transferBtn.addEventListener('click', function () {
+            // Show transfer form, hide totaldiesel form
+            transferForm.classList.remove('hidden');
+            totaldieselForm.classList.add('hidden');
 
-        function applyDarkTheme() {
-            body.classList.remove('bg-white', 'text-black');
-            body.classList.add('bg-gray-900', 'text-white');
-            sidebar.classList.remove('bg-gray-300', 'text-black');
-            sidebar.classList.add('bg-gray-900', 'text-white');
-            sidebarIcon.setAttribute('fill', '#e8eaed'); // Reset icon color in dark mode
-            
-            divs.forEach(div => {
-                div.classList.remove('bg-gray-300','text-black');
-                div.classList.add('bg-gray-800', 'text-white');
-            });
-            labels.forEach(label => {
-                label.classList.remove('text-black');
-                label.classList.add('text-white');
-            });
-            themeToggles.forEach(element => {
-                element.classList.remove('text-black');
-                element.classList.add('text-black');
-            });
-        }
-    </script>
+            // Add active class to transfer button and remove from totaldiesel
+            transferBtn.classList.add('active');
+            totaldieselBtn.classList.remove('active');
+        });
+    });
 
-</body>
-</html>
+    // Get all radio buttons with the name 'transfer_type'
+    const transferTypeRadios = document.querySelectorAll('input[name="transfer_type"]');
+    const transactionContainer = document.getElementById('transaction-container');
+
+    // Add event listeners to each radio button
+    transferTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+            if (this.value === 'diesel') {
+                transactionContainer.style.display = 'block'; // Show the transaction input field
+            } else {
+                transactionContainer.style.display = 'none';  // Hide the transaction input field
+            }
+        });
+    });
+
+
+</script>
+
+
+
+
+{% endblock %}
