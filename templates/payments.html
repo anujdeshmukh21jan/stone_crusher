@@ -66,7 +66,7 @@
                 <input type="number" id="amount" name="amount" required autocomplete="off" placeholder="Enter Amount" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md"/>
             </div>
             <div class="flex flex-col">
-                <label for="payment_type" class="mb-1 text-base text-white">Payment type / भुगतान का प्रकार:<span class="text-red-500">*</span></label>
+                <label for="payment_type" class="mb-1 text-base text-white">Payment Type / भुगतान का प्रकार:<span class="text-red-500">*</span></label>
                 <input type="text" id="payment_type" name="payment_type" required autocomplete="off" placeholder="Online / Cash / UPI / etc" class="p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
             </div>
             <div class="flex flex-col">
@@ -113,7 +113,7 @@
     <!-- This container will be toggled -->
     <div id="transaction-container" class="flex flex-col" style="display: none;">
         <label for="diesel_quantity" class="mb-1 text-base text-white">Quantity / मात्रा:<span class="text-red-500">*</span></label>
-        <input type="number" id="diesel_quantity" name="diesel_quantity" required autocomplete="off" placeholder="Enter Quantity" class="ml-4 p-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
+        <input type="number" id="diesel_quantity" name="diesel_quantity" required autocomplete="off" placeholder="Enter Quantity" class="px-4 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent rounded-md">
     </div>
     
     <div class="flex flex-col">
@@ -204,7 +204,7 @@ debitTypeRadios.forEach(radio => {
 <div id="clientModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 hidden">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 relative">
         <!-- Close Button -->
-        <button id="closeModalBtn" class="absolute top-1 right-3 text-black text-4xl font-bold">&times;</button>
+        <button id="closeModalBtn" class="absolute top-1 right-3 text-red-700 text-4xl font-bold hover:text-red-600 focus:outline-none">&times;</button>
 
         <h2 class="font-bold text-xl flex justify-center items-center">Add New Client</h2>
         

@@ -119,65 +119,70 @@
 
         <!-- Script to Dynamically Add Vehicle Sections -->
         <script>
-            let vehicleCount = 1;
-            
-            // Add Vehicle Button functionality
+            let vehicleCount = 2; // Start from 2 since you have a default vehicle section
+
             document.getElementById('addVehicleBtn').addEventListener('click', function () {
-                vehicleCount++;
-            
+                // Check how many vehicle sections currently exist
+                const currentVehicleSections = document.querySelectorAll('.vehicle-section');
+                vehicleCount = currentVehicleSections.length + 2; // Update vehicleCount to reflect the current sections
+
                 const newVehicleDiv = `
-                <div class="justify-center items-center mb-4 vehicle-section" data-id="${vehicleCount}">
-                    <div class="flex justify-between items-center">
-                        <!-- Vehicle Number and Remove Button -->
-                        <p class="text-xl text-white">Vehicle ${vehicleCount}</p>
-                        <button type="button" class="remove-btn text-white" data-id="${vehicleCount}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="flex justify-between space-x-4 mb-4">
-                        <!-- Vehicle Selection -->
-                        <div class="w-1/2">
-                            <label for="vehicle${vehicleCount}" class="block text-base text-white mb-2">Select Vehicle:</label>
-                            <select id="vehicle${vehicleCount}" name="vehicle${vehicleCount}"
-                                class="px-10 py-2 rounded-md border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
-                                <option value="vehicle1">Vehicle 1</option>
-                                <option value="vehicle2">Vehicle 2</option>
-                                <option value="vehicle3">Vehicle 3</option>
-                            </select>
+                    <div class="justify-center items-center mb-4 vehicle-section" data-id="${vehicleCount}">
+                        <div class="flex justify-between items-center">
+                            <p class="text-xl">Vehicle ${vehicleCount}</p>
+                            <button type="button" class="remove-btn" data-id="${vehicleCount}">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
                         </div>
-            
-                        <!-- Quantity Input -->
-                        <div class="w-1/2">
-                            <label for="quantity${vehicleCount}" class="block text-base text-white mb-2">Quantity / मात्रा:<span class="text-red-500">*</span></label>
-                            <input type="number" id="quantity${vehicleCount}" name="quantity${vehicleCount}" required autocomplete="off" placeholder="Enter Quantity"
-                                class="w-full p-2 bg-gray-700 text-white rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        <div class="flex justify-between space-x-4 mb-4">
+                            <div class="w-1/2">
+                                <label for="vehicle${vehicleCount}" class="block text-base mb-2">Select Vehicle:</label>
+                                <select id="vehicle${vehicleCount}" name="vehicle${vehicleCount}"
+                                    class="px-10 py-2 rounded-md border border-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                                    <option value="vehicle1">Vehicle 1</option>
+                                    <option value="vehicle2">Vehicle 2</option>
+                                    <option value="vehicle3">Vehicle 3</option>
+                                </select>
+                            </div>
+                            <div class="w-1/2">
+                                <label for="quantity${vehicleCount}" class="block text-base mb-2">Quantity / मात्रा:<span class="text-red-500">*</span></label>
+                                <input type="number" id="quantity${vehicleCount}" name="quantity${vehicleCount}" required autocomplete="off" placeholder="Enter Quantity"
+                                    class="w-full p-2 rounded-md border border-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-            
+                    </div>`;
+
                 document.getElementById('additionalVehicles').insertAdjacentHTML('beforeend', newVehicleDiv);
             });
-            
-            // Use event delegation to handle remove button clicks for all dynamic vehicle sections
+
             document.getElementById('additionalVehicles').addEventListener('click', function (event) {
                 if (event.target.closest('.remove-btn')) {
                     const vehicleSection = event.target.closest('.vehicle-section');
                     vehicleSection.remove();
+
+                    // After removing, update the vehicle sections
+                    const remainingSections = document.querySelectorAll('.vehicle-section');
+                    remainingSections.forEach((section, index) => {
+                        const newId = index + 2; // Update the ID based on its new position
+                        section.setAttribute('data-id', newId); // Update data-id
+                        section.querySelector('p').innerText = `Vehicle ${newId}`; // Update vehicle label
+                        section.querySelector('select').id = `vehicle${newId}`; // Update select id
+                        section.querySelector('input').id = `quantity${newId}`; // Update input id
+                        section.querySelector('label[for^="vehicle"]').setAttribute('for', `vehicle${newId}`); // Update label for
+                        section.querySelector('label[for^="quantity"]').setAttribute('for', `quantity${newId}`); // Update label for
+                    });
                 }
             });
-            
+
             // Clear Button functionality to remove all additional vehicle sections
             document.getElementById('totaldiesel-form').addEventListener('reset', function () {
-                document.getElementById('additionalVehicles').innerHTML = '';  // Clear all additional vehicles
-                vehicleCount = 1;  // Reset vehicle count
+                document.getElementById('additionalVehicles').innerHTML = ''; // Clear all additional vehicles
+                vehicleCount = 2; // Reset vehicle count to 2
             });
-            </script>
-            
 
-
-
+        </script>
 
         <!-- transfer Form -->
         <form id="transfer-form" autocomplete="off" class="space-y-4 hidden" method="POST">
@@ -280,8 +285,5 @@
 
 
 </script>
-
-
-
 
 {% endblock %}

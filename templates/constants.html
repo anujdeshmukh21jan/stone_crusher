@@ -117,96 +117,95 @@
             </div>
         </form>
 
-
-
         <!-- Script to Dynamically Add Vehicle Sections -->
         <script>
-let vehicleCount = 1;
 
-// Add Vehicle Button functionality
-document.getElementById('addVehicleBtn').addEventListener('click', function () {
-    vehicleCount++;
+            let vehicleCount = 2; // Start from 2 since you have a default vehicle section
 
-    const newVehicleDiv = `
-        <div class="justify-center items-center mb-4 vehicle-section">
-            <p class="text-xl">Vehicle ${vehicleCount}</p>
+            document.getElementById('addVehicleBtn').addEventListener('click', function () {
+                // Check how many vehicle sections currently exist
+                const currentVehicleSections = document.querySelectorAll('.vehicle-section');
+                vehicleCount = currentVehicleSections.length + 2; // Update vehicleCount to reflect the current sections
+
+                // Check if dark mode is active
+                const isDarkMode = document.documentElement.classList.contains('dark');
+                const bgClass = isDarkMode ? 'bg-gray-700' : 'bg-gray-300';
+                const textClass = isDarkMode ? 'text-white' : 'text-black';
+
+                const newVehicleDiv = `
+        <div class="justify-center items-center mb-4 vehicle-section" data-id="${vehicleCount}">
+            <div class="flex justify-between items-center">
+                <p class="text-xl">Vehicle ${vehicleCount}</p>
+                <button type="button" class="remove-btn" data-id="${vehicleCount}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
             <div class="flex justify-between space-x-4 mb-4">
-                <!-- Vehicle Selection -->
                 <div class="w-1/2">
                     <label for="vehicle${vehicleCount}" class="block text-base mb-2">Select Vehicle:</label>
                     <select id="vehicle${vehicleCount}" name="vehicle${vehicleCount}"
-                        class="px-10 py-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        class="theme-select ${bgClass} ${textClass} px-10 py-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                         <option value="vehicle1">Vehicle 1</option>
                         <option value="vehicle2">Vehicle 2</option>
                         <option value="vehicle3">Vehicle 3</option>
                     </select>
                 </div>
-
-                <!-- Quantity Input -->
                 <div class="w-1/2">
                     <label for="quantity${vehicleCount}" class="block text-base mb-2">Quantity / मात्रा:<span class="text-red-500">*</span></label>
                     <input type="number" id="quantity${vehicleCount}" name="quantity${vehicleCount}" required autocomplete="off" placeholder="Enter Quantity"
-                        class="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                        class="theme-input ${bgClass} ${textClass} w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
                 </div>
             </div>
         </div>`;
 
-    document.getElementById('additionalVehicles').insertAdjacentHTML('beforeend', newVehicleDiv);
-
-    // Reapply the current theme after adding the new vehicle
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'light') {
-        applyLightTheme();  // Reapply light theme to the entire document
-    } else {
-        applyDarkTheme();   // Reapply dark theme to the entire document
-    }
-});
-
-
-function applyLightTheme() {
-    document.body.classList.remove('bg-gray-900', 'text-white');
-    document.body.classList.add('bg-white', 'text-black');
-
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.style.backgroundColor = 'rgb(209 213 219)'; // Tailwind's bg-gray-300
-        input.style.color = 'black'; // Text black for light theme
-    });
-
-    const selects = document.querySelectorAll('select');
-    selects.forEach(select => {
-        select.style.backgroundColor = 'rgb(209 213 219)'; // Tailwind's bg-gray-300
-        select.style.color = 'black'; // Text black for light theme
-    });
-}
-
-function applyDarkTheme() {
-    document.body.classList.remove('bg-white', 'text-black');
-    document.body.classList.add('bg-gray-900', 'text-white');
-
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.style.backgroundColor = 'rgb(55 65 81)'; // Tailwind's bg-gray-700
-        input.style.color = 'white'; // Text white for dark theme
-    });
-
-    const selects = document.querySelectorAll('select');
-    selects.forEach(select => {
-        select.style.backgroundColor = 'rgb(55 65 81)'; // Tailwind's bg-gray-700
-        select.style.color = 'white'; // Text white for dark theme
-    });
-}
-
-        </script>
-
-
-
-        <script>
-            // Clear Button functionality to remove additional vehicle sections
-            document.getElementById('totaldiesel-form').addEventListener('reset', function () {
-                document.getElementById('additionalVehicles').innerHTML = '';  // Clear all additional vehicles
-                vehicleCount = 1;  // Reset vehicle count
+                document.getElementById('additionalVehicles').insertAdjacentHTML('beforeend', newVehicleDiv);
             });
+
+            // Use event delegation to handle remove button clicks for all dynamic vehicle sections
+            document.getElementById('additionalVehicles').addEventListener('click', function (event) {
+                if (event.target.closest('.remove-btn')) {
+                    const vehicleSection = event.target.closest('.vehicle-section');
+                    vehicleSection.remove();
+
+                    // After removing, update the vehicle sections
+                    const remainingSections = document.querySelectorAll('.vehicle-section');
+                    remainingSections.forEach((section, index) => {
+                        const newId = index + 2; // Update the ID based on its new position
+                        section.setAttribute('data-id', newId); // Update data-id
+                        section.querySelector('p').innerText = `Vehicle ${newId}`; // Update vehicle label
+                        section.querySelector('select').id = `vehicle${newId}`; // Update select id
+                        section.querySelector('input').id = `quantity${newId}`; // Update input id
+                        section.querySelector('label[for^="vehicle"]').setAttribute('for', `vehicle${newId}`); // Update label for
+                        section.querySelector('label[for^="quantity"]').setAttribute('for', `quantity${newId}`); // Update label for
+                    });
+                }
+            });
+
+            // Clear Button functionality to remove all additional vehicle sections
+            document.getElementById('totaldiesel-form').addEventListener('reset', function () {
+                document.getElementById('additionalVehicles').innerHTML = ''; // Clear all additional vehicles
+                vehicleCount = 2; // Reset vehicle count to 2
+            });
+
+            document.getElementById('themeToggleBtn').addEventListener('click', function () {
+                const htmlElement = document.documentElement;
+                const isDarkMode = htmlElement.classList.toggle('dark'); // Toggle the 'dark' class on the html element
+
+                // Update all existing input and select elements
+                document.querySelectorAll('.theme-select, .theme-input').forEach(el => {
+                    if (isDarkMode) {
+                        el.classList.add('bg-gray-700', 'text-white');
+                        el.classList.remove('bg-gray-300', 'text-black');
+                    } else {
+                        el.classList.add('bg-gray-300', 'text-black');
+                        el.classList.remove('bg-gray-700', 'text-white');
+                    }
+                });
+            });
+
+
         </script>
 
         <!-- transfer Form -->
@@ -310,8 +309,6 @@ function applyDarkTheme() {
 
 
 </script>
-
-
 
 
 {% endblock %}
