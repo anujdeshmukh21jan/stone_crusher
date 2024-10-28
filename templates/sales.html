@@ -2,6 +2,8 @@
 
 {% block content %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/choices.min.css' %}">
+<script src="{% static 'js/choices.min.js' %}"></script>
 
 <div class="flex items-center justify-center">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
@@ -24,28 +26,24 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="flex flex-col">
-                        <label for="name" class="mb-1 text-base">Name / नाम:<span class="text-red-500">*</span></label>
-                        <select id="name" name="name" class="p-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" required>
-                            <option value="">Select Name</option>
+                        <label for="name" class="mb-1 text-base dark:text-white">Name / नाम:<span class="text-red-500">*</span></label>
+                        <select id="name" name="name" class="choices p-2 rounded border border-gray-400 bg-gray-300 text-black dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" required>
+                            <option value="" >Select Name</option>
                         </select>
-                        <!-- <input type="text" id="name" name="name" required autocomplete="off" class="p-2 rounded border border-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter Name" onkeyup="fetchNameSuggestions(this.value)">
-                        <div id="name_list" class="bg-white text-black rounded-md mt-20 rounded-lg w-60 shadow-lg z-50 absolute hidden"></div>    -->
-                    </div>
+                   </div>
             
                     <div class="flex flex-col">
-                        <label for="vehicle_number" class="mb-1 text-base">Vehicle Number / वाहन नंबर:<span class="text-red-500">*</span></label>
-                        <select type="text" id="vehicle_number" name="vehicle_number" class="p-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" required>
-                            <option value="">Select Vehicle Number</option>
+                        <label for="vehicle_number" class="mb-1 text-base dark:text-white">Vehicle Number / वाहन नंबर:<span class="text-red-500">*</span></label>
+                        <select id="vehicle_number" name="vehicle_number" class="choices p-2 rounded border border-gray-400 bg-gray-700 text-white dark:bg-gray-900 dark:text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"  required>
+                            <option value="" >Select Vehicle Number</option>
                         </select>
-                        <!-- <input type="text" name="vehicle_number" id="vehicle_number" required autocomplete="off" class="p-2 rounded border border-gray-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter Vehicle Number" onkeyup="fetchVehicleNumbers(this.value)">
-                        <div id="vehicle_list" class="bg-white text-black rounded-md mt-20 w-60 shadow-lg z-50 absolute hidden"></div> -->
-                    </div>
+                   </div>
             
                 
                 
                     <div class="flex flex-col">
                         <label for="driver_name" class="mb-1 text-base">Driver Name / चालक का नाम:<span class="text-red-500">*</span></label>
-                        <input type="text" id="driver_name" name="driver_name" placeholder="Enter Driver Name" class="p-2 rounded border border-gray-400 bg-gray-700 text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" required>
+                        <input type="text" id="driver_name" name="driver_name" placeholder="Enter Driver Name" class="p-2 rounded border border-gray-400 bg-gray-700 text-white dark:bg-gray-900 dark:text-white light:bg-gray-300 light:text-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"  required>
                     </div>
                 </div>
 
@@ -218,90 +216,5 @@
     
 </script>
 
-
-
-<!-- 2nd option for name and vehicles for inputs fields -->
- 
-<!-- <script>
-    // Sample data
-    const names = ['John Doe', 'Jane Smith', 'Michael Johnson', 'Anuj Deshmukh', 'Arjun', 'Raja', 'Raj', 'Manoj', 'Ram'];
-    const vehicleNumbers = ['MH12AB1234', 'GJ20ZZ9999', 'HR14XY5678', 'MH15AB1234', 'MH16HY5878', 'UP27AZ0099'];
-    
-    // Function to fetch name suggestions based on user input
-    function fetchNameSuggestions(query) {
-        const suggestions = names.filter(name => name.toLowerCase().includes(query.toLowerCase()));
-        const suggestionsBox = document.getElementById('name_list');
-        suggestionsBox.innerHTML = '';  // Clear previous suggestions
-    
-        // Show suggestions only if there are any
-        if (suggestions.length > 0) {
-            suggestionsBox.classList.remove('hidden');  // Show the list
-            suggestions.forEach(name => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'cursor-pointer px-4 py-2 hover:bg-gray-200';
-                suggestionItem.textContent = name;
-                suggestionItem.onclick = () => selectName(name);
-                suggestionsBox.appendChild(suggestionItem);
-            });
-        } else {
-            suggestionsBox.classList.add('hidden');  // Hide if no suggestions
-        }
-    }
-    
-    // Function to select a name
-    function selectName(name) {
-        document.getElementById('name').value = name;  // Set the input value
-        hideSuggestionLists();  // Hide suggestions after selection
-    }
-    
-    // Function to fetch vehicle number suggestions based on user input
-    function fetchVehicleNumbers(query) {
-        const suggestions = vehicleNumbers.filter(vehicle => vehicle.toLowerCase().includes(query.toLowerCase()));
-        const suggestionsBox = document.getElementById('vehicle_list');
-        suggestionsBox.innerHTML = '';  // Clear previous suggestions
-    
-        // Show suggestions only if there are any
-        if (suggestions.length > 0) {
-            suggestionsBox.classList.remove('hidden');  // Show the list
-            suggestions.forEach(vehicle => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'cursor-pointer px-4 py-2 hover:bg-gray-200';
-                suggestionItem.textContent = vehicle;
-                suggestionItem.onclick = () => selectVehicle(vehicle);
-                suggestionsBox.appendChild(suggestionItem);
-            });
-        } else {
-            suggestionsBox.classList.add('hidden');  // Hide if no suggestions
-        }
-    }
-    
-    // Function to select a vehicle number
-    function selectVehicle(vehicle) {
-        document.getElementById('vehicle_number').value = vehicle;  // Set the input value
-        hideSuggestionLists();  // Hide suggestions after selection
-    }
-    
-    // Function to hide the suggestion lists
-    function hideSuggestionLists() {
-        document.getElementById("name_list").classList.add("hidden");
-        document.getElementById("vehicle_list").classList.add("hidden");
-    }
-    
-    // Add event listeners to hide suggestion lists when clicking outside
-    document.addEventListener("click", (event) => {
-        const nameInput = document.getElementById("name");
-        const vehicleInput = document.getElementById("vehicle_number");
-        const nameList = document.getElementById("name_list");
-        const vehicleList = document.getElementById("vehicle_list");
-    
-        if (!nameInput.contains(event.target) && !nameList.contains(event.target)) {
-            hideSuggestionLists();
-        }
-        
-        if (!vehicleInput.contains(event.target) && !vehicleList.contains(event.target)) {
-            hideSuggestionLists();
-        }
-    });
-</script> -->
 
 {% endblock %}

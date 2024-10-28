@@ -248,7 +248,7 @@
         </div>
 
         <!-- Center heading -->
-        <h1 class="text-5xl font-bold" id="dynamicHeading">iuyhgtfrderftgyhujikolkijuhygt</h1>
+        <h1 class="text-5xl font-bold" id="dynamicHeading">Aashirwad Stone rusher</h1>
 
         <!-- Right side buttons (Constant, View) -->
         <div class="flex">
@@ -449,17 +449,22 @@
     const divs = document.querySelectorAll('div.bg-gray-800');
     const forms = document.querySelectorAll('form');
     const selects = document.querySelectorAll('select');
+    const options = document.querySelectorAll('select option');
     const labels = document.querySelectorAll('label');
     const themeToggles = document.querySelectorAll('.theme-toggle');
 
-    // Check if dark mode is saved in localStorage
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'light') {
-        applyLightTheme();
-        toggleButton.checked = true;
-    } else {
-        applyDarkTheme();
-    }
+// Check if dark mode is saved in localStorage
+const currentTheme = localStorage.getItem('theme');
+
+// If no theme is saved, default to light theme
+if (currentTheme === 'dark') {
+    applyDarkTheme();
+    toggleButton.checked = false;
+} else {
+    applyLightTheme();
+    toggleButton.checked = true;
+}
+
 
     // Theme switcher function
     toggleButton.addEventListener('change', function () {
@@ -484,7 +489,6 @@
             element.classList.add('bg-gray-200', 'text-black');
         });
 
-
         inputs.forEach(input => {
             input.classList.remove('bg-gray-700', 'text-white');
             input.classList.add('bg-gray-300', 'text-black');
@@ -503,6 +507,12 @@
         selects.forEach(select => {
             select.classList.remove('bg-gray-700', 'text-white');
             select.classList.add('bg-gray-300', 'text-black');
+        });
+
+        // Add light theme for options inside selects
+        options.forEach(option => {
+            option.classList.remove('bg-gray-700', 'text-white');
+            option.classList.add('bg-gray-300', 'text-black');
         });
 
         labels.forEach(label => {
@@ -543,13 +553,19 @@
             select.classList.add('bg-gray-700', 'text-white');
         });
 
+        // Add dark theme for options inside selects
+        options.forEach(option => {
+            option.classList.remove('bg-gray-300', 'text-black');
+            option.classList.add('bg-gray-700', 'text-white');
+        });
+
         labels.forEach(label => {
             label.classList.remove('text-black');
             label.classList.add('text-white');
         });
     }
-
 </script>
+
 
 
     <script>
