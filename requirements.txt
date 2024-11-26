@@ -1,7 +1,10 @@
 asgiref==3.8.1
-backports.zoneinfo==0.2.1
 Django==4.2.16
+Jinja2==3.1.4
+MarkupSafe==3.0.2
+nodejs==0.1.1
+optional-django==0.1.0
+pdfkit==1.0.0
+pycups==2.0.4
 sqlparse==0.5.1
 typing_extensions==4.12.2
-talwindcss==3.413
-nodejs

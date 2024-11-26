@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 import json
-from .utils import modify_env_file
+from .utils import modify_env_file, generate_recipt
 from django.db.models import Max
 import os
 from .models import *
@@ -55,7 +55,6 @@ def sales(request):
                 if size_data[i] is not None:
                     key = f'value_size_{i}'
                     total_cost+=int(request.POST.get(key))
-            print(total_cost)
             
             if name and vehicle_number and driver_name and weight_after_load:
                 sale = Sales(
@@ -68,6 +67,7 @@ def sales(request):
                 )
                 sale.save()
                 context = {"success": "true"}
+                generate_recipt(sale)
             context = {"success": "false"}
         except:
             context = {"success": "false"}
@@ -81,7 +81,6 @@ def vehicles(request):
     elif request.method == "POST":
         context = {}
         try:
-            print(request.POST)
             manufacturer = request.POST.get("manufacturer")
             model = request.POST.get("model")
             registration_number = request.POST.get("registration_number")
@@ -119,7 +118,6 @@ def payments(request):
         description = payload.get("description")
         debit_type = payload.get("debit_type")
         diesel_quantity = payload.get("diesel_quantity")
-        print(type_of_trans, client_name, amount, payment_type, description, debit_type, diesel_quantity)
         if type_of_trans == "debit":
             if debit_type == "diesel":
                 DebitTracking.objects.create(
@@ -151,7 +149,6 @@ def employees(request):
         context = {"employees": json.dumps(employees_names)}
         return render(request, "employees.html", context=context)
     elif request.method == "POST":
-        print(request.POST)
         payload = request.POST
         name = payload.get("name")
         date = payload.get("date")
@@ -165,7 +162,6 @@ def employees(request):
                 out_time=out_time
             )
             employee.save()
-            print(employee)
         return render(request, "employees.html")
     
 def diesel(request):
@@ -173,13 +169,11 @@ def diesel(request):
 
 def constants(request):
     if request.method == "POST":
-        print(request.POST)
         modify_env_file(request.POST, ".env")
         return JsonResponse({"success": "true"})
 
 def add_employee(request):
     if request.method == "POST":
-        print(request.POST)
         employee_name = request.POST.get("employee-name")
         employee_designation = request.POST.get("employee-designation")
         contact_number = request.POST.get("contact-number")
@@ -187,7 +181,6 @@ def add_employee(request):
         if employee_name and employee_designation and contact_number and address:
             employee = Employee(name=employee_name, designation=employee_designation, mobile_number=contact_number, address=address)
             employee.save()
-            print(employee)
             return JsonResponse(
                 {"success": True, "message": "Employee added successfully"}
             )
@@ -203,7 +196,6 @@ def add_client(request):
         if client_name and contact_number and address:
             client = Client(name=client_name, contact_number=contact_number, address=address)
             client.save()
-            print(client)
             return JsonResponse(
                 {"success": True, "message": "Client added successfully"}
             )
@@ -224,7 +216,6 @@ def get_constants_data(request):
         key = i.split('=')[0].strip()
         value = i.split('=')[1].strip()
         constants_data[key] = value
-    print(constants_data)
     return JsonResponse(constants_data)
 
 def sales_report(request):
@@ -247,7 +238,6 @@ def sales_report(request):
             "vehicle_no"
         )
     sales = sales.filter(**filters)
-    print(sales)
     return render(request, "reports/sales_report.html", context={"sales": sales})
 
 def vehicles_report(request):
@@ -268,7 +258,6 @@ def credit_report(request):
     if request.method == "GET":
         credits = CreditTracking.objects.all()
         search  = request.GET.get("search")
-        print(request.GET)
         from_date = request.GET.get("from_date")
         to_date = request.GET.get("to_date")
         if from_date:
@@ -290,7 +279,6 @@ def debit_report(request):
     if request.method == "GET":
         debits = DebitTracking.objects.all()
         search  = request.GET.get("search")
-        print(request.GET)
         from_date = request.GET.get("from_date")
         to_date = request.GET.get("to_date")
         if from_date:
@@ -304,7 +292,6 @@ def debit_report(request):
                 Q(type=search) |
                 Q(amount__icontains=search)
             )
-        print(debits)
         context = {"debits": debits}
         return render(request, "reports/debit_report.html", context=context)
     return render(request, "reports/debit_report.html")

@@ -75,7 +75,7 @@ class Sales(BaseModel):
     
     @property
     def total_load_weight(self):
-        return self.weight_after_load-self.weight_before_load
+        return int(self.weight_after_load)-int(self.weight_before_load) 
     
     @property
     def total_load_weight_in_tonnes(self):

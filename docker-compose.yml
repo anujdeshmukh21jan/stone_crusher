@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - ./db.sqlite3:/app/db.sqlite3  # Mount the local SQLite file into the container
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+    tty: true
+    stdin_open: true

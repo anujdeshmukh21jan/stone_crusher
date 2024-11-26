@@ -1,2 +1,76 @@
-# Ignore pycache
+# Python bytecode
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Django stuff:
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Environment variables
+.env
+*.env
+
+# macOS
+.DS_Store
+
+# Virtual Environment
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# MyPy
+.mypy_cache/
+
+# PyTest
+.pytest_cache/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+# Node modules (if applicable)
+node_modules/
+
+# Temporary files
+*.swp
+*.bak
+*.tmp
+*.orig
+*.~lock.*
+
+# Gunicorn socket
+gunicorn.sock
+
+# Cache
+*.cache
+*.mo
+*.pot
+
+# Backup files
+*.bak
+*.tmp
+*.old
+*.swp
