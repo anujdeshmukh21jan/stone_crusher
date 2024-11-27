@@ -8,16 +8,20 @@
     <title>Reports</title>
     <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
     <style>
-        .active {
-            background-color: #1d4ed8;
-            /* Change this color to match your design */
-            color: white;
-        }
+    .active {
+        background-color: #1d4ed8; /* Active state color: Blue */
+        color: white;
+    }
 
-        .sidebar {
-            border-right: 2px solid #e8eaed;
-            /* Adjust color and width as needed */
-        }
+    .sidebar {
+        border-right: 2px solid #e8eaed; /* Adjust color and width as needed */
+    }
+
+    .sidebar a:hover {
+        background-color: #374151; /* Hover color: Slightly lighter gray */
+        color: #e8eaed; /* Text color on hover: Lighter gray */
+    }
+
     </style>
 </head>
 
@@ -25,7 +29,7 @@
 
     <nav class="sidebar fixed h-full w-54 bg-gray-900 text-white border-l border-zinc-300">
         <div class="flex items-center p-4 text-3xl font-semibold mb-4">
-            <a href="{% url 'sales' %}" class="flex mr-2">
+            <a href="{% url 'sales' %}" class="flex mr-2 rounded-full transition-colors duration-200">
                 <svg id="sidebar-icon" xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960"
                     width="32px" fill="#e8eaed">
                     <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
@@ -35,30 +39,51 @@
         </div>
 
         <ul>
-            <li><a href="{% url 'sales_report' %}"
-                    class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Sales</a>
+            <li>
+                <a href="{% url 'sales_report' %}" 
+                    class="{% if request.path == '/reports/sales_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Sales
+                </a>
             </li>
-            <li><a href="{% url 'vehicles_report' %}"
-                    class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Vehicle</a>
+            <li>
+                <a href="{% url 'vehicles_report' %}" 
+                    class="{% if request.path == '/reports/vehicles_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Vehicle
+                </a>
             </li>
-            <li><a href="{% url 'credit_report' %}"
-                    class="{% if request.path == '/reports/credit_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Credit</a>
+            <li>
+                <a href="{% url 'credit_report' %}" 
+                    class="{% if request.path == '/reports/credit_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Credit
+                </a>
             </li>
-            <li><a href="{% url 'debit_report' %}"
-                    class="{% if request.path == '/reports/debit_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Debit</a>
+            <li>
+                <a href="{% url 'debit_report' %}" 
+                    class="{% if request.path == '/reports/debit_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Debit
+                </a>
             </li>
-            <li><a href="{% url 'clients_report' %}"
-                    class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Clients</a>
+            <li>
+                <a href="{% url 'clients_report' %}" 
+                    class="{% if request.path == '/reports/clients_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Clients
+                </a>
             </li>
-            <li><a href="{% url 'employees_report' %}"
-                    class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Employee</a>
+            <li>
+                <a href="{% url 'employees_report' %}" 
+                    class="{% if request.path == '/reports/employees_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Employee
+                </a>
             </li>
-            <li><a href="{% url 'attendence_report' %}"
-                    class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full ">Attendance</a>
+            <li>
+                <a href="{% url 'attendence_report' %}" 
+                    class="{% if request.path == '/reports/attendence_report/' %}active{% endif %} block px-4 py-2 text-xl rounded-l rounded-full transition-colors duration-200">
+                    Attendance
+                </a>
             </li>
         </ul>
     </nav>
-
+    
     <main class="p-4 ml-48"> <!-- Adjust main content to account for sidebar width -->
         {% block content %}
         <div class="search-bar bg-gray-200 text-black p-4 rounded-md">

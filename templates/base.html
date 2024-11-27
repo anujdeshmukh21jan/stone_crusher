@@ -203,6 +203,28 @@
         .light::placeholder {
             color: #334155 !important;
         }
+
+        /* Hover effects for dropdown buttons */
+#options-container button {
+    background-color: #0044ff; /* Default background color for Add Client (Blue) */
+    color: white; /* Default text color */
+    border-radius: 0.375rem; /* Rounded corners */
+    padding: 0.5rem 1rem; /* Padding for better button size */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+
+#options-container button:hover {
+    background-color: #2563eb; 
+    transform: scale(1.05);
+}
+
+#options-container button:nth-child(2) {
+    background-color: #0050fd; 
+}
+
+#options-container button:nth-child(2):hover {
+    background-color: #2563eb; 
+}
     </style>
 
 </head>
@@ -212,9 +234,9 @@
     <!-- Header Section -->
     <header class="flex justify-between items-center p-4 ">
         <!-- Left side buttons (Dark/Light Toggle, Refresh) -->
-        <div class="container flex items-center justify-center space-x-2 w-fit ">
+        <div class="container flex items-center justify-center  w-fit ">
             <!-- Theme toggle -->
-            <label class="toggle bg-gray-600 hover:bg-gray-700 items-center justify-center py-2 px-4 rounded mt-2"
+            <label class="border toggle bg-gray-600 hover:bg-gray-700 items-center justify-center py-2 px-4 rounded mt-2 mr-4"
                 for="switch">
                 <input id="switch" class="input" type="checkbox">
                 <div class="icon icon--moon moon-visible" id="moonIcon">
@@ -238,7 +260,7 @@
 
             <!-- Refresh button -->
             <button onclick="location.reload();"
-                class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded mt-2">
+                class="border bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded mt-2 ml-4">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -252,19 +274,72 @@
 
         <!-- Right side buttons (Constant, View) -->
         <div class="flex">
+
+            <button id="toggle-options" class="action_has has_saved bg-gray-700 ml-2 p-2 rounded-lg text-white hover:bg-gray-600"
+                data-tooltip="ADD">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                </svg>
+            </button>
+
+            <!-- Dropdown Options -->
             <div class="flex">
-                <button id="openConstantModalBtn"
-                    class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded">Constant</button>
-                <button class="action_has has_saved bg-gray-700 ml-2"
+            <div id="options-container" class="border hidden absolute bg-gray-800 shadow-lg rounded-lg p-4 space-y-2">
+                <button onclick="openModal('clientModal')" class="w-full ">
+                    Add Client
+                </button>
+                <button onclick="openModal('employeeModal')" class="w-full ">
+                    Add Employee
+                </button>
+            </div>
+            </div>
+            
+            <script>
+                // Toggle the dropdown options visibility
+                document.getElementById('toggle-options').addEventListener('click', function () {
+                    const options = document.getElementById('options-container');
+                    options.classList.toggle('hidden');
+                });
+            
+                // Open modal function
+                function openModal(modalId) {
+                    document.getElementById(modalId).classList.remove('hidden');
+                }
+            
+                // Close modal function
+                function closeModal(modalId) {
+                    document.getElementById(modalId).classList.add('hidden');
+                }
+
+
+                document.addEventListener('click', function (event) {
+                    const dropdown = document.getElementById('options-container');
+                    const button = document.getElementById('toggle-options');
+
+                    // Close the dropdown if click happens outside the button or container
+                    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+                
+            </script>            
+
+                <button class="action_has has_saved bg-gray-700 ml-4"
                     onclick="window.location.href='{% url 'sales_report' %}'" aria-label="save" type="button"
                     data-tooltip="Reports">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-6">
                         <path
                             d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
                         <path
                             d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
                     </svg>
+                </button>
 
+                <button id="openConstantModalBtn"
+                class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded ml-4">Constant
                 </button>
             </div>
         </div>
@@ -441,6 +516,194 @@
     </script>
 
 
+
+
+<!-- Modal for Adding New client -->
+<div id="clientModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 hidden">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 relative">
+        <!-- Close Button -->
+        <button onclick="closeModal('clientModal')" class="absolute top-1 right-3 text-red-700 text-4xl font-bold hover:text-red-600 focus:outline-none">&times;</button>
+
+        <h2 class="font-bold text-xl flex justify-center items-center">Add New Client</h2>
+        
+        <form id="clientForm" required autocomplete="off" class="space-y-4">
+            {% csrf_token %}
+            <!-- Name Field -->
+            <div class="flex flex-col">
+                <label for="client-name" class="block mb-2 text-base text-white">Client Name / कर्मचारी नाम:<span class="text-red-500">*</span></label>
+                <input type="text" id="client-name" name="client-name" autocomplete=off class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
+                <span id="nameError" class="text-red-500 text-sm hidden">Name must contain only letters./ नाम में केवल अक्षर होने चाहिए.</span>
+            </div>
+
+            <!-- Contact Number Field -->
+            <div class="flex flex-col">
+                <label for="contact-number" class="block mb-2 text-base text-white">Contact Number / संपर्क नंबर:<span class="text-red-500">*</span></label>
+                <div class="flex">
+                    <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle">+91</span>
+                    <input type="tel" id="contact-number" name="contact-number" autocomplete=off maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
+                </div>
+                <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
+            </div>
+
+            <!-- Address Field -->
+            <div class="flex flex-col">
+                <label for="address" class="block mb-2 text-base text-white">Address / पता:<span class="text-red-500">*</span></label>
+                <input required type="text" id="address" name="address" autocomplete=off class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter address">
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-items-stretch">
+                <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                    Clear
+                </button>
+                <button type="submit" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    ADD
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    // Submit form with AJAX
+    document.getElementById('employeeForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this); // Collect form data
+
+        // AJAX request
+        fetch("{% url 'add_client' %}", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF token for Django
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Client added successfully');
+                document.getElementById('clientModal').classList.add('hidden'); // Close modal
+                this.reset(); // Reset form fields
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+
+<!-- Modal for Adding New Employee -->
+<div id="employeeModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-85 hidden">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 relative">
+        <!-- Close Button -->
+        <button onclick="closeModal('employeeModal')"  
+        class="absolute top-1 right-3 text-red-700 text-4xl font-bold hover:text-red-600 focus:outline-none">&times;</button>
+
+        <form id="employeeForm" class="space-y-4" method="POST">
+            {% csrf_token %}
+            <h2 class="font-bold text-xl flex justify-center items-center">Add New Employee</h2>
+            <!-- Name Field -->
+            <div class="flex flex-col">
+                <label for="employee-name" class="block mb-2 text-base text-white">Employee Name / कर्मचारी नाम:<span class="text-red-500">*</span></label>
+                <input required type="text" id="employee-name" name="employee-name" autocomplete=off class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter name">
+                <span id="nameError" class="text-red-500 text-sm hidden">Name must contain only letters./ नाम में केवल अक्षर होने चाहिए.</span>
+            </div>
+            
+            <div class="flex flex-col">
+                <label for="employee-designation" class="block mb-2 text-base text-white">Employee Designation / कर्मचारी पदनाम:<span class="text-red-500">*</span></label>
+                <select id="employee-designation" name="employee-designation" required
+                    class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent">
+                    <option value="" disabled selected>Select Designation</option>
+                    <option value="Driver">Driver</option>
+                    <option value="Worker">Worker</option>
+                    <option value="Operator">Operator</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <div id="custom-designation-field" class="mt-2 hidden">
+                    <input type="text" id="custom-designation" name="custom-designation" autocomplete="off"
+                        class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                        placeholder="Enter custom designation">
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('employee-designation').addEventListener('change', function () {
+                    const customField = document.getElementById('custom-designation-field');
+                    if (this.value === 'Other') {
+                        customField.classList.remove('hidden');
+                    } else {
+                        customField.classList.add('hidden');
+                    }
+                });
+            </script>
+
+            <!-- Contact Number Field -->
+            <div class="flex flex-col">
+                <label for="contact-number" class="block mb-2 text-base text-white">Contact Number / संपर्क नंबर:<span class="text-red-500">*</span></label>
+                <div class="flex">
+                    <span class="flex items-center px-3 bg-gray-700 text-white rounded-l border border-gray-400 theme-toggle">+91</span>
+                    <input required type="tel" id="contact-number" name="contact-number" autocomplete=off maxlength="10" class="w-full px-3 py-2 bg-gray-700 text-white rounded-r border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter 10-digit number" oninput="validateContactNumber(this)">
+                </div>
+                <span id="contactError" class="text-red-500 text-sm hidden">Contact number must be exactly 10 digits./ संपर्क नंबर 10 अंकों का होना चाहिए.</span>
+            </div>
+
+            <!-- Address Field -->
+            <div class="flex flex-col">
+                <label for="address" class="block mb-2 text-base text-white">Address / पता:<span class="text-red-500">*</span></label>
+                <input required type="text" id="address" name="address" autocomplete=off class="w-full px-3 py-2 bg-gray-700 text-white rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" placeholder="Enter address">
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-items-stretch">
+                <button type="reset" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-red-500">
+                    Clear
+                </button>
+                <button type="submit" class="w-full ml-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md focus:outline-none focus:ring focus:ring-green-500">
+                    ADD
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('clientForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this); // Collect form data
+
+        // AJAX request
+        fetch("{% url 'add_employee' %}", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF token for Django
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Employee added successfully');
+                document.getElementById('clientModal').classList.add('hidden'); // Close modal
+                this.reset(); // Reset form fields
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+</script>
+
+
 <script>
     const toggleButton = document.getElementById('switch');
     const body = document.getElementById('body');
@@ -595,6 +858,8 @@ if (currentTheme === 'dark') {
             });
 
     </script>
+
+
 
 </body>
 
